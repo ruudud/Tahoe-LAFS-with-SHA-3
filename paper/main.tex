@@ -1,14 +1,19 @@
-\documentclass[english,12pt,a4paper]{report}
-%[twoside] ?
+\documentclass[english,12pt,a4paper,twoside]{report}
 \usepackage[T1]{fontenc} % In case we want special characters
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
-\usepackage{graphicx} % We _may_ use images
-% Lager automagisk interne lenker i dokumentet.
-\usepackage{hyperref} % Internal links is nice
+\usepackage{appendix} % Fixes formatting of appendicies
+\usepackage{graphicx} % We *may* use images
+\usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
 
-\author{Eirik Haver and Pål Ruud}
+\newcommand{\ensureodd}{
+    \newpage
+%    \thispagestyle{empty}
+    \mbox{}
+}
+
+\author{Eirik Haver \and Pål Ruud}
 \title{Project assignment - Tahoe-LAFS with SHA-3 candidates}
 \date{\today}
 
@@ -16,23 +21,46 @@
 
 \include{title}
 
-\section*{Summary}
+\pagenumbering{Roman}
 
-\section*{Foreword}
+\ensureodd
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\ensureodd
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
 
 \tableofcontents
-\newpage
+\cleardoublepage
 
-\listoftables
+\addcontentsline{toc}{chapter}{\listfigurename} % Manual, because report style
 \listoffigures
+\cleardoublepage
 
-% Acronyms?
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+\cleardoublepage
+
+\chapter*{Acronyms}
+\addcontentsline{toc}{chapter}{Acronyms}
+
+% Insert acronyms here
+
+\cleardoublepage
 
 \chapter{SHA-3 in Tahoe-LAFS}
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 \section{Introduction}
 
 \section{The candiates}
 
+\appendix
+\appendixpage
+\addappheadtotoc
+
+% Use ordinary \chapters from here on..
 
 \end{document}
