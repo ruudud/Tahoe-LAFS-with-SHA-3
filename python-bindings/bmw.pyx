@@ -62,11 +62,18 @@ cdef class bmw256:
 
         return s
 
+    def digest(self):
+        if not self.finished:
+            self.final()
+
+        digest = [self.hashval[i] for i from 0 <= i < self.hashbitlen / 8]
+        return ''.join(map(chr, digest))
+
     def hexdigest(self):
         if not self.finished:
             self.final()
 
         ret = [self.hashval[i] for i from 0 <= i < self.hashbitlen / 8]
 
-        # Return a hex string
+        # Return a hex string using str format specification
         return ''.join(['%02x' % i for i in ret])
