@@ -1,0 +1,31 @@
+\documentclass[english,12pt,a4paper]{report}
+\usepackage[T1]{fontenc} % In case we want special characters
+\usepackage[utf8]{inputenc} % We are all writing in UTF-8
+
+\author{Eirik Haver \and Pål Ruud}
+\title{Project assignment - Tahoe-LAFS with SHA-3 candidates}
+\date{\today}
+
+\begin{document}
+
+\chapter*{Problem Description}
+
+Tahoe-LAFS is a Free Software/Open Source decentralized data store. It
+distributes your filesystem across multiple servers, and even if some of the
+servers fail or are taken over by an attacker, the entire filesystem continues
+to work correctly and to preserve your privacy and security.
+
+One of the basic security components used in Tahoe-LAFS is the cryptographic
+hash function SHA-256.
+
+In the light of the worldwide SHA-3 hash competition, this task is about
+making a reproducible, automated benchmark which shows how the performance of
+Tahoe-LAFS is affected by the performance of the different SHA-3 candidate hash
+functions. Before any testing can be done, Python bindings to the C
+implementations of the SHA-3 candidates have to be made, since Tahoe-LAFS is
+written in the Python programming language.
+
+\vspace{10mm}
+Responsible professor: Danilo Gligoroski danilog@item.ntnu.no
+
+\end{document}

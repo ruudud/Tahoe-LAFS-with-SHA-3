@@ -16,7 +16,7 @@ FACULTY OF  INFORMATION TECHNOLOGY, MATHEMATICS AND ELECTRICAL ENGINEERING} \\
 
 \begin{tabular}{ p{4cm} p{11cm}}
 
-Student's name:	& Eirik Haver and Pål Ruud \\
+Students' name:	& Eirik Haver and Pål Ruud \\
 Course: & TTM13 \\
 Title: & Experimenting with SHA-3 candidates in Tahoe-LAFS \\
 %\vspace{1cm}
@@ -24,9 +24,21 @@ Description: & \\
 \end{tabular}
 {\small{\begin{tabular}{p{15cm}}
 \vspace{0.2cm}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nibh quam, posuere quis dignissim vel, pulvinar vel leo. Morbi pellentesque est a magna rutrum sollicitudin. Duis nec orci porttitor tellus viverra aliquet gravida nec tellus. Aenean aliquet nulla sit amet metus sodales mattis. In pulvinar euismod consectetur. Maecenas felis nunc, suscipit ut semper et, consequat et est. 
+
+Tahoe-LAFS is a Free Software/Open Source decentralized data store. It
+distributes your filesystem across multiple servers, and even if some of the
+servers fail or are taken over by an attacker, the entire filesystem continues
+to work correctly and to preserve your privacy and security.
 \\\\
-Donec vitae ipsum tortor. Nulla at tincidunt erat. Nunc vel risus vel mi ornare molestie non at nunc. Phasellus posuere cursus odio, nec consectetur dolor tempus quis. Proin non erat erat. Aenean et leo eros, et congue sem. Nunc auctor porta magna, ac fermentum augue malesuada vel. Nam aliquet augue eu nibh facilisis ac placerat felis vehicula. Quisque faucibus placerat vulputate. Mauris nunc turpis, venenatis ac tincidunt condimentum, tincidunt id magna. Mauris aliquet convallis accumsan. 
+One of the basic security components used in Tahoe-LAFS is the cryptographic
+hash function SHA-256.
+\\\\
+In the light of the worldwide SHA-3 hash competition, this task is about
+making a reproducible, automated benchmark which shows how the performance of
+Tahoe-LAFS is affected by the performance of the different SHA-3 candidate hash
+functions. Before any testing can be done, Python bindings to the C
+implementations of the SHA-3 candidates have to be made, since Tahoe-LAFS is
+written in the Python programming language.
 \\\\
 \end{tabular}  }}
 
