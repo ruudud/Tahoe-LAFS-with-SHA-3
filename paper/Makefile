@@ -10,7 +10,7 @@ PDFLATEX = pdflatex
 
 ###############################################################################
 
-main.pdf: main.tex title.tex
+main.pdf: main.tex title.tex *.bib
 	pdflatex main.tex
 	bibtex main
 	pdflatex main.tex

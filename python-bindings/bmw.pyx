@@ -4,14 +4,16 @@ cimport cython
 
 from libc.stdlib cimport *
 
-def hash(int hashbitlen, unsigned char[] data):
+def hash(int hashbitlen, bytes data):
     '''
     We keep this for now, for debugging purposes.
     '''
+    print 'Len: ' + str(len(data))
+    cdef char* c_string = <char *> data
     cdef bmw_h.DataLength datalen = len(data) * 8
     cdef bmw_h.BitSequence *hashval = <bmw_h.BitSequence *> malloc(hashbitlen*8)
 
-    bmw_h.Hash(hashbitlen, <bmw_h.BitSequence *> data, datalen, hashval)
+    bmw_h.Hash(hashbitlen, <bmw_h.BitSequence *> c_string, datalen, hashval)
 
     try:
         ret = [hashval[i] for i from 0 <= i < hashbitlen / 8]
@@ -26,13 +28,13 @@ cdef class bmw256:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    cdef bmw_h.hashState state
-    cdef bmw_h.hashState previous_state
-    cdef int hashbitlen
     cdef bmw_h.BitSequence *hashval
+    cdef bmw_h.hashState previous_state
+    cdef bmw_h.hashState state
     cdef int finished
+    cdef int hashbitlen
 
-    def __init__(self, initial=None):
+    def __init__(self, bytes initial=None):
         self.finished = 0
         self.hashbitlen = 256
         bmw_h.Init(&self.state, self.hashbitlen)
@@ -40,15 +42,21 @@ cdef class bmw256:
         if initial:
             self.update(initial)
 
-    cpdef update(self, unsigned char data[]):
+    cpdef update(self, bytes in_data):
+        cdef char* data = <char *> in_data
+        cdef int data_len = len(in_data)*8
+
         if self.finished:
             self.finished = 0
             self.state = self.previous_state
 
-        bmw_h.Update(&self.state, data, len(data)*8)
+        bmw_h.Update(&self.state, <bmw_h.BitSequence *> data, data_len)
 
     cpdef final(self):
         self.hashval = <bmw_h.BitSequence *> malloc(self.hashbitlen*8)
+
+        # We copy the state so that we can continue to update.
+        # This equals hashlibs functionality, but not pycrypto.
         self.previous_state = self.state
 
         bmw_h.Final(&self.state, self.hashval)
@@ -73,7 +81,7 @@ cdef class bmw256:
         if not self.finished:
             self.final()
 
-        ret = [self.hashval[i] for i from 0 <= i < self.hashbitlen / 8]
+        digest = [self.hashval[i] for i from 0 <= i < self.hashbitlen / 8]
 
         # Return a hex string using str format specification
-        return ''.join(['%02x' % i for i in ret])
+        return ''.join(['%02x' % i for i in digest])
