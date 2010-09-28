@@ -4,23 +4,23 @@ cimport cython
 
 from libc.stdlib cimport *
 
-def hash(int hashbitlen, bytes data):
+def hash(int hashbitlen, bytes data, int in_length):
     '''
-    We keep this for now, for debugging purposes.
+    Used for testing purposes.
     '''
-    print 'Len: ' + str(len(data))
     cdef char* c_string = <char *> data
-    cdef bmw_h.DataLength datalen = len(data) * 8
+    cdef bmw_h.DataLength datalen = in_length
     cdef bmw_h.BitSequence *hashval = <bmw_h.BitSequence *> malloc(hashbitlen*8)
 
     bmw_h.Hash(hashbitlen, <bmw_h.BitSequence *> c_string, datalen, hashval)
 
     try:
-        ret = [hashval[i] for i from 0 <= i < hashbitlen / 8]
+        digest = [hashval[i] for i from 0 <= i < hashbitlen / 8]
+        digest = ''.join(['%02X' % i for i in digest])
     finally:
         free(hashval)
 
-    return ret
+    return digest
 
 cdef class bmw256:
     '''
@@ -56,7 +56,7 @@ cdef class bmw256:
         self.hashval = <bmw_h.BitSequence *> malloc(self.hashbitlen*8)
 
         # We copy the state so that we can continue to update.
-        # This equals hashlibs functionality, but not pycrypto.
+        # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
         bmw_h.Final(&self.state, self.hashval)
