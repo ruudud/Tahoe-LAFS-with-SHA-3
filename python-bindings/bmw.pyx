@@ -22,7 +22,7 @@ def hash(int hashbitlen, bytes data, int in_length):
 
     return digest
 
-cdef class bmw256:
+cdef class bmw:
     '''
     A class that tries to mimic the behaviour of hashlib, i.e. keeping state
     so that one can update the hashing procedure instead of doing it from
@@ -34,9 +34,9 @@ cdef class bmw256:
     cdef int finished
     cdef int hashbitlen
 
-    def __init__(self, bytes initial=None):
+    def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
-        self.hashbitlen = 256
+        self.hashbitlen = in_hashbitlen
         bmw_h.Init(&self.state, self.hashbitlen)
 
         if initial:
@@ -63,7 +63,7 @@ cdef class bmw256:
         self.finished = 1
 
     cpdef copy(self):
-        s = bmw256()
+        s = bmw(self.hashbitlen)
         s.state = self.state
         s.previous_state = self.previous_state
         s.finished = self.finished
