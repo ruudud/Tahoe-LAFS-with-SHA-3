@@ -1,1 +1,13 @@
-foo
+This project aims to test out the 14 second round candidates [0] of the NIST
+SHA-3 secure hash competition with the Tahoe-LAFS [1] file system.
+
+The python bindings will be written using Cython [2], unless we get the time to
+write them using the Python-C API.
+
+The Known Answer Tests (KATs) are retrieved from the official submissions [0],
+and the C implementations of the algorithms are from SUPERCOP [3].
+
+[0] http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/submissions_rnd2.html
+[1] http://tahoe-lafs.org/
+[2] http://www.cython.org/
+[3] http://bench.cr.yp.to/supercop.html
