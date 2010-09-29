@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from bmw.bmw import bmw
+from bmw import bmw
 
 class bmw256(bmw):
     def __init__(self, initial=None):
