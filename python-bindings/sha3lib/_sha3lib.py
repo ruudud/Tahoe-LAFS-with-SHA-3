@@ -1,7 +1,6 @@
 # coding: utf-8
-
-from bmw import bmw
-from groestl import groestl
+import os
+from hash_functions import bmw,groestl,echo
 
 class bmw256(bmw):
     def __init__(self, initial=None):
@@ -10,3 +9,7 @@ class bmw256(bmw):
 class groestl256(groestl):
     def __init__(self, initial=None):
         super(groestl256, self).__init__(256, initial)
+
+class echo256(echo):
+    def __init__(self, initial=None):
+        super(echo256, self).__init__(256, initial)
