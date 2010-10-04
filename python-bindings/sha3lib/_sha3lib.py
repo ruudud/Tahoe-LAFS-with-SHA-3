@@ -1,5 +1,4 @@
 # coding: utf-8
-import os
 from hash_functions import bmw,groestl,echo
 
 HASHES = ('bmw256', 'echo256', 'groestl256',)
