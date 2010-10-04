@@ -27,6 +27,9 @@ class RunTests(Command):
 
     def initialize_options(self):
         self._dir = os.getcwd()
+        # FIXME: Is there a better way of running build_ext -i than with the
+        # setup.cfg file?
+        self.run_command('build_ext')
 
     def finalize_options(self):
         pass
@@ -37,7 +40,8 @@ class RunTests(Command):
         '''
         testfiles = []
         all_testfiles = glob(pjoin(self._dir, 'tests', '*.py'))
-        excluded_files = ['__init__.py', 'katparser.py','test_katparser.py']
+        excluded_files = ['__init__.py',
+        'katparser.py',]
         excluded_files_full_path = []
         for f in excluded_files:
             excluded_files_full_path.append(pjoin(self._dir,'tests',f))
@@ -45,7 +49,7 @@ class RunTests(Command):
         for f in all_testfiles:
             if f not in excluded_files_full_path:
                 testfiles.append('.'.join(['tests',splitext(basename(f))[0]]))
-
+        
         tests = TestLoader().loadTestsFromNames(testfiles)
         t = TextTestRunner(verbosity = 3)
         t.run(tests)
@@ -55,7 +59,7 @@ setup(
     version='0.1',
     description='Python bindings for SHA3 using cython',
     author='Eirik Haver and Pål Ruud',
-    cmdclass = {'build_ext': build_ext, 'tests': RunTests},
+    cmdclass = {'build_ext': build_ext, 'test': RunTests},
     ext_modules = ext_modules,
     packages =
     ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
