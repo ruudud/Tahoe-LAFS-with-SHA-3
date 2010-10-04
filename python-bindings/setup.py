@@ -13,11 +13,11 @@ srcpath = 'sha3lib/'
 hashpath = srcpath + 'hash_functions/'
 
 ext_modules = [
-    Extension("sha3lib.hash_functions.bmw",
+    Extension("sha3lib.hash_functions.bmw.bmw",
         [hashpath+"bmw/bmw.pyx", hashpath+'bmw/BlueMidnightWish.c'],),
-    Extension("sha3lib.hash_functions.groestl",
+    Extension("sha3lib.hash_functions.groestl.groestl",
         [hashpath+"groestl/groestl.pyx", hashpath+'groestl/Groestl-opt.c'],),
-    Extension("sha3lib.hash_functions.echo",
+    Extension("sha3lib.hash_functions.echo.echo",
         [hashpath+"echo/echo.pyx", hashpath+'echo/echo32.c'],),
     ]
 
@@ -57,6 +57,8 @@ setup(
     author='Eirik Haver and Pål Ruud',
     cmdclass = {'build_ext': build_ext, 'tests': RunTests},
     ext_modules = ext_modules,
-    packages = ['sha3lib','sha3lib.hash_functions'],
+    packages =
+    ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
+        'sha3lib.hash_functions.echo', 'sha3lib.hash_functions.groestl'],
     #py_modules = ['sha3lib'],    
 )
