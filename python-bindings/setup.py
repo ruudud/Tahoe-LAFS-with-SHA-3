@@ -9,6 +9,7 @@ from unittest import TextTestRunner, TestLoader
 from glob import glob    
 import os
 
+
 srcpath = 'sha3lib/'
 hashpath = srcpath + 'hash_functions/'
 
@@ -23,13 +24,19 @@ ext_modules = [
 
 class RunTests(Command):
     
-    user_options = [ ]
+    user_options = []
 
     def initialize_options(self):
+        print "Warning: You need to run python setup.py build_ext -i before\
+        running tests, or they will fail"
         self._dir = os.getcwd()
         # FIXME: Is there a better way of running build_ext -i than with the
         # setup.cfg file?
-        self.run_command('build_ext')
+        #self.distribution.script_args = '-i'
+        #import sys
+        #sys.argv[1] = "-i"
+        #self.run_command('build_ext')
+
 
     def finalize_options(self):
         pass
@@ -54,12 +61,41 @@ class RunTests(Command):
         t = TextTestRunner(verbosity = 3)
         t.run(tests)
 
+class RealClean(Command):
+    user_options = []
+
+    def initialize_options(self):
+        self._dir = os.getcwd()
+        self._clean_me = []
+        for root, dirs, files in os.walk('.'):
+            for f in files:
+                if f.endswith('.pyc') or f.endswith('.so'):
+                    self._clean_me.append(pjoin(root,f))
+        self._clean_me.append('./build')
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        for clean_me in self._clean_me:
+            try:
+                os.unlink(clean_me)
+            except OSError:
+                try:
+                    os.rmdir(clean_me)
+                except:
+                    pass
+            except:
+                pass
+
+
+
 setup(
     name='SHA3lib',
     version='0.1',
     description='Python bindings for SHA3 using cython',
     author='Eirik Haver and Pål Ruud',
-    cmdclass = {'build_ext': build_ext, 'test': RunTests},
+    cmdclass = {'build_ext': build_ext, 'test': RunTests, 'realclean':RealClean},
     ext_modules = ext_modules,
     packages =
     ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
