@@ -20,6 +20,8 @@ ext_modules = [
         [hashpath+"groestl/groestl.pyx", hashpath+'groestl/Groestl-opt.c'],),
     Extension("sha3lib.hash_functions.echo.echo",
         [hashpath+"echo/echo.pyx", hashpath+'echo/echo32.c'],),
+    Extension("sha3lib.hash_functions.blake.blake",
+        [hashpath+"blake/blake.pyx", hashpath+'blake/blake_opt32.c'],),
     ]
 
 class RunTests(Command):
@@ -99,6 +101,7 @@ setup(
     ext_modules = ext_modules,
     packages =
     ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
-        'sha3lib.hash_functions.echo', 'sha3lib.hash_functions.groestl'],
+        'sha3lib.hash_functions.echo', 'sha3lib.hash_functions.groestl',
+        'sha3lib.hash_functions.blake'],
     #py_modules = ['sha3lib'],    
 )
