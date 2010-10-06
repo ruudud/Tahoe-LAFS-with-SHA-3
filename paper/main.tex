@@ -1,4 +1,4 @@
-\documentclass[english,12pt,a4paper,twoside]{report}
+\documentclass[english,12pt,a4paper]{book}
 \usepackage[T1]{fontenc} % In case we want special characters
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
@@ -7,6 +7,7 @@
 \usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
 
+% We need this to make it easier to ensure we start chapters on odd pages.
 \newcommand{\ensureodd}{
     \newpage
 %    \thispagestyle{empty}
@@ -20,45 +21,106 @@
 \begin{document}
 
 \include{title}
+\pagestyle{empty}
 
-\pagenumbering{Roman}
-
-\ensureodd
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
+\pagestyle{plain}
+\pagenumbering{Roman}
+\setcounter{page}{1}
 
-\ensureodd
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 
 \tableofcontents
-\cleardoublepage
 
 \addcontentsline{toc}{chapter}{\listfigurename} % Manual, because report style
 \listoffigures
-\cleardoublepage
 
 \addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
-\cleardoublepage
 
 \chapter*{Acronyms}
 \addcontentsline{toc}{chapter}{Acronyms}
 
 % Insert acronyms here
 
-\cleardoublepage
-
-\chapter{SHA-3 in Tahoe-LAFS}
+\chapter{Introduction}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\section{Introduction}
+Thorough problem description
 
-Bla bla round two \cite{nistround2}
+\section{Method}
 
-\section{The candiates}
+Technical procedure, Cython, two persons, test environment, how we test,
+GitHub?
 
+\section{Scope and objectives}
+
+Should we include this?
+
+\section{Outline}
+
+What follows in this document, chapter by chapter
+
+
+\chapter{Background technologies}
+% Find new and better title
+
+\section{NIST SHA-3}
+
+Hash functions, NIST Comptetition, Candidates, SuperCop?
+
+\section{Tahoe-LAFS}
+
+What is it, how/where are hash functions used, Python, pycryptopp
+
+\section{Python bindings using Cython}
+
+What is it, how, why, alternatives?
+
+
+\chapter{Procedure}
+
+TODO: We have to figure out a new title
+Keywords: Python bindings in detail, unit tests, using it in Tahoe-LAFS
+
+A bit more technical description of how we tested the candidates in Tahoe-LAFS
+
+Limitations/assumptions
+
+Optimized candidates.
+
+
+\chapter{Results}
+
+What is tested and what is not tested?
+
+tables, graphs?
+
+
+\chapter{Discussion}
+
+What could have been done differently?
+
+Compare results with general (supercop) results.
+
+Optimized candidates.
+
+\cite{nistround2}
+
+
+\chapter{Conclusion}
+
+A somewhat short conclusion summing up results and discussion
+
+\section{Future work}
+
+New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
+
+
+% BibTeX bibliography lives in external file
 \bibliographystyle{plain}
 \bibliography{ref_sha3}
 
