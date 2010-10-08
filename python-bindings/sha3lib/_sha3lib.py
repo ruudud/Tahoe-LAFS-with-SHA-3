@@ -1,5 +1,5 @@
 # coding: utf-8
-from hash_functions import bmw,groestl,echo,blake,skein
+from hash_functions import bmw,groestl,echo,blake,skein,luffa,shavite3
 
 class bmw256(bmw):
     def __init__(self, initial=None):
@@ -21,6 +21,10 @@ class skein256(skein):
     def __init__(self, initial=None):
         super(skein256, self).__init__(256, initial)
 
-class luffa256(skein):
+class luffa256(luffa):
     def __init__(self, initial=None):
         super(luffa256, self).__init__(256, initial)
+
+class shavite3256(shavite3):
+    def __init__(self, initial=None):
+        super(shavite3256, self).__init__(256, initial)

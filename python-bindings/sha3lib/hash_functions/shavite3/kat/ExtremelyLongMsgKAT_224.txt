@@ -1,0 +1,7 @@
+# ExtremelyLongMsgKAT_224.txt
+# Algorithm Name: SHAvite3
+# Principal Submitter: Eli Biham and Orr Dunkelman
+
+Repeat = 16777216
+Text = abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno
+MD = 8D544E0D42119806BA66F1D0F6BCCB1CD3329A28A4AD791312C73B28
