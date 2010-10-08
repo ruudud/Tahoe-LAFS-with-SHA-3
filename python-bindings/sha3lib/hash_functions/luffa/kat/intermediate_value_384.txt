@@ -1,0 +1,397 @@
+#######################################################################################
+
+  Luffa
+    Message Digest Length = 384
+
+#######################################################################################
+
+
+One Block Message Sample
+
+Input Message: "abc"
+
+=======================================================================================
+
+Initial Value:
+         H[0] = 6d251e69 44b051e0 4eaa6fb4 dbf78465 6e292011 90152df4 ee058139 def610bb
+         H[1] = c3b44b95 d9d2f256 70eee9a0 de099fa3 5d9b0557 8fc944b3 cf1ccf0e 746cd581
+         H[2] = f7efc89d 5dba5781 04016ce5 ad659c05 0306194f 666d1836 24aa230a 8b264ae7
+         H[3] = 858075d5 36d79cce e571f7d7 204b1f67 35870c6a 57e9e923 14bcb808 7cde72ce
+
+=======================================================================================
+
+MESSAGE BLOCK:  61626380 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
+MI     : H[0] = 76792ec8 48f5af9d d652db69 d5413d91 766dc803 e9419ce6 afc23dcd ad8cbe90
+         H[1] = 5524e3ce 5ffb91f5 e0ebe0bc ba23e5bd 82a73a84 1d0f7d77 4aa76dbb 2ebd92d2
+         H[2] = 04ff2954 68ea4dad 3ba5a0ff 3478e458 3d338302 5c4e0828 821a7f09 6f91bbec
+         H[3] = c75c9275 69156d1b 45458d75 30fe2765 19782451 836b4188 58286218 a0cdbf88
+TWEAK  : H[0] = 76792ec8 48f5af9d d652db69 d5413d91 766dc803 e9419ce6 afc23dcd ad8cbe90
+         H[1] = 5524e3ce 5ffb91f5 e0ebe0bc ba23e5bd 054e7509 3a1efaee 954edb76 5d7b25a4
+         H[2] = 04ff2954 68ea4dad 3ba5a0ff 3478e458 f4ce0c08 713820a1 0869fc26 be46efb1
+         H[3] = c75c9275 69156d1b 45458d75 30fe2765 cbc12288 1b5a0c44 c14310c2 066dfc45
+step 0 : H[0] = 76ab46f7 1f70e1a6 7bd9f12c 470dfd96 c7901004 030000a2 3c36ffbc 00d2bd3b
+         H[1] = 63b56095 cb0e3024 150493ef 046d71a9 49f08e1f 0299f153 5f08a7be dce2ea57
+         H[2] = 83ba63ce 459d39cc d6cde1f9 081d42cf 2064244f a1307b9b 4c3f423f 3659976d
+         H[3] = 0c7fc053 b2caf7bf bf7d5926 fa21ff87 6189f65e 7d12bc52 bcde64f3 9053c5cd
+step 1 : H[0] = 5f6c5c2e 4251708a 39ed5f89 b8e4b07d 106e570b bbd9a1de 3ef9e636 b72ccb48
+         H[1] = d4a7a1df fa242c72 175078e5 9a327bcf 10779b66 a48e78cf 95e3e437 cd7b8f81
+         H[2] = a1032a96 8a074eed e0f8c10d 6cd2b7de f8965358 a6557acc 899ee309 cf72ab14
+         H[3] = c23fa58e b7c2ca94 d34e8c30 2eb7e8b0 4964229a 44fe422f 63060ec8 dcaf0f14
+step 2 : H[0] = 846085a7 240d208d d3875fd6 d63a3398 f7bcb667 8603f2e3 e175df2a 68d8cedb
+         H[1] = 334cf40a 8f5976b4 e411eecd 9650de39 2d3cdf87 58b5af53 d512d600 485d0ef9
+         H[2] = 426a0647 74edd696 fe17044d 234a6c6c f718a8fa 74d39835 6f8c3fd1 2fe70285
+         H[3] = d8dff462 716738da a70c56de 4f6b8c43 31fb548f 03ec689a dbcb3b29 c83ce0b3
+step 3 : H[0] = 901a4ff0 b855b984 30ea72b6 de7d08f0 6f0e43c4 579ceb2b 7739afdc 6975489e
+         H[1] = b38792cf aaa76ca4 f07bd338 f52d7cde fda2b9d1 1bc763d0 7dafc73f c88106e0
+         H[2] = 83f1b66d fa56194c 6d5802a9 f402ecac 4cd593e4 9f7b0350 2e2c84e5 d4333a4f
+         H[3] = 0f1914f1 6cdbb5e5 a58d53d4 d0fba345 8c6e6f3a 79c6b4b4 b0db3705 d739360d
+step 4 : H[0] = 67a8caaa 3671351b 9dd7d931 44ccf126 ebc18251 2c1a410a 259fc09d 52f6dbad
+         H[1] = 1a9d6bba aefff00e a4627b48 c4895250 918f1f4c f4431fb0 590ee38a e30c605e
+         H[2] = 94372601 3524b083 56d2010c 7ad5e42a 90bf5206 be601dc1 553b896f 856a5c24
+         H[3] = 1f218ef7 457c07e6 94e59e1f e1a4e1da 54d67bf6 225de5f0 8691eb25 9efc0ff3
+step 5 : H[0] = 0258e1dc d330fb95 21f39778 540c62fb b2f63aba 84385171 adb5bfc4 a1e64659
+         H[1] = ad7e8921 989f2ff5 3b829074 e7b2dffa 1d8ced3f ec28bed1 2b5cbc74 35fda5fb
+         H[2] = d6ef3b39 11fa2dfc f06ed843 ca9b1ba4 8d999327 fa1b9c5a 7699ed96 bc6f3cbd
+         H[3] = d4117f41 ee6b0dbe c59cd0b6 bc3ee903 1b42ec89 46e7bf9a 89a61b5a 99017f72
+step 6 : H[0] = 23cdc893 dba6e790 19d0cd76 cedb2bf1 3644f51e d0ddcd1f a0894709 e20e2082
+         H[1] = 12a9875f 3ce6f773 2ca4d4be 6ac7e642 84b63afd ebcca74b 28bb496b 95f81032
+         H[2] = 1dc6d554 38ceaf14 e4ac5d24 460343c1 99be8124 d8da7f08 d74804db 43d889f7
+         H[3] = 3eaebb2d b4a13ff8 07016176 834ca3c6 6f5c2089 7c8c02e7 b5bd628a b9f0b46a
+step 7 : H[0] = d13d6c45 3e7883fe 3c4d6e44 63128023 a90e8669 97f1d148 21621cd4 c3c04fe7
+         H[1] = 11a9c5f4 48d95879 4779586f d563609a f12748fa 60e87fa6 bc6ec67f 7a7fe5a0
+         H[2] = b4f2ce3b 1a3cc65b 92db2164 5ea181a3 0e81bde0 c320f28a 23ad53a8 02118e0e
+         H[3] = 6d7e3a00 f1b1168d c147ae83 a764f3aa 39fada86 7b975acb f4f3d052 ea6195c2
+
+===================================BLANK ROUND 0=======================================
+=======================================================================================
+
+MESSAGE BLOCK:  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
+MI     : H[0] = b5239d3d b00631f4 2ac4ca2d f6f0884e b466676f a3b0566c 43feae40 ceffd6e8
+         H[1] = b0df613f 06e4a771 a16fd16d f00d67ab 2b5c717e 17ff137c 6176cc28 7a52d666
+         H[2] = 0825a320 ad701c97 88be7964 ebb095b7 80d9357a 1f404888 5fb29baf 5c2ee9f6
+         H[3] = 450eb323 ce696d42 b691d0b9 db9ee0a5 6ecaa9a5 8bf3a2c2 78c6a639 f31e01a2
+TWEAK  : H[0] = b5239d3d b00631f4 2ac4ca2d f6f0884e b466676f a3b0566c 43feae40 ceffd6e8
+         H[1] = b0df613f 06e4a771 a16fd16d f00d67ab 56b8e2fc 2ffe26f8 c2ed9850 f4a5accc
+         H[2] = 0825a320 ad701c97 88be7964 ebb095b7 0364d5ea 7d012220 7eca6ebd 70bba7d9
+         H[3] = 450eb323 ce696d42 b691d0b9 db9ee0a5 76554d2b 5f9d1614 c63531cb 98f00d17
+step 0 : H[0] = 44180ebd ae915f12 4cd0f87d c84e0fa4 33094b26 188b770c afdc79eb a141b9d9
+         H[1] = aa25d943 d4325af7 ce2be98f ad58a24a 7c9fec60 e62371e0 10c1ddb2 945e020b
+         H[2] = 1431db82 6be54102 939fc2dc 007127dc 130ad79e 3bd0a03d 699a1de4 583375d1
+         H[3] = 32d89d69 a80134e5 02f12cae 2464563f c7f07926 16079a86 aafc2924 67592b92
+step 1 : H[0] = c02b16d9 4f9c0e10 87b1273c 3b90e752 b616252e a3b84b0a 86aca1e2 d053d400
+         H[1] = 53d1040a 5f5f2d97 04b679e7 476ea6f0 2aef4af4 cd3de7b6 5691620d 3d1f74de
+         H[2] = 572ba475 0b8a69b0 bbc07b72 eb28402f f6621f1f c16ee619 71daf07f ee52ec19
+         H[3] = 01e527d0 5a5b32c4 af14eba1 f232157a 1e59f93a 843bd8e7 aaaca165 9dbd742d
+step 2 : H[0] = a9054b44 4ae55059 3abbdeac 27ab6a74 1ce6727c 09dc601e 344cd47a 321360fd
+         H[1] = 098b9b31 701f2c3c 69d43b55 60a72648 a1da35da 90df835c cf85a074 0a28f252
+         H[2] = e3fb6d51 51a7a304 3530e8f8 40ff67c3 354acab0 59527680 97261104 621106d7
+         H[3] = ebca2e8c de14a44c a35d06f8 0088a9fe ce20e5b2 b9b11a2c 6df5c9c2 878234cd
+step 3 : H[0] = 32de2b62 b2bb1337 ae24ab4d 18e2c9bb dc72f3e6 2a066c92 68485095 1fbc3dcd
+         H[1] = 61b3d7c2 5ba1ae85 c3e96993 d9288d58 8533237e 3f4f223e f532e60d d0d4abed
+         H[2] = 8b5230c3 8002caa0 ca7e496c 41f9796e 23f99772 1b308784 38256c82 cb54c106
+         H[3] = 8432f478 616a8282 e792292f 267a3f67 62e71431 6c2b5f70 9bb5eeb4 142d2b35
+step 4 : H[0] = 42571372 1dcb7ebf 49b794c3 5913a75d 2ccac26e 5cc2face 2348bd3b 92d19fab
+         H[1] = 5e451c52 ac1cabc9 5cb8fec4 b4bab6b7 dde358a2 e02a65d1 5e48d09a 10a585f0
+         H[2] = 1e6d282e 3c01e4f7 d08ccc95 747efda3 2156cf83 36788160 73017849 325cf10d
+         H[3] = af170f1d 93f7c208 ccb848fa 415f99fd 5779fb56 3d2efcbf 3bc0bbfe cdf29447
+step 5 : H[0] = 6b932fbf d103258a bbe68fcd 793ee9dc 047e91ee ef301f48 0be4f42a 6fccf479
+         H[1] = 1356b0d2 ca928d73 a7ba3dba 0bc69fa9 f093b71c c1fd5581 7155577a c2bd05b5
+         H[2] = 4e1d4e25 061b94c3 b1fa167b cc99acc6 6e8af4dc f1de9f97 1517580a 8e0ea3a3
+         H[3] = c8e0741c b80468a4 517b59e6 5700c616 ec310a5c f20604ad 4f6eb2b0 81b8b423
+step 6 : H[0] = de3086cf 73d59d8a a7863aad f71ef596 88819430 425a3d52 5b630c82 5d52a150
+         H[1] = 2e4f3acb 446421aa df53c8ef 446f0494 90cd1a4f bb07a432 6da11aa8 11f2e0b0
+         H[2] = d7a1196a ab57010d 48cd12d5 b960fccb 2fc645f7 29522692 a0ab61cc d029fd70
+         H[3] = 6ada3291 4ada200c b4e7a6cd f99c7ebd f7dd35d3 7d482327 175ebc2d 2260dd34
+step 7 : H[0] = 2fe6af12 99aba67a 6478815f af39013e 1978eb8d a11fdd31 dd801df3 a3922cb1
+         H[1] = 10402b6d 2bc93979 d80cfee8 3d3deed9 9eb6918a f67019a0 f9fee2da 2b6ed1a8
+         H[2] = e1dbf911 92a7911d 179f1dc8 b25d368b bcb9884d db7fcdbf 0c675362 a055310a
+         H[3] = 4407c617 5a410033 e9d756b6 3f0c4604 32ca40db e3a2e0c1 d6db5641 52c04408
+
+---------------------------------------------------------------------------------------
+
+Z[0] = 2fe6af12 ^ 10402b6d ^ e1dbf911 ^ 4407c617 = 9a7abb79
+Z[1] = 99aba67a ^ 2bc93979 ^ 92a7911d ^ 5a410033 = 7a840e2d
+Z[2] = 6478815f ^ d80cfee8 ^ 179f1dc8 ^ e9d756b6 = 423c34c9
+Z[3] = af39013e ^ 3d3deed9 ^ b25d368b ^ 3f0c4604 = 1f559f68
+Z[4] = 1978eb8d ^ 9eb6918a ^ bcb9884d ^ 32ca40db = 09bdb291
+Z[5] = a11fdd31 ^ f67019a0 ^ db7fcdbf ^ e3a2e0c1 = 6fb2e9ef
+Z[6] = dd801df3 ^ f9fee2da ^ 0c675362 ^ d6db5641 = fec2fa0a
+Z[7] = a3922cb1 ^ 2b6ed1a8 ^ a055310a ^ 52c04408 = 7a69881b
+
+===================================ROUND FOR OUTPUT====================================
+=======================================================================================
+
+MESSAGE BLOCK:  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
+MI     : H[0] = 633e98b7 b28dc2e3 eaebcd83 44f5a31f 9dca3cff 965baeae 11cbd00e 1e304a1e
+         H[1] = 80230cab c63d1dcc d5268569 e048668b ac808557 5328e959 4dff5f2d cb1cdd8e
+         H[2] = 34be6876 0effb011 d03c52ba 36e48aee 2f15c7a0 2648340f 448e741b b679912f
+         H[3] = 37b0cf08 e0d85271 d74920b4 b5596cc0 72dedbea 85342886 89cae8dd e7fe74ae
+TWEAK  : H[0] = 633e98b7 b28dc2e3 eaebcd83 44f5a31f 9dca3cff 965baeae 11cbd00e 1e304a1e
+         H[1] = 80230cab c63d1dcc d5268569 e048668b 59010aaf a651d2b2 9bfebe5a 9639bb1d
+         H[2] = 34be6876 0effb011 d03c52ba 36e48aee bc571e80 9920d03c 1239d06d d9e644be
+         H[3] = 37b0cf08 e0d85271 d74920b4 b5596cc0 96f6df53 29a14434 4e5746ec 3ff3a577
+step 0 : H[0] = 426f7391 3fa046c4 1f269f1a 744dc5d7 7b9a48e0 e4107300 4166da57 6c2a32ea
+         H[1] = d7e8345c 731b3eff 3bff2c94 e1df3179 1b34fb60 584c081a 04ae61c0 1b6573bd
+         H[2] = 22d50a34 8381b40f c87e20a9 22160d05 a44eab14 73f21e3a c0c67ee2 69497acb
+         H[3] = 49656cbf 10ec15ae 86750a27 dcd5dd65 acb4a953 3cdae982 d31b17f2 b5b59414
+step 1 : H[0] = d1328093 665ca375 aad4fe65 90756028 d1918a84 2fac6721 1e36ed01 03e6f712
+         H[1] = 29a0aa6b a3bf2f0f 5e462e89 0f888542 8cc237e4 d255c070 c32ce610 8b025727
+         H[2] = 1733f9c3 4b7ce3ae b91a7df3 82184f39 62312977 ace89232 aaf7746a a433a6d8
+         H[3] = 99a59528 768cff10 5a49fbf6 68cb91ea 0d4e39ea 0ff759a6 ea841af2 917fe841
+step 2 : H[0] = ece5309b b1e17acb f02f4f8f 6ac3759c 9616ca5c 384e9482 525d6420 d4383e03
+         H[1] = fee2e8b3 1c8f7d2d 654d5d63 ab86f751 7bbab0cf ec6e69c4 aca62a2e 856a42a6
+         H[2] = 8cec5e5c 6f50ddcc 5a0ad120 ae97ff89 e09b71ea f174160f cef10cee 763354fe
+         H[3] = 780c576d 962d55e1 177ba557 b7dd99ed b75e19bf 777f6b81 7d59606e f245676a
+step 3 : H[0] = 67383614 7e2f5ee0 f4ac97db 87b1f26a 4215abc5 109e1cca 96a753ef 0d1241d4
+         H[1] = 7cb0b478 b0d5995b 1a86b50c 445fc247 068f025f 125936fd 05cd5d78 44c87f96
+         H[2] = 672d5a6d f162a464 645f411b 8c23c1e4 f2c176b8 3cb77ebf eae733ea 1280c056
+         H[3] = 7ed99a0f 40a9a062 138421e0 b897c711 eba9e850 2804a241 1f8a6c25 898c36f8
+step 4 : H[0] = c4317fba a0a85709 a76419a8 67a37d65 afc2472b 3f3d5c52 efed901b 8b665fee
+         H[1] = 4dc1b497 2e38740c da1e17a9 c680db32 e045d47a d7651e39 e162d50e f400b8c2
+         H[2] = b198571a 4e2d290c 6b07806c 85f8663b 32e3cf13 5bd53248 d5d847a1 138548fb
+         H[3] = 3acc5007 e4b30fec 07e852bb 9f524a4d 766ce88a 3b9f9872 f913c2ed 7a4236a3
+step 5 : H[0] = 2612d9d8 3d0e3949 93257943 de09b1df b470053c de1cf1ec aa9a31b1 c2770948
+         H[1] = 3fe1590e 9d96a788 e262cd17 349ced23 30467893 2da06279 f2c054de 8baca292
+         H[2] = 1bcfe5e7 4d5f9c21 1dbc6f00 d8af4c5d b5931bbc 0ea5cbcf 8225eed8 f71a0773
+         H[3] = 7e66ba8d b5c4dcc6 8d3a1ea8 3fc3b254 a6768d5c 6233e2fe dab2970f 4274211f
+step 6 : H[0] = a5355c0b b87875e1 2c160171 ebda5b06 d8846bcc 3b521e82 651824c0 ab190dbb
+         H[1] = 7b67496d 73b6b191 eaaf1c58 30a391fd 23c7be88 3582b3ee 9fab90f8 cb8179a6
+         H[2] = f1d88619 6c1ae49b 28cfcd72 8f0d7a6f 6ac56da6 aae1ce66 d9d85ba6 b15216c4
+         H[3] = 0a4d1d42 841d748f c26563d3 81d4df00 26e81963 44bf1248 78dc4dac 91dd80c1
+step 7 : H[0] = 94b231aa c024dce1 f945442c 41584f99 acf2b7d8 3664c4ca e4be04c5 daccacd6
+         H[1] = abf6f11f 9dc68976 1ecba936 30fdb3a9 8e0f67cc 30383601 af360640 c0191274
+         H[2] = dce16781 064eb98e 7c631715 24183a61 f5ab0e37 7028db02 d894c537 502f4246
+         H[3] = 0a2283b4 9d993e14 b43b1352 51dbc7f6 4b83bc86 0cf1cebc 0f81cad3 90f405c4
+
+---------------------------------------------------------------------------------------
+
+Z[8] = 94b231aa ^ abf6f11f ^ dce16781 ^ 0a2283b4 = e9872480
+Z[9] = c024dce1 ^ 9dc68976 ^ 064eb98e ^ 9d993e14 = c635d20d
+Z[10] = f945442c ^ 1ecba936 ^ 7c631715 ^ b43b1352 = 2fd6e95d
+Z[11] = 41584f99 ^ 30fdb3a9 ^ 24183a61 ^ 51dbc7f6 = 046601a7
+
+Message Digest: 9a7abb79 7a840e2d 423c34c9 1f559f68
+                09bdb291 6fb2e9ef fec2fa0a 7a69881b
+                e9872480 c635d20d 2fd6e95d 046601a7
+
+
+=======================================================================================
+
+Two Block Message Sample
+
+Input Message: "abcdbcdecdefdefgefghfghighijhijkijkljklm"
+
+=======================================================================================
+
+Initial Value:
+         H[0] = 6d251e69 44b051e0 4eaa6fb4 dbf78465 6e292011 90152df4 ee058139 def610bb
+         H[1] = c3b44b95 d9d2f256 70eee9a0 de099fa3 5d9b0557 8fc944b3 cf1ccf0e 746cd581
+         H[2] = f7efc89d 5dba5781 04016ce5 ad659c05 0306194f 666d1836 24aa230a 8b264ae7
+         H[3] = 858075d5 36d79cce e571f7d7 204b1f67 35870c6a 57e9e923 14bcb808 7cde72ce
+
+=======================================================================================
+
+MESSAGE BLOCK:  61626364 62636465 63646566 64656667 65666768 66676869 6768696a 68696a6b
+
+MI     : H[0] = 76792e2c 2a96cbf8 b536be0f b1245bf6 130baf6b 8f26f48f c8aa54a7 c5e5d4fb
+         H[1] = 3d4d89a5 3792fb7a 828884d9 b12eeab0 8eab3688 78691a1f 2cc005d2 49d5fbb8
+         H[2] = 6397403e 67eb4eac 53ccca70 3173e957 5156e565 50420424 e77c1861 09f6d385
+         H[3] = a13bfa1c 681a6c18 4a448e74 3ef02583 7a144137 ef0e27ef 54246e14 c5abd8e0
+TWEAK  : H[0] = 76792e2c 2a96cbf8 b536be0f b1245bf6 130baf6b 8f26f48f c8aa54a7 c5e5d4fb
+         H[1] = 3d4d89a5 3792fb7a 828884d9 b12eeab0 1d566d11 f0d2343e 59800ba4 93abf770
+         H[2] = 6397403e 67eb4eac 53ccca70 3173e957 455b9595 41081091 9df06187 27db4e14
+         H[3] = a13bfa1c 681a6c18 4a448e74 3ef02583 d0a209bb 78713f7f a12370a2 2d5ec706
+step 0 : H[0] = 84fe321c ec12363f 48c7d651 17ad4218 395298bd 1a5fc128 15c48936 d0ed7731
+         H[1] = 262a8df5 eea741f4 8979ebb5 38559011 ecb2e68d bb15f491 8d8472e3 08b9e151
+         H[2] = 9eb7f7a0 014d0c7c 8dd0ad60 bc3ab5ee 88acc9e3 4c562b21 a1dec04a 89a23804
+         H[3] = 3931931e c64cde95 84074910 fdb534fa cc61a4f5 dc533694 94b1e29f 2685b388
+step 1 : H[0] = 0779b0d1 552c3102 3ac77dd8 36ed8fe9 7734d13a 0b8e2cff ea07d104 cb1d5303
+         H[1] = e27a2b6a 8499e14c c51e28b4 4c23b6c6 c1323f9e 9890167e 1dd493d9 ac685ed6
+         H[2] = 996d723e 474f5ba7 9dd76292 8f7e0744 48f00412 19bf5836 2106e97a fd352e97
+         H[3] = a68f85e8 4e9f94f9 5def5d2b 49b207aa 039e0999 53326076 f6af7810 c52be07c
+step 2 : H[0] = 0b60a7bd 5ef325c2 a950b2cc 9fa82a1a 3aa12ecf 13e941b1 052f5b8e 7f8e218b
+         H[1] = 14b95772 71ae4ad9 8a6f2871 de4692e6 9d52ee72 7b3576b1 6085e971 1925c024
+         H[2] = c7f3da11 10e62327 7717abeb 4bbf2f2d 78bd3409 c544db5f d18ac16d 270bb3f1
+         H[3] = fa0f41ee d1785eee 8e840912 57da4bfc aeb5fb00 c45c93f7 4277e716 35e8a0a4
+step 3 : H[0] = 0e9a6ab8 459583c0 15d50368 7f8b1904 d223aa92 e9003ce9 771aefa7 fd0f3b2b
+         H[1] = 6229f0d3 5891e4c0 27899641 e77af158 415bc779 6e1bfb1e 3737872d 19b9bf39
+         H[2] = 0bb3fc1e 93fa1d80 72e5cccd 7b76fcf2 c8609362 65df99b5 407da360 1ec1dd74
+         H[3] = 8525c361 18d96e17 e12f5ac4 12efea02 19939e61 e230cb06 f08199fb d2a5f98f
+step 4 : H[0] = bbcc31c8 525a6fa6 1cf55df9 b02fad0f 11c8faa0 dc2839c0 4e898c22 043650b4
+         H[1] = f7e3c7df 88be48e3 a6dd1c8e c445284b 3b35f02a 6bf11ae3 dce6d94a 287a87c3
+         H[2] = de24f5bc efc4e9b4 a4f6904d a283cbc9 07f8a90c b0a1bb66 2291ba3c 1ff433c3
+         H[3] = 3778a0e9 67b5da52 db9fedc0 663f3190 e928c89b 3b3b4117 5d6b4afc 5c143341
+step 5 : H[0] = 71875a97 396a90ac 6758b344 c9ab296e e1a38f58 70bef2e7 2a91c827 ea972685
+         H[1] = 41d86a36 9b389344 fd482898 ba121f3d 1a669304 3d96e9fa 316bb794 1d5fc16a
+         H[2] = 5d1e6b85 4ea0ffba 1a9eedbb fc6ae3c4 ac7c3460 3d1e3b25 db3901b5 fe26d333
+         H[3] = 926f9488 d2fea59b d04cca79 d191ac01 26936ac6 5f6d5ea5 eb455bc2 d72b97d0
+step 6 : H[0] = 9d292f74 a87d8e3e 11454a42 77021e7d cf42f5c8 82202119 a224758d d570e649
+         H[1] = a5f13f05 027d071a 728b7a9d 01af2a54 68f5b75c 52ca81d2 6d10109b 0b0d4d68
+         H[2] = fe9de923 6c295c67 e82413f5 e7cc9c6c a080f1f8 ea9c43b4 e7b832f4 118ad309
+         H[3] = da2c1dd8 bd8ba8b6 304867e5 ed62d96a 91a27515 05dc4608 4c07932c 4278d813
+step 7 : H[0] = 8c0e6067 29c79901 6c1f3b6c 40f72dc4 4ba7a8a3 50f05216 48978cad 1ba5c0db
+         H[1] = 33add769 3fd6084d a9d24181 5e794597 c818598b c2d0dc4c 48d4bee9 645c9557
+         H[2] = 28f2bd45 67419283 53b9bd26 b55b9952 2dd89b25 c042943d 57e09e62 220bb96a
+         H[3] = 7af21b7e 1680e181 40a26ee0 f48b6486 29a70ebe f54fd161 2ae0ccd6 8292178c
+
+=======================================================================================
+
+MESSAGE BLOCK:  696a6b6c 6a6b6c6d 80000000 00000000 00000000 00000000 00000000 00000000
+
+MI     : H[0] = aa1e2b53 7ba05c95 bc76fff0 90144fce 863ebffd b916739c 5afd3175 106b30d7
+         H[1] = 4a716eaa 87bcc196 6cb1575d 1e5c29ed 8549243f 9f1601c3 aaaaff54 891fd5c4
+         H[2] = b385f599 a5cf7da7 f2eab07f 5685fd49 2b8325ef e8f64d37 a87b8561 e9d2a0c3
+         H[3] = 08433153 0fc1efb4 102a54b6 0d245bad c561d81e 6e1b90dd 8242e0b6 d285de4a
+TWEAK  : H[0] = aa1e2b53 7ba05c95 bc76fff0 90144fce 863ebffd b916739c 5afd3175 106b30d7
+         H[1] = 4a716eaa 87bcc196 6cb1575d 1e5c29ed 0a92487f 3e2c0387 5555fea9 123fab89
+         H[2] = b385f599 a5cf7da7 f2eab07f 5685fd49 ae0c97bc a3d934df a1ee1586 a74a830f
+         H[3] = 08433153 0fc1efb4 102a54b6 0d245bad 2b0ec0f6 70dc86eb 121705b4 942ef256
+step 0 : H[0] = 1bdf8d2b a0cd6419 a5e2b45b feddd1fe 3f16d2c5 50dc0a85 7a70a1f2 4b40e674
+         H[1] = 8ba151fe b4ec9ee1 fce6508b 79db33e7 9f50a791 504f899c dc0efd91 564d0bdf
+         H[2] = 38da9a05 9c5b1059 37721df9 3b4d5960 5556445a 1eeac95c e6a861c0 befd4c58
+         H[3] = a5194960 1d1cce78 99810bf4 3dc9e288 c4db2f6f 4361818c e19264e1 2be58178
+step 1 : H[0] = 324d68c7 82d6c607 f5e55cb6 8a03e651 f67a112b e85d513d 52325ba9 5aecf0a4
+         H[1] = 6308afc6 b3cb363d d0f8c33c d73cea0f b21119f0 a18e2873 bb3872a0 557adc99
+         H[2] = d9e5b4de e6abcbe9 3ed58a7b 72100b1a 1e29ee92 1b9ac015 0a8130ab d8aec52c
+         H[3] = bbdffaa3 186dec0d 64cad8b6 5cb81ade bd38ae07 c50ef724 941fd299 b84d909e
+step 2 : H[0] = aad28832 a49607e4 434778bf dd6c5cac 48c983b0 b8f6783a 4424564d 18589dc4
+         H[1] = 6233d576 f8444dfc 6388e2a0 b1fbe204 64cf6663 d4d27ff3 f2d6fced 3ee090b9
+         H[2] = 0d2d0232 c921f335 2d5eaab5 187fd7d0 ecfcaec2 a103b5cc 71e277d9 b7de911f
+         H[3] = 78abc931 90dca513 9d27de1f 90706e0f 9e3391c6 7482a8a8 4cc8f2e5 1ecf8360
+step 3 : H[0] = 078dcfe8 50b4beeb 38d5b0c8 b7d0d808 1c42fd52 63c1a677 cdc0a23c 676c095f
+         H[1] = e8d138b7 c188c719 3941fd46 20ccfeb6 db5678dd d0808000 73defc81 05e679f4
+         H[2] = ddc4d138 25640feb 176de6b0 16cd1a89 9ce155ae 6b225f27 2a1129af c422fec2
+         H[3] = 49569e09 b589ed20 d8c3ad1a 901dca1b 5573d00c 4e5d461a cf144a3a ba4cbb14
+step 4 : H[0] = 31b9665f e2a96b58 5c8d83a1 a22bd517 7ae37804 72198525 038608a5 9071792f
+         H[1] = 7daa7775 7f85cf1b 2f2c6853 c4be2ca9 379bbf20 6589632d bdbeb6a3 9ff59f5e
+         H[2] = 9623be9c 42c9da3c 6292e42d 0626e424 e68e586c 9cf2e6e6 c9d53160 ce4529b3
+         H[3] = 1daba73a 88d724ee 6daf18f1 6926eb30 14fa404d 533a918c b5fae572 6d2e028a
+step 5 : H[0] = 5f0871b1 288881f5 354336f8 34d2488d 20e4f2a1 84db2c33 fb2ce863 e295d6dc
+         H[1] = 0892efbc 3dcd8517 ff92a512 e96d32fb 3dc61e5e 3200f647 51e76a72 76b60c90
+         H[2] = 46bb6d6c da2f3c29 4188f0bf 792538df 3e071b3e c486cd72 685a1203 0aa7ba81
+         H[3] = 421e84c5 72e0e2ad 02b9c35d 977b0f14 8e96ced2 1cbdf129 7b2c9906 986482ac
+step 6 : H[0] = fbc2c8ea fa9754a8 aa89127e ff7b1a98 4595d60a 693c1432 334c0590 99a8df40
+         H[1] = b84a1153 42df6847 eae33eef 03308bc2 a5b87171 8b30bffe fecc0a8e d6b53f29
+         H[2] = 0bbd5125 f815a83f aa679fe8 ced25b9c 581142b6 31974659 a25e49a1 85acdd71
+         H[3] = 2cea32db fb76c961 9e172ec3 6dc36a12 316e077a e382da6c 33b2a826 bd723fa6
+step 7 : H[0] = 94445c79 0af4f320 f38586dc fd7c9cc3 6ec200aa f52ec976 28780fd9 0ce6e52d
+         H[1] = 70520baf dbe6e01b 070f9ec1 88986779 f6aeedbd a7656b5c 5585e705 bba6122c
+         H[2] = c3f89cd3 3f5efec4 45860379 de9ae767 7d8ec8db a4619bfb ef9cdc5f c813a83a
+         H[3] = 5e4c3cd4 2a0d622e 25fb74a0 e5a15d60 121c4c05 f2e9f2ed b237c55a 35ea2e28
+
+===================================BLANK ROUND 0=======================================
+=======================================================================================
+
+MESSAGE BLOCK:  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
+MI     : H[0] = 38455933 eb5bdd72 d8558e93 209b5e4e 19f8ea4b 6fb3ab20 b424aed9 39071b14
+         H[1] = 450dce9f 98f4ecab df396fd4 7b8c70f1 a782aa5f f0187dac 7c20c670 7df638cd
+         H[2] = d2ae235f 89f9d2fa cf0b6916 3f54ace5 1a597d40 2973fae0 02d9de0b 70aff496
+         H[3] = 9cfd3231 0d0cea30 98d16844 f4d2dd30 57bb6433 45e58e99 ee488c47 5eb15785
+TWEAK  : H[0] = 38455933 eb5bdd72 d8558e93 209b5e4e 19f8ea4b 6fb3ab20 b424aed9 39071b14
+         H[1] = 450dce9f 98f4ecab df396fd4 7b8c70f1 4f0554bf e030fb59 f8418ce0 fbec719a
+         H[2] = d2ae235f 89f9d2fa cf0b6916 3f54ace5 6965f500 a5cfeb80 0b67782c c2bfd259
+         H[3] = 9cfd3231 0d0cea30 98d16844 f4d2dd30 bddb219a 2f2c74ca 7244623f f58abc2a
+step 0 : H[0] = 52c76817 e1f2afca 6496daf8 fa2862ff 7ba72591 1594f26f 03a2ec89 6c5aa9de
+         H[1] = de8b62cf 149e640a c36fd6c6 fb16349f acdd4a03 fb65429d 5c15ac21 9ce1796c
+         H[2] = 358a4df9 2ae0480c bc8aa7f2 e6ea0c4e 239f2341 4660ab81 4ae1cc71 b6016ddf
+         H[3] = 820d5640 ca57f800 6d8fccff fa07859c fef8010b 5eaa5012 46a8868e 0dd6fd55
+step 1 : H[0] = 0606190f a8c2b8df 093099df 76fd86bd 97e51e61 36e738eb 447b9ae8 6f250770
+         H[1] = eda6c420 bc1f31a4 7350cf01 edc66748 5aef5127 69dddc24 af187d19 4ca33fb7
+         H[2] = f2a6e95a 0250126e e7992b7c e42353a2 8b98dbbc f22b36bb 2fd5ffaf d1f65e81
+         H[3] = 7f8d473e 21ff3b32 e45d628c 810c6c49 f2815c8c e1b0772f dd106152 afb69178
+step 2 : H[0] = 99933256 2f44dfb4 079fe22d 0473f648 a48bfdd1 13a48892 87c442b9 e1d15363
+         H[1] = 1bb47417 de90ccca 58359c85 acf23e63 5e71ed15 98444ab7 f4114b94 e5eb6361
+         H[2] = 3e49843b 614e0674 97e7c210 3b7d36b6 714540d3 ed9edfc9 810495b5 cc13c50a
+         H[3] = 254f85fd d3b0fbe6 105a3708 9a32838d 77d57607 77fdd707 f48fd4d8 dd345c79
+step 3 : H[0] = 934b4c9a d9500253 8b9371d3 58ee0a3e b4b0dac8 f155819c aa097ad5 c662bb2a
+         H[1] = e5b8d3b6 02ab146d b1a5fe51 7921bfe8 81e9718f 30f34425 b2ec322d 3364c3cf
+         H[2] = 26afe948 de18d30e 8cde67e7 a26b204a 7cbfe34e d6760e41 de086333 d3f293fe
+         H[3] = d3d238a4 a56a04b3 9f9395da 0e038481 11f6bc3b 40f5535c a583fa06 ba5bbe58
+step 4 : H[0] = 384f8187 d5b14aa1 8f9ed741 093d10ce fdaf1a6b 73bbf8dc 2de54728 e5be99ce
+         H[1] = 8a5381c9 31d49c0e 74a5030d 39aaa171 d788cb72 a8a24b12 77b32dbb 5d3d7b5d
+         H[2] = b05f67fc ae1df225 13adc953 0eb931f8 0d07e903 3086edfe c0b82e21 edce452a
+         H[3] = 36347f64 82f4f906 f3bf35f8 dd3c2ebe ec5ca1f0 ddaea28a 18204b18 e254db2f
+step 5 : H[0] = 65474cd8 69f7988c 9e31829a 4f1e7df8 b8543f0f 1d05a44c bc03006b 1c81eaa3
+         H[1] = 485f2081 e625da96 629cf63f 74305ce0 4e32de7e acd0aabf b67e5c62 7291fdbb
+         H[2] = e763809e 920cc39f 06df7da1 b9e2eb48 1ebb1c94 862ce38e 437c6e9e e527f916
+         H[3] = b415f9e7 789b6fad 5ad46439 8fcb4b42 7b256dc2 7834ac64 7808db36 c49feb32
+step 6 : H[0] = cab1eb51 263b4625 af790474 a620e177 31d210c4 5d0e2a4b 3f0e143e b0fba2cb
+         H[1] = 69efaf64 2fe9680c d1ad2bea dafe552b a0917c7e eeb5a848 44244727 a96692bb
+         H[2] = 2fffa1d2 18036b80 66db019f 7387af44 60885278 6ec3ba44 800ee3b5 f49338ef
+         H[3] = f81d33a7 7e4c918b 2905a21e 9fa0e518 494136c9 9781ea2d 2c7a34f8 eca805a1
+step 7 : H[0] = 08158104 66029d68 6140151d 34f249cc d759e21d 9a44e040 42a111dc 1e7560c3
+         H[1] = 6f9e28ec a8474a80 1a807baf b62188e2 79c1e6a2 61431105 e085a8f9 20227cc6
+         H[2] = fed35b46 08e97503 fbd21114 9bc531d9 35df0494 a34a4c0b 9159985e 60897600
+         H[3] = 0e1214a5 4c66e4a8 4c9a2b3a 962a8b10 e4046650 e6a1fb60 a624a763 bd8947db
+
+---------------------------------------------------------------------------------------
+
+Z[0] = 08158104 ^ 6f9e28ec ^ fed35b46 ^ 0e1214a5 = 974ae60b
+Z[1] = 66029d68 ^ a8474a80 ^ 08e97503 ^ 4c66e4a8 = 8aca4643
+Z[2] = 6140151d ^ 1a807baf ^ fbd21114 ^ 4c9a2b3a = cc88549c
+Z[3] = 34f249cc ^ b62188e2 ^ 9bc531d9 ^ 962a8b10 = 8f3c7be7
+Z[4] = d759e21d ^ 79c1e6a2 ^ 35df0494 ^ e4046650 = 7f43667b
+Z[5] = 9a44e040 ^ 61431105 ^ a34a4c0b ^ e6a1fb60 = beec462e
+Z[6] = 42a111dc ^ e085a8f9 ^ 9159985e ^ a624a763 = 95598618
+Z[7] = 1e7560c3 ^ 20227cc6 ^ 60897600 ^ bd8947db = e3572dde
+
+===================================ROUND FOR OUTPUT====================================
+=======================================================================================
+
+MESSAGE BLOCK:  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
+MI     : H[0] = 6669dfa0 5815657c d44f3bc4 d95347d7 186ee63c 22d0293f fdcf6776 d49d9631
+         H[1] = 5e395604 2bada951 37d0d20b 3e1cf7bc 97b7bf5a f0ad36a0 e24d208c d545080c
+         H[2] = 7919f52a 340e07d5 ecbe833a 1d3656ef 54600818 47b425d3 8260c4a7 9ace24ae
+         H[3] = 3554b75b b961466e 4963782a 5a9ae421 c891613c 54661a19 b657436b ed181155
+TWEAK  : H[0] = 6669dfa0 5815657c d44f3bc4 d95347d7 186ee63c 22d0293f fdcf6776 d49d9631
+         H[1] = 5e395604 2bada951 37d0d20b 3e1cf7bc 2f6f7eb5 e15a6d41 c49a4119 aa8a1019
+         H[2] = 7919f52a 340e07d5 ecbe833a 1d3656ef 51802061 1ed0974d 0983129e 6b3892ba
+         H[3] = 3554b75b b961466e 4963782a 5a9ae421 448b09e6 a330d0ca b2ba1b5d 68c08aaf
+step 0 : H[0] = 56899eb1 03e7900e 33bb98f6 4f28617c cf10a91b bb89bc21 488f6418 1eb38c4e
+         H[1] = cad0805b 2a113cca bc418f6f aba5fc6e 0a784393 ed6fcc57 4175dda7 3c23796a
+         H[2] = 4cb2d316 161b2ae0 341d715f ce8d8e32 2dcf7d1d ce8b65cd 814fab8e 471c5a9f
+         H[3] = 6d91b8db 7972dc6e 3f504472 3b1a2bdd 8d0dd228 0ff2052f a92e7bcf e2199495
+step 1 : H[0] = 712c6772 c95e1282 86fd45d3 6906ec94 7d715b8a 22a44a77 7b29bf4d 053a178e
+         H[1] = d7ed7eb6 7867f415 627d75f7 6d10f952 e678dba9 969d0d85 8c5557ef 7867b855
+         H[2] = dc1e9c79 92be3a7c 06d09c2f 7dbc7ebe cdd124de f4cf5cec 080cc407 8bf8698a
+         H[3] = 5739cc8b bc2516c1 f3cfbcaf 8d0d17b5 7de25d29 219ec44d 28d4544d 8f25b040
+step 2 : H[0] = 0d0ec3bf 51a2678a 0d44438d f63d2f3a fcfb6852 a911226a b0214371 53cb92bd
+         H[1] = 02c2a84a 261c8872 b4e2ee0f b174a16b a5bdf111 52894a7d 0016a9d1 0b85e8bd
+         H[2] = 29f2128a 21c400ed 76769ee9 b6b62034 1c9e2d17 f48655cf 7cc03ce3 6d1b9efc
+         H[3] = 024042c5 c2cf50da 057c7380 e4ab8826 f5cca008 212d3ed4 89826add 7d5ff6e3
+step 3 : H[0] = b826f359 84d73ebb 813e8499 ddeaab13 97662942 09195f3b cfcbc3ff dd08b906
+         H[1] = 0d556a2c 0181e9ca 2aed04d9 87562f6d 5c400372 92c5fde6 0521ab6e 516ab1e0
+         H[2] = 2e1eab5d 25732aea c2723f1c 0730cfb0 ebb5b004 00377af7 11fc8d56 752c67ff
+         H[3] = 3830d083 da0ffe0d c5c375d2 777a40fe 6e5bf7f8 dfd78f43 b82cca03 145efb76
+step 4 : H[0] = bde0a070 2c25a1f6 2acba9aa dd1a87e0 d0d7258f 0dcfe494 8fda2cce 2507c3cb
+         H[1] = 3fcb27e5 4a85b4eb a042e5b5 e349370c b1d75e18 b5b05f19 0956a8de c7f144b6
+         H[2] = af3bc855 7ab953d5 b8946d7a 88e17085 db61cdb1 123b2910 1da63050 0b7319a7
+         H[3] = d8d2be81 e9c9aa98 b441cf7e cfba7bcc 4fc1d811 251b21a4 2666da77 fabd7506
+step 5 : H[0] = 12a514b3 3d1ccbaa 9e0ab552 2edee536 99a41d91 076ed120 1ad18cbc d47841fe
+         H[1] = f36ae1ba 6944658c 986d268e 71589868 e6e6f4c4 ae5cc681 8ab5cac9 d11533b5
+         H[2] = aea4bad2 f6cdf3d0 8655913b d72957ec 881bce64 2a4e1fb7 998a3272 9413cadd
+         H[3] = f738f62f 0833ff2e ea24eca1 223265ea aef2e979 c0076fee a5e4a8e0 8bd63d39
+step 6 : H[0] = 85a8fc76 002e0c92 ce172418 bc745e28 bf092436 8e06ed02 b3a4c01e bcdccc0e
+         H[1] = ac204940 80862cd3 b28d3ed8 3e9c2c6b 4109f3b0 7ade8f5f 614d1015 016d0704
+         H[2] = 567cbffb 67384b7a b64003db 52f082bf 58f5d2c7 dd1ef532 a526779d 40527f64
+         H[3] = 89e30bb1 c9eb1d83 23105948 81b7383c 3ccafe46 000c87b7 96e29b9e 7a886fe4
+step 7 : H[0] = adeb8941 3f50810b 85aa1e9c a59b8858 043574da deeaaeec 99dc1f96 2d9a94f6
+         H[1] = f1c64b06 d124a05d 6db4ec7a 450e972c b6da4890 ca569ab8 11abd4dc a4734d5b
+         H[2] = 2a058b7f b9b01afb eb10ad70 fd710d3b a4f90832 cc240cbc d44ee090 d6399bbc
+         H[3] = fe8f9a09 e1f2e5f1 596cc189 ce29d0a4 ff3ae405 7f99289b 76a5d98d 7a1c6c22
+
+---------------------------------------------------------------------------------------
+
+Z[8] = adeb8941 ^ f1c64b06 ^ 2a058b7f ^ fe8f9a09 = 88a7d331
+Z[9] = 3f50810b ^ d124a05d ^ b9b01afb ^ e1f2e5f1 = b636de5c
+Z[10] = 85aa1e9c ^ 6db4ec7a ^ eb10ad70 ^ 596cc189 = 5a629e1f
+Z[11] = a59b8858 ^ 450e972c ^ fd710d3b ^ ce29d0a4 = d3cdc2eb
+
+Message Digest: 974ae60b 8aca4643 cc88549c 8f3c7be7
+                7f43667b beec462e 95598618 e3572dde
+                88a7d331 b636de5c 5a629e1f d3cdc2eb

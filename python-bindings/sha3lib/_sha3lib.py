@@ -20,3 +20,7 @@ class blake256(blake):
 class skein256(skein):
     def __init__(self, initial=None):
         super(skein256, self).__init__(256, initial)
+
+class luffa256(skein):
+    def __init__(self, initial=None):
+        super(luffa256, self).__init__(256, initial)

@@ -25,6 +25,8 @@ ext_modules = [
     Extension("sha3lib.hash_functions.skein.skein_hash",
         [hashpath+"skein/skein_hash.pyx", hashpath+'skein/SHA3api_ref.c',
         hashpath+"skein/skein_block.c",hashpath+"skein/skein.c"],),
+    Extension("sha3lib.hash_functions.luffa.luffa",
+        [hashpath+"luffa/luffa.pyx", hashpath+'luffa/luffa_for_32.c'],),
     ]
 
 class RunTests(Command):
@@ -105,6 +107,7 @@ setup(
     packages =
         ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
         'sha3lib.hash_functions.echo', 'sha3lib.hash_functions.groestl',
-        'sha3lib.hash_functions.blake', 'sha3lib.hash_functions.skein'],
+        'sha3lib.hash_functions.blake', 'sha3lib.hash_functions.skein', 
+        'sha3lib.hash_functions.luffa'],
     #py_modules = ['sha3lib'],    
 )
