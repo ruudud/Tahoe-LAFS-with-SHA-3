@@ -1,5 +1,5 @@
 # coding: utf-8
-from hash_functions import bmw,groestl,echo,blake
+from hash_functions import bmw,groestl,echo,blake,skein
 
 class bmw256(bmw):
     def __init__(self, initial=None):
@@ -16,3 +16,7 @@ class echo256(echo):
 class blake256(blake):
     def __init__(self, initial=None):
         super(blake256, self).__init__(256, initial)
+
+class skein256(skein):
+    def __init__(self, initial=None):
+        super(skein256, self).__init__(256, initial)

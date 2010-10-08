@@ -22,6 +22,9 @@ ext_modules = [
         [hashpath+"echo/echo.pyx", hashpath+'echo/echo32.c'],),
     Extension("sha3lib.hash_functions.blake.blake",
         [hashpath+"blake/blake.pyx", hashpath+'blake/blake_opt32.c'],),
+    Extension("sha3lib.hash_functions.skein.skein_hash",
+        [hashpath+"skein/skein_hash.pyx", hashpath+'skein/SHA3api_ref.c',
+        hashpath+"skein/skein_block.c",hashpath+"skein/skein.c"],),
     ]
 
 class RunTests(Command):
@@ -100,8 +103,8 @@ setup(
     cmdclass = {'build_ext': build_ext, 'test': RunTests, 'realclean':RealClean},
     ext_modules = ext_modules,
     packages =
-    ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
+        ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
         'sha3lib.hash_functions.echo', 'sha3lib.hash_functions.groestl',
-        'sha3lib.hash_functions.blake'],
+        'sha3lib.hash_functions.blake', 'sha3lib.hash_functions.skein'],
     #py_modules = ['sha3lib'],    
 )
