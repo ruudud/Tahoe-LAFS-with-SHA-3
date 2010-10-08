@@ -6,6 +6,8 @@ from sha3lib import hash_functions
 
 from katparser import KAT
 
+import time
+
 class TestShortKat(unittest.TestCase):
     def run_katparser(self, hash_function):
         hash_path = path.dirname(path.abspath(hash_functions.__file__))
@@ -18,6 +20,7 @@ class TestShortKat(unittest.TestCase):
         known_answers = self.run_katparser(function_str)
         hash_function = '%s256hash' % function_str
         counter = 0
+        t1 = time.time()
         for kat in known_answers:
             counter += 1
             to_test = "hash_functions.%s(256, %r, %s)" % \
@@ -25,11 +28,12 @@ class TestShortKat(unittest.TestCase):
             output_digest = eval(to_test).upper()
             self.assertEquals(output_digest, kat[2],
                 'Mismatch:\n%s\n%s' % (to_test, kat[2]))
-
-        print '%s: Tested %i KATs' % (function_str, counter)
+        t2 = time.time()
+        print '%s: Tested %i KATs took %0.3f ms' % (function_str, 
+                counter, (t2-t1)*1000.0)
 
     def test_if_the_kats_match(self):
-        print "\n"
+        print ""
         for hash_function in hash_functions.HASHES:
             self.run_kat_test(hash_function)
 

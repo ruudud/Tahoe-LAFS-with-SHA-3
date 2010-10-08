@@ -74,6 +74,7 @@ class RealClean(Command):
     user_options = []
 
     def initialize_options(self):
+        print ""
         self._dir = os.getcwd()
         self._clean_me = []
         for root, dirs, files in os.walk('.'):
@@ -101,11 +102,12 @@ class RealClean(Command):
                 #print clean_me
             except OSError:
                 try:
-                    os.rmdir(clean_me)
-                except:
+                    import shutil
+                    shutil.rmtree(clean_me)
+                except Exception,e:
                     pass
-            except:
-                pass
+            except Exception,e:
+                print e
 
 
 
