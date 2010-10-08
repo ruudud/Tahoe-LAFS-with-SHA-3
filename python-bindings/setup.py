@@ -79,6 +79,15 @@ class RealClean(Command):
                 if f.endswith('.pyc') or f.endswith('.so'):
                     self._clean_me.append(pjoin(root,f))
         self._clean_me.append('./build')
+        manual_files = [
+                './sha3lib/hash_functions/bmw/bmw.c',
+                './sha3lib/hash_functions/luffa/luffa.c',
+                './sha3lib/hash_functions/groestl/groestl.c',
+                './sha3lib/hash_functions/skein/skein_hash.c',
+                './sha3lib/hash_functions/echo/echo.c',
+                ]
+        self._clean_me.extend(manual_files)
+
 
     def finalize_options(self):
         pass
@@ -87,6 +96,7 @@ class RealClean(Command):
         for clean_me in self._clean_me:
             try:
                 os.unlink(clean_me)
+                #print clean_me
             except OSError:
                 try:
                     os.rmdir(clean_me)

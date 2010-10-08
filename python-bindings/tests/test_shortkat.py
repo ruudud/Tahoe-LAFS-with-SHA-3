@@ -29,6 +29,7 @@ class TestShortKat(unittest.TestCase):
         print '%s: Tested %i KATs' % (function_str, counter)
 
     def test_if_the_kats_match(self):
+        print "\n"
         for hash_function in hash_functions.HASHES:
             self.run_kat_test(hash_function)
 
