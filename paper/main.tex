@@ -2,7 +2,7 @@
 \usepackage[T1]{fontenc} % In case we want special characters
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
-\usepackage{appendix} % Fixes formatting of appendicies
+\usepackage{appendix} % Fixes formatting of appendices
 \usepackage{graphicx} % We *may* use images
 \usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
@@ -73,8 +73,29 @@ What follows in this document, chapter by chapter
 Hash functions, NIST Comptetition, Candidates, SuperCop?
 
 \section{Tahoe-LAFS}
+%What is it, how/where are hash functions used, Python, pycryptopp
+%comparison with RAID-6
 
-What is it, how/where are hash functions used, Python, pycryptopp
+The Tahoe Least-Authority Filesystem is a system for secure,
+distributed data storage \cite{t_tahoe}. Tahoe was originally developed with
+funding from the former web backup service provider Allmydata, but is now a
+stand-alone Open Source project \cite{t_ars}.
+
+New files saved using Tahoe follow this pattern:
+\begin{enumerate}
+\item The file is encrypted using AES.
+\item The file is split up into \emph{N} parts using \emph{erasure coding}.
+\item The parts are distributed to \emph{N} storage servers.
+\end{enumerate}
+
+The use of erasure coding enables Tahoe to recover a file using only a
+predefined subset of the parts distributed to the storage servers.
+
+% TODO: comparison with RAID?
+
+\subsection{Advantages using a secure, distributed file system}
+% Use cases?
+
 
 \section{Python bindings using Cython}
 
@@ -108,7 +129,7 @@ Compare results with general (supercop) results.
 
 Optimized candidates.
 
-\cite{nistround2}
+\cite{s_nistround2}
 
 
 \chapter{Conclusion}
@@ -122,7 +143,7 @@ New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
 
 % BibTeX bibliography lives in external file
 \bibliographystyle{plain}
-\bibliography{ref_sha3}
+\bibliography{ref_sha3,ref_tahoe}
 
 \appendix
 \appendixpage
