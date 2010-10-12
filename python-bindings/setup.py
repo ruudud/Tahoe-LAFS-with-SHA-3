@@ -29,6 +29,9 @@ ext_modules = [
         [hashpath+"luffa/luffa.pyx", hashpath+'luffa/luffa_for_32.c'],),
     Extension("sha3lib.hash_functions.shavite3.shavite3",
         [hashpath+"shavite3/shavite3.pyx", hashpath+'shavite3/SHAvite3.c'],),
+    Extension("sha3lib.hash_functions.simd.simd",
+        [hashpath+"simd/simd.pyx",hashpath+"simd/optimized.c",
+        hashpath+"simd/nist.c"],),
     ]
 
 class RunTests(Command):
@@ -88,7 +91,10 @@ class RealClean(Command):
                 './sha3lib/hash_functions/groestl/groestl.c',
                 './sha3lib/hash_functions/skein/skein_hash.c',
                 './sha3lib/hash_functions/echo/echo.c',
-                './sha3lib/hash_functions/shavite3.c']
+                './sha3lib/hash_functions/shavite3/shavite3.c'
+                './sha3lib/hash_functions/blake/blake.c',
+                './sha3lib/hash_functions/simd/simd.c',
+                ]
         self._clean_me.extend(manual_files)
 
 
@@ -119,9 +125,15 @@ setup(
     cmdclass = {'build_ext': build_ext, 'test': RunTests, 'realclean':RealClean},
     ext_modules = ext_modules,
     packages =
-        ['sha3lib','sha3lib.hash_functions','sha3lib.hash_functions.bmw',
-        'sha3lib.hash_functions.echo', 'sha3lib.hash_functions.groestl',
-        'sha3lib.hash_functions.blake', 'sha3lib.hash_functions.skein', 
-        'sha3lib.hash_functions.luffa', 'sha3lib.hash_functions.shavite3'],
+        ['sha3lib','sha3lib.hash_functions',
+        'sha3lib.hash_functions.bmw',
+        'sha3lib.hash_functions.echo', 
+        'sha3lib.hash_functions.groestl',
+        'sha3lib.hash_functions.blake', 
+        'sha3lib.hash_functions.skein', 
+        'sha3lib.hash_functions.luffa', 
+        'sha3lib.hash_functions.shavite3',
+        'sha3lib.hash_functions.simd',
+        ],
     #py_modules = ['sha3lib'],    
 )
