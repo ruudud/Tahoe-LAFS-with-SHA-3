@@ -32,6 +32,9 @@ ext_modules = [
     Extension("sha3lib.hash_functions.simd.simd",
         [hashpath+"simd/simd.pyx",hashpath+"simd/optimized.c",
         hashpath+"simd/nist.c"],),
+    Extension("sha3lib.hash_functions.keccak.keccak",
+        [hashpath+"keccak/keccak.pyx",hashpath+"keccak/KeccakF-1600-opt32.c",
+        hashpath+"keccak/KeccakSponge.c"],),
     ]
 
 class RunTests(Command):
@@ -94,6 +97,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/shavite3/shavite3.c'
                 './sha3lib/hash_functions/blake/blake.c',
                 './sha3lib/hash_functions/simd/simd.c',
+                './sha3lib/hash_functions/keccak/keccak.c',
                 ]
         self._clean_me.extend(manual_files)
 
@@ -120,7 +124,7 @@ class RealClean(Command):
 setup(
     name='SHA3lib',
     version='0.1',
-    description='Python bindings for SHA3 using cython',
+    description='Python bindings for SHA3-256 using Cython',
     author='Eirik Haver and Pål Ruud',
     cmdclass = {'build_ext': build_ext, 'test': RunTests, 'realclean':RealClean},
     ext_modules = ext_modules,
@@ -134,6 +138,7 @@ setup(
         'sha3lib.hash_functions.luffa', 
         'sha3lib.hash_functions.shavite3',
         'sha3lib.hash_functions.simd',
+        'sha3lib.hash_functions.keccak',
         ],
     #py_modules = ['sha3lib'],    
 )
