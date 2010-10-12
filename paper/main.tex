@@ -3,7 +3,9 @@
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
 \usepackage{appendix} % Fixes formatting of appendices
+\usepackage[printonlyused]{acronym} % Package to handle the acronym list
 \usepackage{graphicx} % We *may* use images
+\graphicspath{{images/}} % and it is clean to put them in a separate dir
 \usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
 
@@ -43,7 +45,11 @@
 \chapter*{Acronyms}
 \addcontentsline{toc}{chapter}{Acronyms}
 
-% Insert acronyms here
+\begin{acronym}
+\acro{AES}{Advanced Encryption Standard}
+\acro{LAFS}{Least-Authority Filesystem}
+\acro{FEC}{Forward Error Correction}
+\end{acronym}
 
 \chapter{Introduction}
 \pagenumbering{arabic}
@@ -106,30 +112,47 @@ hardwareimplementations available in supercop.
 Results by the supercop are published at (URL).
 
 
+Paralellizing
+
 \section{Tahoe-LAFS}
 %What is it, how/where are hash functions used, Python, pycryptopp
-%comparison with RAID-6
+%comparison with RAID-6, mutable/immutable?
 
-The Tahoe Least-Authority Filesystem is a system for secure,
-distributed data storage \cite{t_tahoe}. Tahoe was originally developed with
-funding from the former web backup service provider Allmydata, but is now a
-stand-alone Open Source project \cite{t_ars}.
+The Tahoe \ac{LAFS} is a system for secure,
+distributed data storage. Files are encrypted client side, then
+split up, before each part is sent to other nodes in the grid. The integrity and
+confidentiality of the files are guaranteed by the algorithms used on the
+client, and is independent of the storage servers, which may be operated by
+untrusted people. This is defined as \emph{provider-independent security}
+\cite{t_tahoe}.
 
-New files saved using Tahoe follow this pattern:
-\begin{enumerate}
-\item The file is encrypted using AES.
-\item The file is split up into \emph{N} parts using \emph{erasure coding}.
-\item The parts are distributed to \emph{N} storage servers.
-\end{enumerate}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{Tahoe-newfile.pdf}
+    \caption{Tahoe-LAFS: Insertion of new file}
+    \label{fig:tahoeinsertion}
+\end{figure}
 
-The use of erasure coding enables Tahoe to recover a file using only a
-predefined subset of the parts distributed to the storage servers.
+Tahoe was originally developed with funding from the former commercial web
+backup service provider Allmydata, but is now a stand-alone Open
+Source\footnote{GNU General Public License (GPL) version 2} project \cite{t_ars}.
+It is written in the Python programming language with the Twisted framework, and
+can run on Windows, Mac OSX, Linux, Solaris and more.
+
+\subsection{Erasure coding}
+
+The use of \emph{erasure coding} enables Tahoe to recover a file using only a
+predefined subset of the parts distributed to the storage servers, i.e. the
+other nodes in the grid. Erasure coding is a type of \ac{FEC} code, which
+extends a message with $C$ characters into a longer message with $N$ symbols.
+The original $C$ characters can then be recovered from a subset of the $N$
+symbols.
 
 % TODO: comparison with RAID?
 
-\subsection{Advantages using a secure, distributed file system}
-% Use cases?
+\subsection{Use of secure hashes in Tahoe-LAFS}
 
+Where?
 
 \section{Python bindings using Cython}
 %What is it, how, why, alternatives?
@@ -169,6 +192,8 @@ A bit more technical description of how we tested the candidates in Tahoe-LAFS
 Limitations/assumptions
 
 Optimized candidates.
+
+Error sources.
 
 
 \chapter{Results}
