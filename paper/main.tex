@@ -68,9 +68,43 @@ What follows in this document, chapter by chapter
 \chapter{Background technologies}
 % Find new and better title
 
-\section{NIST SHA-3}
+\section{Cryptographic Hash Functions}
+A Cryptographic Hash function is a deterministic mathematical procedure which
+takes an arbritary block of data and outputs a fixed-size bit string. The
+output is refered to as the hash value, message digest or simply digest.
+Another property of a cryptographic hash function is that a small change in the
+input data (just 1 bit) should completly change the output of the hash
+function. In other words it should be infeasible to find the reverse of a
+cryptographic hash function. It should also be infeasible to find two blocks of
+data which produce the same hash value (a collision).
 
-Hash functions, NIST Comptetition, Candidates, SuperCop?
+\subsection{NIST SHA-3 Competition}
+% Hash functions, NIST Comptetition, Candidates, SuperCop?
+The Secure Hash Function version 3 (SHA-3) is a comming standard cryptographic
+hash function set to replace the current standards SHA-1 and SHA-2.
+It will be selected from a competition held by the National
+Institute of Standards and Technology (NIST). The competition started in 2006
+with submission deadline for candidates at the end of 2008. 51 candidates made
+it into round 1, however just 14 passed to the second round. The reason for not
+passing round 1 are either design weaknesses, substantial cryptographic
+weaknesses or performance issues. The winner is sceduled to be selected by the 
+2nd quarter of 2012.
+
+The submissions for the various rounds of the SHA-3 competition include
+reference implementations, optimized implementations, test-vectors to verify
+implementations and documentations explaining the submission.
+
+\subsection{SuperCop}
+Supercop is a toolkit developed by VAMPIRE lab for measuring performance of
+cryptographic software, among them the SHA-3 candidates. While security is a
+primary goal of a hash function, performance can not be neglected if the hash
+function should be taken into use. The difference between the implementations
+in the official submissions and in supercop is first that the supercop
+implementation are continiously updated and that there are more specific
+hardwareimplementations available in supercop.
+
+Results by the supercop are published at (URL).
+
 
 \section{Tahoe-LAFS}
 %What is it, how/where are hash functions used, Python, pycryptopp
@@ -98,8 +132,31 @@ predefined subset of the parts distributed to the storage servers.
 
 
 \section{Python bindings using Cython}
+%What is it, how, why, alternatives?
+% TODO: Hvorfor er nedenfornevnte i ASM eller C?
+TAHOE-LAFS is written in python, but the SHA-3 candidate implementations found
+in both the official NIST submissions and supercop are either in C or in
+assembly. Therefore we need a way to make the implementations available in
+Python. There a several ways to do this. Python itself includes a C-API,  
+other options include SWIG, Cython and possible others.
 
-What is it, how, why, alternatives?
+\subsection(Python C-API)
+The Python C-API is the official method of creating C-bindings for Python. The
+procedure to do this includes writing entrypoints or wrappers for your C
+functions in C. Then, through compiling you can acess your C-libraries and
+functions through Python. The drawback with this approach, when faced with an
+already existing C-library is that you have to actually write the
+wrapper-functions or modify the C-library.
+
+\subsection{Cython}
+Cython tries to solve the problem of binding C-libraries and functions by the
+use of Python instead of the use of C which the official API does. This is done
+by only defining the entrypoints to the required C-functions and datatypes in a
+Python/C/C++ hybrid syntax. Cython also allows creating new C/C++ functions,
+available or not available to Python, in the same syntax. Cython works by
+transforming the hybrid syntax into C/C++-code which utilises the official
+Python C-API and compiling that. An expected tradeoff by using Cython is a
+performance drop due to the extra layer of abstraction.
 
 
 \chapter{Procedure}
