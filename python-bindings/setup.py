@@ -100,7 +100,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/groestl/groestl.c',
                 './sha3lib/hash_functions/skein/skein_hash.c',
                 './sha3lib/hash_functions/echo/echo.c',
-                './sha3lib/hash_functions/shavite3/shavite3.c'
+                './sha3lib/hash_functions/shavite3/shavite3.c',
                 './sha3lib/hash_functions/blake/blake.c',
                 './sha3lib/hash_functions/simd/simd.c',
                 './sha3lib/hash_functions/keccak/keccak.c',
@@ -114,19 +114,20 @@ class RealClean(Command):
         pass
 
     def run(self):
+        import shutil
         for clean_me in self._clean_me:
-            try:
-                os.unlink(clean_me)
-                #print clean_me
-            except OSError:
+            if os.path.isfile(clean_me):
                 try:
-                    import shutil
+                    os.unlink(clean_me)
+                except Exception,e:
+                    print e
+            elif os.path.isdir(clean_me): 
+                try:
                     shutil.rmtree(clean_me)
                 except Exception,e:
-                    pass
-            except Exception,e:
-                print e
-
+                    print e
+            else:
+                pass
 
 
 setup(
