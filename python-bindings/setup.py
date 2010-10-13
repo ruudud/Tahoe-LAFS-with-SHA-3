@@ -39,8 +39,10 @@ ext_modules = [
         [hashpath+"jh/jh.pyx"],),
     Extension("sha3lib.hash_functions.fugue.fugue_hash",
         [hashpath+"fugue/fugue_hash.pyx",hashpath+"fugue/SHA3api_ref.c",
-            hashpath+"fugue/fugue.c", hashpath+"fugue/fugue_256.c",
-            hashpath+"fugue/fugue_384.c",hashpath+"fugue/fugue_512.c"],),
+         hashpath+"fugue/fugue.c", hashpath+"fugue/fugue_256.c",
+         hashpath+"fugue/fugue_384.c",hashpath+"fugue/fugue_512.c"],),
+    Extension("sha3lib.hash_functions.shabal.shabal_hash",
+        [hashpath+"shabal/shabal_hash.pyx",hashpath+"shabal/shabal.c"],),
     ]
 #fugue_256.c  fugue_384.c  fugue_512.c
 class RunTests(Command):
@@ -151,6 +153,7 @@ setup(
         'sha3lib.hash_functions.keccak',
         'sha3lib.hash_functions.jh',
         'sha3lib.hash_functions.fugue',
+        'sha3lib.hash_functions.shabal',
         ],
     #py_modules = ['sha3lib'],    
 )

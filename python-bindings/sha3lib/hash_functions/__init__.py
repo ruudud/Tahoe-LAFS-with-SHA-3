@@ -9,6 +9,7 @@ from simd.simd import simd
 from keccak.keccak import keccak
 from jh.jh import jh
 from fugue.fugue_hash import fugue
+from shabal.shabal_hash import shabal
 
 from bmw.bmw import hash as bmw256hash
 from groestl.groestl import hash as groestl256hash
@@ -21,7 +22,9 @@ from simd.simd import hash as simd256hash
 from keccak.keccak import hash as keccak256hash
 from jh.jh import hash as jh256hash
 from fugue.fugue_hash import hash as fugue256hash
+from shabal.shabal_hash import hash as shabal256hash
 
 # skein ignored due to possible wrong kat-files or implementation
+# shabal ignored for same reasons
 HASHES = ('bmw', 'echo', 'groestl', 'blake', 'luffa', 'shavite3', 'simd',
 'keccak','jh','fugue')

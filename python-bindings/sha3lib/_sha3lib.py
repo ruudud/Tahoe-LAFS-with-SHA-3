@@ -45,3 +45,7 @@ class jh256(jh):
 class fugue256(fugue):
     def __init__(self, initial=None):
         super(fugue256, self).__init__(256, initial)
+
+class shabal256(fugue):
+    def __init__(self, initial=None):
+        super(shabal256, self).__init__(256, initial)
