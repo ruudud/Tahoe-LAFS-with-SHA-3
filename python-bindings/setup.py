@@ -96,6 +96,9 @@ class RealClean(Command):
                 if f.endswith('.pyc') or f.endswith('.so'):
                     self._clean_me.append(pjoin(root,f))
         self._clean_me.append('./build')
+        
+        # Cython generated files, not removing them before rebuilding (after
+        # change) can cause unexpected results
         manual_files = [
                 './sha3lib/hash_functions/bmw/bmw.c',
                 './sha3lib/hash_functions/luffa/luffa.c',
@@ -108,6 +111,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/keccak/keccak.c',
                 './sha3lib/hash_functions/jh/jh.c',
                 './sha3lib/hash_functions/fugue/fugue_hash.c',
+                './sha3lib/hash_functions/shabal/shabal_hash.c',
                 ]
         self._clean_me.extend(manual_files)
 
@@ -129,6 +133,7 @@ class RealClean(Command):
                 except Exception,e:
                     print e
             else:
+                # File not found, happens with the manual_files
                 pass
 
 
