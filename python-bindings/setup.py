@@ -37,8 +37,12 @@ ext_modules = [
         hashpath+"keccak/KeccakSponge.c"],),
     Extension("sha3lib.hash_functions.jh.jh",
         [hashpath+"jh/jh.pyx"],),
+    Extension("sha3lib.hash_functions.fugue.fugue_hash",
+        [hashpath+"fugue/fugue_hash.pyx",hashpath+"fugue/SHA3api_ref.c",
+            hashpath+"fugue/fugue.c", hashpath+"fugue/fugue_256.c",
+            hashpath+"fugue/fugue_384.c",hashpath+"fugue/fugue_512.c"],),
     ]
-
+#fugue_256.c  fugue_384.c  fugue_512.c
 class RunTests(Command):
     
     user_options = []
@@ -101,6 +105,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/simd/simd.c',
                 './sha3lib/hash_functions/keccak/keccak.c',
                 './sha3lib/hash_functions/jh/jh.c',
+                './sha3lib/hash_functions/fugue/fugue_hash.c',
                 ]
         self._clean_me.extend(manual_files)
 
@@ -132,7 +137,8 @@ setup(
     cmdclass = {'build_ext': build_ext, 'test': RunTests, 'realclean':RealClean},
     ext_modules = ext_modules,
     packages =
-        ['sha3lib','sha3lib.hash_functions',
+        ['sha3lib',
+        'sha3lib.hash_functions',
         'sha3lib.hash_functions.bmw',
         'sha3lib.hash_functions.echo', 
         'sha3lib.hash_functions.groestl',
@@ -143,6 +149,7 @@ setup(
         'sha3lib.hash_functions.simd',
         'sha3lib.hash_functions.keccak',
         'sha3lib.hash_functions.jh',
+        'sha3lib.hash_functions.fugue',
         ],
     #py_modules = ['sha3lib'],    
 )
