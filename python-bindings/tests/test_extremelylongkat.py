@@ -33,9 +33,10 @@ class TestExtremelyLongKat(unittest.TestCase):
             
 
     def test_extremely_long_kat(self):
+        print ""
         self.init_functions()
         k = self.workload
-        for function in self.workload:
+        for function in hash_functions.HASHES:
             t1 = time.time()
             props = self.parse_kat_file(k[function]['file'])
             s = k[function]['function']() 
