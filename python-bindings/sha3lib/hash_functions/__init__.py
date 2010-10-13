@@ -25,6 +25,5 @@ from fugue.fugue_hash import hash as fugue256hash
 from shabal.shabal_hash import hash as shabal256hash
 
 # skein ignored due to possible wrong kat-files or implementation
-# shabal ignored for same reasons
 HASHES = ('bmw', 'echo', 'groestl', 'blake', 'luffa', 'shavite3', 'simd',
-'keccak','jh','fugue')
+'keccak','jh','fugue','shabal')

@@ -9,18 +9,10 @@ def hash(int hashbitlen, bytes data, int in_length):
     Used for testing purposes.
     '''
     cdef char* c_string = <char *> data
-    #cdef shabal_hash_h.DataLength datalen = in_length
-    cdef size_t datalen = in_length
-    #cdef shabal_hash_h.BitSequence *hashval = <shabal_h.BitSequence *> malloc(hashbitlen*8)
-    cdef unsigned char *hashval = <unsigned char *> malloc(256*8)
-    
-    cdef shabal_hash_h.sph_shabal256_context mc
+    cdef shabal_hash_h.DataLength datalen = in_length
+    cdef shabal_hash_h.BitSequence *hashval = <shabal_hash_h.BitSequence *> malloc(hashbitlen*8)
 
-    shabal_hash_h.sph_shabal256_init(&mc)
-    shabal_hash_h.sph_shabal256(&mc, data, datalen)
-    shabal_hash_h.sph_shabal256_close(&mc,hashval)
-
-    #shabal_hash_h.Hash(hashbitlen, <shabal_h.BitSequence *> c_string, datalen, hashval)
+    shabal_hash_h.Hash(hashbitlen, <shabal_hash_h.BitSequence *> c_string, datalen, hashval)
 
     try:
         digest = [hashval[i] for i from 0 <= i < hashbitlen / 8]
@@ -36,19 +28,16 @@ cdef class shabal:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    #cdef shabal_hash_h.BitSequence *hashval
-    cdef unsigned char *hashval
-    #cdef shabal_hash_h.hashState previous_state
-    cdef shabal_hash_h.sph_shabal256_context previous_state
-    #cdef shabal_hash_h.hashState state
-    cdef shabal_hash_h.sph_shabal256_context state
+    cdef shabal_hash_h.BitSequence *hashval
+    cdef shabal_hash_h.hashState previous_state
+    cdef shabal_hash_h.hashState state
     cdef int finished
-    cdef size_t hashbitlen
+    cdef int hashbitlen
 
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
-        self.hashbitlen = 256 # Isn't really a choice
-        shabal_hash_h.sph_shabal256_init(&self.state)
+        self.hashbitlen = in_hashbitlen
+        shabal_hash_h.Init(&self.state, self.hashbitlen)
 
         if initial:
             self.update(initial)
@@ -61,16 +50,16 @@ cdef class shabal:
             self.finished = 0
             self.state = self.previous_state
 
-        shabal_hash_h.sph_shabal256(&self.state, <unsigned char *> data, data_len)
+        shabal_hash_h.Update(&self.state, <shabal_hash_h.BitSequence *> data, data_len)
 
     cpdef final(self):
-        self.hashval = <unsigned char *> malloc(self.hashbitlen*8)
+        self.hashval = <shabal_hash_h.BitSequence *> malloc(self.hashbitlen*8)
 
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
-        shabal_hash_h.sph_shabal256_close(&self.state, self.hashval)
+        shabal_hash_h.Final(&self.state, self.hashval)
         self.finished = 1
 
     cpdef copy(self):

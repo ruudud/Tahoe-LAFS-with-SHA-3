@@ -1,10 +1,16 @@
-cdef extern from "sph_shabal.h":
+cdef extern from "sha3nist.h":
+    ctypedef unsigned char BitSequence
+    ctypedef unsigned long long DataLength
 
-    ctypedef struct sph_shabal_context:
+    cdef enum HashReturn:
+        SUCCESS = 0
+        FAIL = 1
+        BAD_HASHLEN = 2
+
+    ctypedef struct hashState:
         pass
 
-    ctypedef sph_shabal_context sph_shabal256_context
-
-    void sph_shabal256_init(sph_shabal256_context *cx)
-    void sph_shabal256(sph_shabal256_context *cx, unsigned char *data, size_t datalen)
-    void sph_shabal256_close(sph_shabal256_context *cx, unsigned char *out)
+    HashReturn Hash(int, BitSequence *data, DataLength, BitSequence *hashval)
+    HashReturn Init(hashState *state, int hashbitlen)
+    HashReturn Update(hashState *state, BitSequence *data, DataLength databitlen)
+    HashReturn Final(hashState *state, BitSequence *hashval)

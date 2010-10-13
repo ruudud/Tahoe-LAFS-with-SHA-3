@@ -48,12 +48,6 @@
 #define SPH_TYPES_H__
 
 #include <limits.h>
-#include <endian.h> 
-#ifdef LITTLE_ENDIAN 
-  #define SPH_LITTLE_ENDIAN 1 
-#else 
-  #define SPH_BIG_ENDIAN 1 
-#endif
 
 /*
  * All our I/O functions are defined over octet streams. We do not know

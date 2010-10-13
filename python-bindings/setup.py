@@ -42,7 +42,8 @@ ext_modules = [
          hashpath+"fugue/fugue.c", hashpath+"fugue/fugue_256.c",
          hashpath+"fugue/fugue_384.c",hashpath+"fugue/fugue_512.c"],),
     Extension("sha3lib.hash_functions.shabal.shabal_hash",
-        [hashpath+"shabal/shabal_hash.pyx",hashpath+"shabal/shabal.c"],),
+        [hashpath+"shabal/shabal_hash.pyx",hashpath+"shabal/sha3nist.c",
+         hashpath+"shabal/shabal.c"],),
     ]
 #fugue_256.c  fugue_384.c  fugue_512.c
 class RunTests(Command):
