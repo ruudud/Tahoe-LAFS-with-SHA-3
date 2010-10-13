@@ -1,6 +1,6 @@
 # coding: utf-8
 from hash_functions import(bmw,groestl,echo,blake,skein, 
-        luffa,shavite3,simd,keccak)
+        luffa,shavite3,simd,keccak,jh)
 
 class bmw256(bmw):
     def __init__(self, initial=None):
@@ -37,3 +37,7 @@ class simd256(simd):
 class keccak256(keccak):
     def __init__(self, initial=None):
         super(keccak256, self).__init__(256, initial)
+
+class jh256(jh):
+    def __init__(self, initial=None):
+        super(jh256, self).__init__(256, initial)

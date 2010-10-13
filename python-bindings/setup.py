@@ -35,6 +35,8 @@ ext_modules = [
     Extension("sha3lib.hash_functions.keccak.keccak",
         [hashpath+"keccak/keccak.pyx",hashpath+"keccak/KeccakF-1600-opt32.c",
         hashpath+"keccak/KeccakSponge.c"],),
+    Extension("sha3lib.hash_functions.jh.jh",
+        [hashpath+"jh/jh.pyx"],),
     ]
 
 class RunTests(Command):
@@ -98,6 +100,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/blake/blake.c',
                 './sha3lib/hash_functions/simd/simd.c',
                 './sha3lib/hash_functions/keccak/keccak.c',
+                './sha3lib/hash_functions/jh/jh.c',
                 ]
         self._clean_me.extend(manual_files)
 
@@ -139,6 +142,7 @@ setup(
         'sha3lib.hash_functions.shavite3',
         'sha3lib.hash_functions.simd',
         'sha3lib.hash_functions.keccak',
+        'sha3lib.hash_functions.jh',
         ],
     #py_modules = ['sha3lib'],    
 )
