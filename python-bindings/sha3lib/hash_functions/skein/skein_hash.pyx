@@ -67,6 +67,8 @@ cdef class skein:
         s.state = self.state
         s.previous_state = self.previous_state
         s.finished = self.finished
+        if s.finished:
+            s.hashval = self.hashval
 
         return s
 

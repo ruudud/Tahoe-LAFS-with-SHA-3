@@ -72,7 +72,7 @@ class RunTests(Command):
         testfiles = []
         all_testfiles = glob(pjoin(self._dir, 'tests', '*.py'))
         excluded_files = ['__init__.py',
-        'katparser.py',]
+        'katparser.py','test_extremelylongkat.py']
         excluded_files_full_path = []
         for f in excluded_files:
             excluded_files_full_path.append(pjoin(self._dir,'tests',f))

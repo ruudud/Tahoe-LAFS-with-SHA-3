@@ -49,7 +49,6 @@ cdef class groestl:
         if self.finished:
             self.finished = 0
             self.state = self.previous_state
-
         groestl_h.Update(&self.state, <groestl_h.BitSequence *> data, data_len)
 
     cpdef final(self):
@@ -67,6 +66,8 @@ cdef class groestl:
         s.state = self.state
         s.previous_state = self.previous_state
         s.finished = self.finished
+        if s.finished:
+            s.hashval = self.hashval
 
         return s
 

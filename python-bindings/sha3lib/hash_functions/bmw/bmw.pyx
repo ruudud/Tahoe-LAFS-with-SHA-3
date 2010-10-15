@@ -28,17 +28,16 @@ cdef class bmw:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    cdef bmw_h.BitSequence *hashval
-    cdef bmw_h.hashState previous_state
-    cdef bmw_h.hashState state
-    cdef int finished
-    cdef int hashbitlen
+    cpdef bmw_h.BitSequence *hashval
+    cpdef bmw_h.hashState previous_state
+    cpdef bmw_h.hashState state
+    cpdef int finished
+    cpdef int hashbitlen
 
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        bmw_h.Init(&self.state, self.hashbitlen)
-
+        bmw_h.Init(&self.state, self.hashbitlen)     
         if initial:
             self.update(initial)
 
@@ -67,7 +66,8 @@ cdef class bmw:
         s.state = self.state
         s.previous_state = self.previous_state
         s.finished = self.finished
-
+        if s.finished:
+            s.hashval = self.hashval
         return s
 
     def digest(self):
