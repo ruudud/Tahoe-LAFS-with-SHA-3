@@ -1,1 +1,6 @@
-supercop/supercop-20100926/crypto_hash/jh256/bitslice_opt32
+supercop-20100926/crypto_hash/jh256/sphlib
+
+
+Previous attempts:
+supercop/supercop-20100926/crypto_hash/jh256/bitslice_opt32 - Apparantly, every
+input must be of length 512 for this version(??) (for update - not single hash)

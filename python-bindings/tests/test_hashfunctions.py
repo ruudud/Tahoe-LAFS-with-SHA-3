@@ -10,9 +10,6 @@ class HashTester(unittest.TestCase):
     def test_update_and_initial_yields_same_result(self):
         print ""
         for r in hash_functions.HASHES:
-            if r=='jh': #FIXME JH should work
-                continue
-
             f = eval(r+'256')
             s = f('foobar')
             t = f()
@@ -28,7 +25,7 @@ class HashTester(unittest.TestCase):
         for r in hash_functions.HASHES:
             # groestl currently segfaults
             # simd has mismatch, same for JH
-            if r in ('groestl','simd','jh'):
+            if r in ('groestl','simd'):
                 continue
             f = eval(r+'256')
             control = f('foobar').hexdigest()
@@ -99,7 +96,7 @@ class HashTester(unittest.TestCase):
     def test_copied_object_support_update(self):
         for r in hash_functions.HASHES:
             # a lot segfaults here
-            if r in ('simd','groestl','jh'):
+            if r in ('simd','groestl'):
                 continue
             f = eval(r+'256')
             control = f('foobar').hexdigest()

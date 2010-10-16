@@ -7,7 +7,7 @@ from luffa.luffa import luffa
 from shavite3.shavite3 import shavite3
 from simd.simd import simd
 from keccak.keccak import keccak
-from jh.jh import jh
+from jh.jh_hash import jh
 from fugue.fugue_hash import fugue
 from shabal.shabal_hash import shabal
 
@@ -20,7 +20,7 @@ from luffa.luffa import hash as luffa256hash
 from shavite3.shavite3 import hash as shavite3256hash
 from simd.simd import hash as simd256hash
 from keccak.keccak import hash as keccak256hash
-from jh.jh import hash as jh256hash
+from jh.jh_hash import hash as jh256hash
 from fugue.fugue_hash import hash as fugue256hash
 from shabal.shabal_hash import hash as shabal256hash
 

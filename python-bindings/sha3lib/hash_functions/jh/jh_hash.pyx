@@ -1,5 +1,5 @@
 # encoding: utf-8
-cimport jh_h
+cimport jh_hash_h
 cimport cython
 
 from libc.stdlib cimport *
@@ -9,10 +9,10 @@ def hash(int hashbitlen, bytes data, int in_length):
     Used for testing purposes.
     '''
     cdef char* c_string = <char *> data
-    cdef jh_h.DataLength datalen = in_length
-    cdef jh_h.BitSequence *hashval = <jh_h.BitSequence *> malloc(hashbitlen*8)
+    cdef jh_hash_h.DataLength datalen = in_length
+    cdef jh_hash_h.BitSequence *hashval = <jh_hash_h.BitSequence *> malloc(hashbitlen*8)
 
-    jh_h.Hash(hashbitlen, <jh_h.BitSequence *> c_string, datalen, hashval)
+    jh_hash_h.Hash(hashbitlen, <jh_hash_h.BitSequence *> c_string, datalen, hashval)
 
     try:
         digest = [hashval[i] for i from 0 <= i < hashbitlen / 8]
@@ -28,16 +28,16 @@ cdef class jh:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    cdef jh_h.BitSequence *hashval
-    cdef jh_h.hashState previous_state
-    cdef jh_h.hashState state
+    cdef jh_hash_h.BitSequence *hashval
+    cdef jh_hash_h.hashState previous_state
+    cdef jh_hash_h.hashState state
     cdef int finished
     cdef int hashbitlen
 
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        jh_h.Init(&self.state, self.hashbitlen)
+        jh_hash_h.Init(&self.state, self.hashbitlen)
 
         if initial:
             self.update(initial)
@@ -45,21 +45,21 @@ cdef class jh:
     cpdef update(self, bytes in_data):
         cdef char* data = <char *> in_data
         cdef int data_len = len(in_data)*8
-
+        
         if self.finished:
             self.finished = 0
             self.state = self.previous_state
 
-        jh_h.Update(&self.state, <jh_h.BitSequence *> data, data_len)
+        jh_hash_h.Update(&self.state, <jh_hash_h.BitSequence *> data, data_len)
 
     cpdef final(self):
-        self.hashval = <jh_h.BitSequence *> malloc(self.hashbitlen*8)
+        self.hashval = <jh_hash_h.BitSequence *> malloc(self.hashbitlen*8)
 
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
-        jh_h.Final(&self.state, self.hashval)
+        jh_hash_h.Final(&self.state, self.hashval)
         self.finished = 1
 
     cpdef copy(self):
