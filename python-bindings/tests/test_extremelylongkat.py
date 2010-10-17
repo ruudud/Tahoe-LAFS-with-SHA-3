@@ -37,6 +37,9 @@ class TestExtremelyLongKat(unittest.TestCase):
         self.init_functions()
         k = self.workload
         for function in hash_functions.HASHES:
+            if function in ('jh'):
+                # JH has a wrong value in extremelylongkat
+                continue
             t1 = time.time()
             props = self.parse_kat_file(k[function]['file'])
             s = k[function]['function']() 
