@@ -52,7 +52,7 @@ class TestExtremelyLongKat(unittest.TestCase):
                     'Mismatch:\n%s\n%s\n%s ' %
                     (function,output,props['MD'].lower()))
 
-            print '%s: Tested ExtremelyLong ok took %0.3f ms' % (function,
+            print '\t%s: Tested ExtremelyLong ok took %0.3f ms' % (function,
                     (t2-t1)*1000.0)
             
 

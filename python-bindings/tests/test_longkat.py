@@ -28,7 +28,7 @@ class TestLongKat(unittest.TestCase):
             self.assertEquals(output_digest, kat[2],
                 'Mismatch:\n%s\n%s' % (to_test, kat[2]))
         t2 = time.time()
-        print '%s: Tested %i KATs took %0.3f ms' % (function_str, 
+        print '\t%s: Tested %i KATs took %0.3f ms' % (function_str, 
                 counter,(t2-t1)*1000.0)
 
     def test_if_the_kats_match(self):
