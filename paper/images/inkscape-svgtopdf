@@ -1,0 +1,1 @@
+# inkscape -D -z --file=file.svg --export-pdf=newfile.pdf
