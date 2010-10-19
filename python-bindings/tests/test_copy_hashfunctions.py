@@ -10,7 +10,7 @@ class HashCopyTester(unittest.TestCase):
         #print ""
         for r in hash_functions.HASHES:
             # simd and groestl segfaults
-            if r in ('simd','groestl'):
+            if r in ('simd',):
                 continue
             f = eval(r+'256')
             s = f('foo')
@@ -24,7 +24,7 @@ class HashCopyTester(unittest.TestCase):
         #print ""
         for r in hash_functions.HASHES:
             # simd and groestl segfaults
-            if r in ('simd','groestl'):
+            if r in ('simd',):
                 continue
             f = eval(r+'256')
             s = f('foo')
@@ -40,7 +40,7 @@ class HashCopyTester(unittest.TestCase):
         #print ""
         for r in hash_functions.HASHES:
             # a lot segfaults here
-            if r in ('simd','groestl'):
+            if r in ('simd',):
                 continue
             f = eval(r+'256')
             control = f('foobar').hexdigest()
@@ -56,7 +56,7 @@ class HashCopyTester(unittest.TestCase):
     def test_hashfunctions_support_copy_of_finished_hash(self):
         #print ""
         for r in hash_functions.HASHES:
-            if r in ('simd', 'groestl'):
+            if r in ('simd',):
                 continue
             f = eval(r+'256')
             orig = f('foobar')
@@ -71,7 +71,7 @@ class HashCopyTester(unittest.TestCase):
     def test_support_copy_and_update_of_finished_hash(self):
         #print ""
         for r in hash_functions.HASHES:
-            if r in ('simd', 'groestl'):
+            if r in ('simd',):
                 continue
             f = eval(r+'256')
             control = f('foobar').hexdigest()

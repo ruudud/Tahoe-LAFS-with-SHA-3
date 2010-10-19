@@ -1,5 +1,5 @@
 # encoding: utf-8
-cimport groestl_h
+cimport groestl_hash_h
 cimport cython
 
 from libc.stdlib cimport *
@@ -9,10 +9,10 @@ def hash(int hashbitlen, bytes data, int in_length):
     Used for testing purposes.
     '''
     cdef char* c_string = <char *> data
-    cdef groestl_h.DataLength datalen = in_length
-    cdef groestl_h.BitSequence *hashval = <groestl_h.BitSequence *> malloc(hashbitlen*8)
+    cdef groestl_hash_h.DataLength datalen = in_length
+    cdef groestl_hash_h.BitSequence *hashval = <groestl_hash_h.BitSequence *> malloc(hashbitlen*8)
 
-    groestl_h.Hash(hashbitlen, <groestl_h.BitSequence *> c_string, datalen, hashval)
+    groestl_hash_h.Hash(hashbitlen, <groestl_hash_h.BitSequence *> c_string, datalen, hashval)
 
     try:
         digest = [hashval[i] for i from 0 <= i < hashbitlen / 8]
@@ -28,16 +28,16 @@ cdef class groestl:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    cdef groestl_h.BitSequence *hashval
-    cdef groestl_h.hashState previous_state
-    cdef groestl_h.hashState state
+    cdef groestl_hash_h.BitSequence *hashval
+    cdef groestl_hash_h.hashState previous_state
+    cdef groestl_hash_h.hashState state
     cdef int finished
     cdef int hashbitlen
 
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        groestl_h.Init(&self.state, self.hashbitlen)
+        groestl_hash_h.Init(&self.state, self.hashbitlen)
 
         if initial:
             self.update(initial)
@@ -49,16 +49,17 @@ cdef class groestl:
         if self.finished:
             self.finished = 0
             self.state = self.previous_state
-        groestl_h.Update(&self.state, <groestl_h.BitSequence *> data, data_len)
+
+        groestl_hash_h.Update(&self.state, <groestl_hash_h.BitSequence *> data, data_len)
 
     cpdef final(self):
-        self.hashval = <groestl_h.BitSequence *> malloc(self.hashbitlen*8)
+        self.hashval = <groestl_hash_h.BitSequence *> malloc(self.hashbitlen*8)
 
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
-        groestl_h.Final(&self.state, self.hashval)
+        groestl_hash_h.Final(&self.state, self.hashval)
         self.finished = 1
 
     cpdef copy(self):
