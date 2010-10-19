@@ -10,6 +10,7 @@ from keccak.keccak import keccak
 from jh.jh_hash import jh
 from fugue.fugue_hash import fugue
 from shabal.shabal_hash import shabal
+from cubehash.cubehash_hash import cubehash
 
 from bmw.bmw import hash as bmw256hash
 from groestl.groestl_hash import hash as groestl256hash
@@ -23,7 +24,8 @@ from keccak.keccak import hash as keccak256hash
 from jh.jh_hash import hash as jh256hash
 from fugue.fugue_hash import hash as fugue256hash
 from shabal.shabal_hash import hash as shabal256hash
+from cubehash.cubehash_hash import hash as cubehash256hash
 
 # skein ignored due to possible wrong kat-files or implementation
 HASHES = ('bmw', 'echo', 'groestl', 'blake', 'luffa', 'shavite3', 'simd',
-'keccak','jh','fugue','shabal')
+'keccak','jh','fugue','shabal','cubehash')
