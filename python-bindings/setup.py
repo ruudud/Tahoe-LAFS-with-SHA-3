@@ -48,6 +48,9 @@ ext_modules = [
     Extension("sha3lib.hash_functions.cubehash.cubehash_hash",
         [hashpath+"cubehash/cubehash_hash.pyx",hashpath+"cubehash/sha3nist.c",
             hashpath+"cubehash/cubehash.c"],),
+    Extension("sha3lib.hash_functions.hamsi.hamsi_hash",
+        [hashpath+"hamsi/hamsi_hash.pyx",hashpath+"hamsi/sha3nist.c",
+            hashpath+"hamsi/hamsi.c",hashpath+"hamsi/hamsi_helper.c"],),
     ]
 #fugue_256.c  fugue_384.c  fugue_512.c
 class RunTests(Command):
@@ -123,6 +126,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/fugue/fugue_hash.c',
                 './sha3lib/hash_functions/shabal/shabal_hash.c',
                 './sha3lib/hash_functions/cubehash/cubehash_hash.c',
+                './sha3lib/hash_functions/hamsi/hamsi_hash.c',
                 ]
         self._clean_me.extend(manual_files)
 
@@ -170,6 +174,7 @@ setup(
         'sha3lib.hash_functions.jh',
         'sha3lib.hash_functions.fugue',
         'sha3lib.hash_functions.shabal',
+        'sha3lib.hash_functions.hamsi',
         ],
     #py_modules = ['sha3lib'],    
 )

@@ -1,6 +1,7 @@
 # coding: utf-8
 from hash_functions import(bmw,groestl,echo,blake,skein, 
-        luffa,shavite3,simd,keccak,jh,fugue,shabal,cubehash)
+        luffa,shavite3,simd,keccak,jh,fugue,shabal,cubehash,
+        hamsi)
 
 class bmw256(bmw):
     def __init__(self, initial=None):
@@ -53,3 +54,7 @@ class shabal256(shabal):
 class cubehash256(cubehash):
     def __init__(self, initial=None):
         super(cubehash256, self).__init__(256, initial)
+
+class hamsi256(hamsi):
+    def __init__(self, initial=None):
+        super(hamsi256, self).__init__(256, initial)
