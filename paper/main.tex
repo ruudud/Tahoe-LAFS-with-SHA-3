@@ -118,11 +118,11 @@ Paralellizing
 
 The Tahoe \ac{LAFS} is a system for secure,
 distributed data storage. Files are encrypted client side, then
-split up, before each part is sent to other nodes in the grid. The integrity and
-confidentiality of the files are guaranteed by the algorithms used on the
-client, and is independent of the storage servers, which may be operated by
-untrusted people. This is defined as \emph{provider-independent security}
-\cite{t_tahoe}.
+split up, before each part is sent to other nodes in the grid, as depicted in
+figure \ref{fig:tahoeinsertion}. The integrity and confidentiality of the files
+are guaranteed by the algorithms used on the client, and is independent of the
+storage servers, which may be operated by untrusted people. This is defined as
+\emph{provider-independent security} \cite{t_tahoe}.
 
 \begin{figure}[h!]
     \centering
@@ -137,6 +137,8 @@ Source\footnote{GNU General Public License (GPL) version 2} project \cite{t_ars}
 It is written in the Python programming language with the Twisted framework, and
 can run on Windows, Mac OSX, Linux, Solaris and more.
 
+
+
 \subsection{Erasure coding}
 
 The use of \emph{erasure coding} enables Tahoe to recover a file using only a
@@ -146,11 +148,25 @@ extends a message with $C$ characters into a longer message with $N$ symbols.
 The original $C$ characters can then be recovered from a subset of the $N$
 symbols.
 
+The properties of erasure coding can be seen up on as those of recovery in RAID
+systems.
+
 % TODO: comparison with RAID?
 
 \subsection{Use of secure hashes in Tahoe-LAFS}
 
-Where?
+% Describe hash trees in further detail?
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{Tahoe-hashing.pdf}
+    \caption{Tahoe-LAFS: Location of hashing}
+    \label{fig:tahoehashing}
+\end{figure}
+
+As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
+extensive in Tahoe, and has to be considered as a key part of the functionality.
+
 
 \section{Python bindings using Cython}
 %What is it, how, why, alternatives?
@@ -161,7 +177,7 @@ assembly. Therefore we need a way to make the implementations available in
 Python. There a several ways to do this. Python itself includes a C-API,  
 other options include SWIG, Cython and possible others.
 
-\subsection(Python C-API)
+\subsection{Python C-API}
 The Python C-API is the official method of creating C-bindings for Python. The
 procedure to do this includes writing entrypoints or wrappers for your C
 functions in C. Then, through compiling you can acess your C-libraries and
