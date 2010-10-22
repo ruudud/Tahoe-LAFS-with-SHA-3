@@ -9,12 +9,10 @@
 \usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
 
-% We need this to make it easier to ensure we start chapters on odd pages.
-\newcommand{\ensureodd}{
-    \newpage
-%    \thispagestyle{empty}
-    \mbox{}
-}
+% Set equal margins on book style
+% \usepackage{layout} % Use \layout to print out the margins (debug)
+\usepackage{geometry}
+\geometry{bindingoffset=1cm}
 
 \author{Eirik Haver \and Pål Ruud}
 \title{Project assignment - Tahoe-LAFS with SHA-3 candidates}
