@@ -1,7 +1,0 @@
-# ExtremelyLongMsgKAT.txt
-# Algorithm Name: SHAvite3
-# Principal Submitter: Eli Biham and Orr Dunkelman
-
-Repeat = 16777216
-Text = abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno
-MD = ??
