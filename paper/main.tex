@@ -2,6 +2,7 @@
 \usepackage[T1]{fontenc} % In case we want special characters
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
+\usepackage[numbers]{natbib}
 \usepackage{appendix} % Fixes formatting of appendices
 \usepackage[printonlyused]{acronym} % Package to handle the acronym list
 \usepackage{graphicx} % We *may* use images
@@ -164,26 +165,28 @@ interface to the directories and files.
 \subsection{Related technologies}
 
 Tahoe-\ac{LAFS} uses a number of techniques to realize the functionality
-demanded by a secure, distributed filesystem.
+needed by a secure, distributed filesystem.
 
 \paragraph{Erasure coding.}
 
 When a client puts a file on the grid, it first encrypts the file, before
-breaking the file into small segments. The segments are then erasure coded.
-The use of \emph{erasure coding} enables Tahoe to recover a file using only a
-predefined subset of the parts distributed to the storage servers, i.e. the
-other nodes in the grid. Erasure coding is a type of \ac{FEC} code, which
-extends a message with $C$ characters into a longer message with $N$ symbols
-\cite{t_reed-solomon}.
-The original $C$ characters can then be recovered from a subset of the $N$
-symbols.
+breaking the file into small segments. The segments are then \emph{erasure
+coded}.  The use of the Solomon-Reed erasure coding scheme, enables Tahoe to
+recover a file using only a predefined subset of the parts distributed to the
+storage servers, i.e. the other nodes in the grid. Erasure coding is a type of
+\ac{FEC} code, which extends a message with $C$ characters into a longer message
+with $N$ symbols \cite{t_reed-solomon}.  The original $C$ characters can then be
+recovered from a subset of the $N$ symbols.
 
-The properties of erasure coding can be seen up on as those of recovery in RAID
-systems. \cite{t_erasure} % TODO: comparison with RAID
+The properties of erasure coding can be thought of as those of parity bits in
+RAID\footnote{Redundant Array of Independent Disks} systems. \citet*{t_erasure}
+compare erasure coding and plain replication, and conclude that ``\emph{...
+erasure codes have mean time to failures many orders of magnitude higher than
+replicated systems with similar storage and bandwidth requirements.}''
 
 \paragraph{Merkle hash trees.}
 
-Describe hash trees in further detail?
+%TODO: Describe hash trees in further detail?
 
 \subsection{Use of secure hashes in Tahoe-LAFS}
 
@@ -268,7 +271,7 @@ New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
 
 
 % BibTeX bibliography lives in external file
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{ref_sha3,ref_tahoe}
 
 \appendix
