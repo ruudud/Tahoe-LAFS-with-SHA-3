@@ -184,9 +184,22 @@ compare erasure coding and plain replication, and conclude that ``\emph{...
 erasure codes have mean time to failures many orders of magnitude higher than
 replicated systems with similar storage and bandwidth requirements.}''
 
-\paragraph{Merkle hash trees.}
+\paragraph{Hash Trees.}
 
-%TODO: Describe hash trees in further detail?
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{Tahoe-MerkleTree.pdf}
+    \caption{Example of a Merkle tree.}
+    \label{fig:tahoemerkletree}
+\end{figure}
+
+A hash tree, also known as \emph{Merkle tree}, is a type of data structure
+which can be described as a tree with nodes that can verify all information
+below in the hierarchy, as depicted in figure \ref{fig:tahoemerkletree}. This
+enables Tahoe to verify small segments of a file at the time, and this can be
+used for instance to start playing a movie file while it is still being
+downloaded.
+
 
 \subsection{Use of secure hashes in Tahoe-LAFS}
 
