@@ -2,6 +2,7 @@
 \usepackage[T1]{fontenc} % In case we want special characters
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
+\usepackage[numbers]{natbib}
 \usepackage{appendix} % Fixes formatting of appendices
 \usepackage[printonlyused]{acronym} % Package to handle the acronym list
 \usepackage{graphicx} % We *may* use images
@@ -154,31 +155,76 @@ storage servers, which may be operated by untrusted people. This is defined as
 
 Tahoe was originally developed with funding from the former commercial web
 backup service provider Allmydata, but is now a stand-alone Open
-Source\footnote{GNU General Public License (GPL) version 2} project \cite{t_ars}.
-It is written in the Python programming language with the Twisted framework, and
-can run on Windows, Mac OSX, Linux, Solaris and more.
+Source\footnote{GNU General Public License (GPL) version 2} project
+\cite{t_ars}.  It is written in the Python programming language with the Twisted
+framework, and can run on Windows, Mac OSX, Linux, Solaris and more.
 
+\subsection{Architecture}
 
+Tahoe has a three layer architecture: the key-value store, the filesystem, and
+the application.
 
-\subsection{Erasure coding}
+The \textbf{key-value store}, or the ``capability-data bytes'' store, is the
+lowest layer and is implemented by a grid of Tahoe-LAFS storage servers. Data is
+kept on the storage servers in the form of ``shares'', which are encrypted and
+encoded parts of files. Capabilities are short ASCII strings, containing
+information on where to \emph{find} a file, and how to \emph{verify} it.
+Nodes in the grid learn about each other through an ``introducer'', which
+roughly relates to a tracker in the BitTorrent\footnote{See
+\url{http://www.bittorrent.org/beps/bep\_0003.html}} protocol.
 
-The use of \emph{erasure coding} enables Tahoe to recover a file using only a
-predefined subset of the parts distributed to the storage servers, i.e. the
-other nodes in the grid. Erasure coding is a type of \ac{FEC} code, which
-extends a message with $C$ characters into a longer message with $N$ symbols.
-The original $C$ characters can then be recovered from a subset of the $N$
-symbols.
+The \textbf{filesystem} layer is responsible for mapping human-meaningful
+pathnames to pieces of data. Each directory contains a table of capabilities
+for its children, i.e. subdirectories or files. Two forms of capabilities is
+available for each file, read-only and read-write, and these can be shared to
+provide shared/published directory structures with friends.
 
-The properties of erasure coding can be seen up on as those of recovery in RAID
-systems.
+Since it is not practical for users to remember strings containing random
+characters, the \textbf{application} layer is used for providing a user-friendly
+interface to the directories and files.
 
-% TODO: comparison with RAID?
+\subsection{Related technologies}
+
+Tahoe-\ac{LAFS} uses a number of techniques to realize the functionality
+needed by a secure, distributed filesystem.
+
+\paragraph{Erasure coding.}
+
+When a client puts a file on the grid, it first encrypts the file, before
+breaking the file into small segments. The segments are then \emph{erasure
+coded}.  The use of the Solomon-Reed erasure coding scheme, enables Tahoe to
+recover a file using only a predefined subset of the parts distributed to the
+storage servers, i.e. the other nodes in the grid. Erasure coding is a type of
+\ac{FEC} code, which extends a message with $C$ characters into a longer message
+with $N$ symbols \cite{t_reed-solomon}.  The original $C$ characters can then be
+recovered from a subset of the $N$ symbols.
+
+The properties of erasure coding can be thought of as those of parity bits in
+RAID\footnote{Redundant Array of Independent Disks} systems. \citet*{t_erasure}
+compare erasure coding and plain replication, and conclude that ``\emph{...
+erasure codes have mean time to failures many orders of magnitude higher than
+replicated systems with similar storage and bandwidth requirements.}''
+
+\paragraph{Hash Trees.}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{Tahoe-MerkleTree.pdf}
+    \caption{Example of a Merkle tree.}
+    \label{fig:tahoemerkletree}
+\end{figure}
+
+A hash tree, also known as \emph{Merkle tree}, is a type of data structure
+which can be described as a tree with nodes that can verify all information
+below in the hierarchy, as depicted in figure \ref{fig:tahoemerkletree}. This
+enables Tahoe to verify small segments of a file at the time, and this can be
+used for instance to start playing a movie file while it is still being
+downloaded.
+
 
 \subsection{Use of secure hashes in Tahoe-LAFS}
 
-% Describe hash trees in further detail?
-
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.9\columnwidth]{Tahoe-hashing.pdf}
     \caption{Tahoe-LAFS: Location of hashing}
@@ -259,7 +305,7 @@ New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
 
 
 % BibTeX bibliography lives in external file
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{ref_sha3,ref_tahoe}
 
 \appendix
