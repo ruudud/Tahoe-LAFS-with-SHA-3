@@ -45,8 +45,11 @@
 
 \begin{acronym}
 \acro{AES}{Advanced Encryption Standard}
-\acro{LAFS}{Least-Authority Filesystem}
 \acro{FEC}{Forward Error Correction}
+\acro{LAFS}{Least-Authority Filesystem}
+\acro{NIST}{National Institute of Standards and Technology}
+\acro{RAM}{Random Access Memory}
+\acro{SHA}{Secure Hash Algorithm}
 \end{acronym}
 
 \chapter{Introduction}
@@ -73,6 +76,7 @@ What follows in this document, chapter by chapter
 % Find new and better title
 
 \section{Cryptographic Hash Functions}
+% Get a source for this %
 A Cryptographic Hash function is a deterministic mathematical procedure which
 takes an arbritary block of data and outputs a fixed-size bit string. The
 output is refered to as the hash value, message digest or simply digest.
@@ -83,20 +87,37 @@ cryptographic hash function. It should also be infeasible to find two blocks of
 data which produce the same hash value (a collision).
 
 \subsection{NIST SHA-3 Competition}
-% Hash functions, NIST Comptetition, Candidates, SuperCop?
-The Secure Hash Function version 3 (SHA-3) is a comming standard cryptographic
-hash function set to replace the current standards SHA-1 and SHA-2.
-It will be selected from a competition held by the National
-Institute of Standards and Technology (NIST). The competition started in 2006
-with submission deadline for candidates at the end of 2008. 51 candidates made
-it into round 1, however just 14 passed to the second round. The reason for not
-passing round 1 are either design weaknesses, substantial cryptographic
-weaknesses or performance issues. The winner is sceduled to be selected by the 
-2nd quarter of 2012.
+The \ac{SHA} version 3 is a comming standard set to superceed the current
+standards \ac{SHA}-1 and \ac{SHA}-2 families. The hash function to become
+\ac{SHA}-3 will be decided by \ac{NIST} and choosen between the submitted
+contestants to the \ac{NIST} hash competition. The current status of the 
+competition is officially called Round 2, with 14 of 64 candidates having 
+survived round 1\cite{s_fedreg}. 
 
-The submissions for the various rounds of the SHA-3 competition include
-reference implementations, optimized implementations, test-vectors to verify
-implementations and documentations explaining the submission.
+\subsubsection{\ac{NIST} evaluation criterias for \ac{SHA}-3}
+
+\paragraph{Security} is the most important criteria for the SHA-3
+candidates\cite{s_nistround2}. The full description of security criterias are
+mentioned in \cite{s_fedreg}, however the most noteworthy criteria in regards
+to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
+resistance against length-extension attacks. Length-extension attacks is
+something that both \ac{SHA}-1 and the \ac{SHA2}-family suffers
+from\cite{s_mdre}.
+
+\paragraph{Cost and Performance} are considered to be the 2nd most important
+criteria. The absolute minimum for performance is that the SHA-3 candidate
+should be faster than the functions in the \ac{SHA}-2 family. Cost is a measure
+of how much memory an implementation requires in software, both the 
+implementation itself and the use of \ac{RAM} during runtime. Another measure
+of cost is how many logic gates it takes to implement the function in hardware.
+
+\paragraph{Algorithm and implementation characteristics} is the third criteria.
+By this criteria \ac{NIST} emphasis that algorithms with greater flexbility
+will be given preference over other algorithms\cite{s_nistround2}. By flexible
+they imply the possiblity of the function to run efficiently on a varity of
+plattforms, to use parallelism or instruction set extensions. Another key point
+of a flexible hash function is that it should have a simple and elegant design
+to encourage understanding, analysis and design confidence.
 
 \subsection{SuperCop}
 Supercop is a toolkit developed by VAMPIRE lab for measuring performance of
