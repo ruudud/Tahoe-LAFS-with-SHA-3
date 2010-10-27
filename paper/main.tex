@@ -89,7 +89,7 @@ data which produce the same hash value (a collision).
 
 \subsection{NIST SHA-3 Competition}
 The \ac{SHA} version 3 is a comming standard set to superceed the current
-standards \ac{SHA}-1 and \ac{SHA}-2 families. The hash function to become
+standards \ac{SHA}-1 and the \ac{SHA}-2 family. The hash function to become
 \ac{SHA}-3 will be decided by \ac{NIST} and choosen between the submitted
 contestants to the \ac{NIST} hash competition. The current status of the 
 competition is officially called Round 2, with 14 of 64 candidates having 
@@ -101,9 +101,8 @@ survived round 1\cite{s_fedreg}.
 candidates\cite{s_nistround2}. The full description of security criterias are
 mentioned in \cite{s_fedreg}, however the most noteworthy criteria in regards
 to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
-resistance against length-extension attacks. Length-extension attacks is
-something that both \ac{SHA}-1 and the \ac{SHA2}-family suffers
-from\cite{s_mdre}.
+resistance against length-extension attacks. Both \ac{SHA}-1 and the \ac{SHA}-2
+family are vulnerable to this attack\cite{s_mdre}.
 
 \paragraph{Cost and Performance} are considered to be the 2nd most important
 criteria. The absolute minimum for performance is that the SHA-3 candidate
