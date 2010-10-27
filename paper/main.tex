@@ -250,33 +250,33 @@ As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
 extensive in Tahoe, and has to be considered as a key part of the functionality.
 
 
-\section{Python bindings using Cython}
+\section{Python and Cython}
 %What is it, how, why, alternatives?
-% TODO: Hvorfor er nedenfornevnte i ASM eller C?
-TAHOE-LAFS is written in python, but the SHA-3 candidate implementations found
-in both the official NIST submissions and supercop are either in C or in
-assembly. Therefore we need a way to make the implementations available in
-Python. There a several ways to do this. Python itself includes a C-API,  
-other options include SWIG, Cython and possible others.
+% TODO: Finn en kilde på pythonting, om det trengs?
+Python\footnote{\url{http://www.python.org}} is a high-level general-purpose
+programming language. Python is also an interpreted language, which means that
+python programs are compiled at runtime.  There exists multiple implementations
+of Python, however the most common, CPython, is implemented in C. The fact that
+Python is a high-level language usually means that there is performance penalty
+in contrast with lower level languages, shuch as C. To remedy this problem it
+is possible to write extensions to the language by using the official C-API.
+This approach has been used by several cryptographic libraries for python such
+as the official hashlib\footnote{\url{http://code.krypto.org/python/hashlib/}}
+and pycryptopp\footnote{\url{http://tahoe-lafs.org/trac/pycryptopp}}.
 
-\subsection{Python C-API}
-The Python C-API is the official method of creating C-bindings for Python. The
-procedure to do this includes writing entrypoints or wrappers for your C
-functions in C. Then, through compiling you can acess your C-libraries and
-functions through Python. The drawback with this approach, when faced with an
-already existing C-library is that you have to actually write the
-wrapper-functions or modify the C-library.
+Tahoe-\ac{LAFS} is written in python, but the SHA-3 candidate implementations found
+in both the official NIST submissions and supercop are either in C or in
+assembly. Therefore it is necessary to either implement the functions in python
+or make extensions to python through the C-API. Where extensions should give
+the best performance. % TODO: KILDE? 
 
 \subsection{Cython}
-Cython tries to solve the problem of binding C-libraries and functions by the
-use of Python instead of the use of C which the official API does. This is done
-by only defining the entrypoints to the required C-functions and datatypes in a
-Python/C/C++ hybrid syntax. Cython also allows creating new C/C++ functions,
-available or not available to Python, in the same syntax. Cython works by
-transforming the hybrid syntax into C/C++-code which utilises the official
-Python C-API and compiling that. An expected tradeoff by using Cython is a
-performance drop due to the extra layer of abstraction.
-
+Cython\footnote{\url{http://www.cython.org}} is a language for writing Python
+extensions in a language that closely resembles the Python language itself.
+Basically what Cython does is to parse cython files and generate C source files
+that utilises the Python C-API. Afterwards the generated source files can be
+compiled as if they were written directly in C. A small performance tradeoff is
+to be expected from this, due to the extra layer of abstraction.
 
 \chapter{Procedure}
 
