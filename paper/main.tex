@@ -177,7 +177,7 @@ framework, and can run on Windows, Mac OSX, Linux, Solaris and more.
 \subsection{Architecture}
 
 Tahoe has a three layer architecture: the key-value store, the filesystem, and
-the application.
+the application \cite{t_tahoe}.
 
 The \textbf{key-value store}, or the ``capability-data bytes'' store, is the
 lowest layer and is implemented by a grid of Tahoe-LAFS storage servers. Data is
@@ -198,10 +198,10 @@ Since it is not practical for users to remember strings containing random
 characters, the \textbf{application} layer is used for providing a user-friendly
 interface to the directories and files.
 
-\subsection{Related technologies}
+\paragraph{File types.}
 
-Tahoe-\ac{LAFS} uses a number of techniques to realize the functionality
-needed by a secure, distributed filesystem.
+There are two kinds of files in the Tahoe-\ac{LAFS} -- \textbf{immutable} and
+\textbf{mutable} files.
 
 \paragraph{Erasure coding.}
 
@@ -220,6 +220,21 @@ compare erasure coding and plain replication, and conclude that ``\emph{...
 erasure codes have mean time to failures many orders of magnitude higher than
 replicated systems with similar storage and bandwidth requirements.}''
 
+\subsection{Use of secure hashes in Tahoe-LAFS}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{Tahoe-hashing.pdf}
+    \caption{Tahoe-LAFS: Location of hashing.}
+    \label{fig:tahoehashing}
+    \emph{Figure from
+     \href{http://tahoe-lafs.org/source/tahoe/trunk/docs/specifications/mut.svg}
+     {tahoe-lafs.org}}
+\end{figure}
+
+As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
+extensive in Tahoe, and has to be considered as a key part of the functionality.
+
 \paragraph{Hash Trees.}
 
 \begin{figure}[h]
@@ -236,19 +251,17 @@ enables Tahoe to verify small segments of a file at the time, and this can be
 used for instance to start playing a movie file while it is still being
 downloaded.
 
+\paragraph{Encryption key.}
 
-\subsection{Use of secure hashes in Tahoe-LAFS}
+\paragraph{Ciphertext and shares.}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\columnwidth]{Tahoe-hashing.pdf}
-    \caption{Tahoe-LAFS: Location of hashing}
-    \label{fig:tahoehashing}
-\end{figure}
+Stored in Capability/URI Extension Block.
+URI Extension Block $=$ Root hash $+$ file size $+$ encoding parameters.
+URI / File read cap = Hash of UEB $+ K_c$
 
-As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
-extensive in Tahoe, and has to be considered as a key part of the functionality.
+\paragraph{Storage Index.}
 
+file-encoding1.svg
 
 \section{Python and Cython}
 %What is it, how, why, alternatives?
