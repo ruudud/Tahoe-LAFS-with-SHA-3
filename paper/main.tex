@@ -51,6 +51,10 @@
 \acro{NIST}{National Institute of Standards and Technology}
 \acro{RAM}{Random Access Memory}
 \acro{SHA}{Secure Hash Algorithm}
+\acro{SSE2}{Streaming SIMD Extensions 2}
+\acro{SSSE3}{Supplemental Streaming SIMD Extensions 3}
+\acro{SUPERCOP}{System for Unified Performance Evaluation Related to
+Cryptographic Operations and Primitives}
 \end{acronym}
 
 \chapter{Introduction}
@@ -119,19 +123,31 @@ plattforms, to use parallelism or instruction set extensions. Another key point
 of a flexible hash function is that it should have a simple and elegant design
 to encourage understanding, analysis and design confidence.
 
-\subsection{SuperCop}
-Supercop is a toolkit developed by VAMPIRE lab for measuring performance of
-cryptographic software, among them the SHA-3 candidates. While security is a
-primary goal of a hash function, performance can not be neglected if the hash
-function should be taken into use. The difference between the implementations
-in the official submissions and in supercop is first that the supercop
-implementation are continiously updated and that there are more specific
-hardwareimplementations available in supercop.
+\subsection{\ac{SUPERCOP}}
+% TODO: Sjekk hvordan det er med sitering her
+\ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
+of cryptographic software\cite{s_supercop}. In relation to hash functions
+\ac{SUPERCOP} measures the following:
 
-Results by the supercop are published at (URL).
+\begin{itemize}
+    \item Time to hash a very short packet of data
+    \item Time to hash a typical-size Internet packet
+    \item Time to hash a long message
+    \item Length of the hash output
+\end{itemize}
 
+The round 2 \ac{SHA}-3 candidates are all included in the toolkit, with a
+number of different optimalizations for each candidate. Optimalizations range
+from 32-/64-bit optimalizations, the use of extended instruction sets such as
+\ac{SSE2} and \ac{SSSE3}, optimalizations for different number of cores and
+others. Also the toolkit will try different compiler-optimalizations to get the
+best results possible for each function.
+% Skal jeg sitere kildekode her?
 
-Paralellizing
+The benchmarking results for the \ac{SUPERCOP} toolkit of \ac{SHA}-3 candidates
+and \ac{SHA}-2 functions on a number of different plattforms and architectures 
+are available at
+\footnote{\url{http://bench.cr.yp.to/results-sha3.html}}
 
 \section{Tahoe-LAFS}
 %What is it, how/where are hash functions used, Python, pycryptopp
