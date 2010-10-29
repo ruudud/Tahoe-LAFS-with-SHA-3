@@ -4,6 +4,7 @@ from sha3lib import hash_functions
 from sha3lib import *
 from os import path
 import time
+from pycryptopp.hash.sha256 import SHA256 as sha256
 
 class TestExtremelyLongKat(unittest.TestCase):
 
@@ -54,8 +55,17 @@ class TestExtremelyLongKat(unittest.TestCase):
 
             print '\t%s: Tested ExtremelyLong ok took %0.3f ms' % (function,
                     (t2-t1)*1000.0)
-            
 
+        # Faker en sha256 for å sjekke output
+        s = sha256()
+        t1 = time.time()
+        for l in xrange(int(props['Repeat'])):
+            s.update(props['Text'])
+        output = s.hexdigest()
+        t2 = time.time()
+       
+        print '\t%s: Tested ExtremelyLong ok took %0.3f ms' % ('sha256',
+                    (t2-t1)*1000.0)
 
 if __name__ == '__main__':
     unittest.main()
