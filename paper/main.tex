@@ -2,7 +2,7 @@
 \usepackage[T1]{fontenc} % In case we want special characters
 \usepackage[utf8]{inputenc} % We are all writing in UTF-8
 
-\usepackage[numbers]{natbib}
+\usepackage[numbers]{natbib} % We need to tweak our referencing a bit.
 \usepackage{appendix} % Fixes formatting of appendices
 \usepackage[printonlyused]{acronym} % Package to handle the acronym list
 \usepackage{graphicx} % We *may* use images
@@ -46,15 +46,18 @@
 
 \begin{acronym}
 \acro{AES}{Advanced Encryption Standard}
+\acro{CEB}{Capability Extension Block}
 \acro{FEC}{Forward Error Correction}
 \acro{LAFS}{Least-Authority Filesystem}
 \acro{NIST}{National Institute of Standards and Technology}
 \acro{RAM}{Random Access Memory}
+\acro{RAID}{Redundant Array of Independent Disks}
 \acro{SHA}{Secure Hash Algorithm}
 \acro{SSE2}{Streaming SIMD Extensions 2}
 \acro{SSSE3}{Supplemental Streaming SIMD Extensions 3}
 \acro{SUPERCOP}{System for Unified Performance Evaluation Related to
 Cryptographic Operations and Primitives}
+\acro{UEB}{URI Extension Block}
 \end{acronym}
 
 \chapter{Introduction}
@@ -218,15 +221,15 @@ storage servers, i.e. the other nodes in the grid. Erasure coding is a type of
 with $N$ symbols \cite{t_reed-solomon}.  The original $C$ characters can then be
 recovered from a subset of the $N$ symbols.
 
-The properties of erasure coding can be thought of as those of parity bits in
-RAID\footnote{Redundant Array of Independent Disks} systems. \citet*{t_erasure}
-compare erasure coding and plain replication, and conclude that ``\emph{...
-erasure codes have mean time to failures many orders of magnitude higher than
-replicated systems with similar storage and bandwidth requirements.}''
+The properties of erasure coding can be thought of as those of replication in
+\acsu{RAID} systems. \citet*{t_erasure} compare erasure coding and plain
+replication, and conclude that ``\emph{...  erasure codes have mean time to
+failures many orders of magnitude higher than replicated systems with similar
+storage and bandwidth requirements.}''
 
 \subsection{Use of secure hashes in Tahoe-LAFS}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.9\columnwidth]{Tahoe-hashing.pdf}
     \caption{Tahoe-LAFS: Hashing operations in mutable files.}
@@ -237,7 +240,8 @@ replicated systems with similar storage and bandwidth requirements.}''
 \end{figure}
 
 As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
-extensive in Tahoe, and has to be considered as a key part of the functionality.
+extensive in Tahoe, and has to be considered as a key part of the functionality,
+and thus affecting the performance.
 
 \paragraph{Hash Trees.}
 
@@ -248,24 +252,36 @@ extensive in Tahoe, and has to be considered as a key part of the functionality.
     \label{fig:tahoemerkletree}
 \end{figure}
 
-A hash tree, also known as \emph{Merkle tree}, is a type of data structure
+A hash tree, also known as a \emph{Merkle tree}, is a type of data structure
 which can be described as a tree with nodes that can verify all information
 below in the hierarchy, as depicted in figure \ref{fig:tahoemerkletree}. This
 enables Tahoe to verify small segments of a file at the time, and this can be
 used for instance to start playing a movie file while it is still being
 downloaded.
 
-\paragraph{Encryption key.}
+These secure hashes of the shares of a file, are contained within a small
+datastructure named the \emph{\ac{CEB}}.
 
-\paragraph{Ciphertext and shares.}
+\paragraph{Capabilities.}
 
-Stored in Capability/URI Extension Block.
-URI Extension Block $=$ Root hash $+$ file size $+$ encoding parameters.
-URI / File read cap = Hash of UEB $+ K_c$
+A \textbf{capability} (or an URI) contains the encryption key, and a hash of the
+\emph{\ac{UEB}}. The \ac{UEB} for each file is a data structure containing the
+hash of the \ac{CEB}, the size of the file, any encoding parameters necessary to
+perform the erasure decoding, and a hash of the plaintext and the encrypted
+text. This is illustrated in figure \ref{fig:tahoeueb}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{Tahoe-UEB.pdf}
+    \caption{The composition of an \ac{UEB}.}
+    \label{fig:tahoeueb}
+\end{figure}
 
 \paragraph{Storage Index.}
 
-file-encoding1.svg
+A hash of the encryption key is used to form the "storage index", which is
+used for both server selection and to index shares within each storage node.
+% More here?
 
 \section{Python and Cython}
 %What is it, how, why, alternatives?
