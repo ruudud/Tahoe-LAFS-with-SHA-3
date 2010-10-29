@@ -201,7 +201,11 @@ interface to the directories and files.
 \paragraph{File types.}
 
 There are two kinds of files in the Tahoe-\ac{LAFS} -- \textbf{immutable} and
-\textbf{mutable} files.
+\textbf{mutable} files. An immutable file is created exactly once, i.e. it
+cannot be modified, and can be read repeatedly. Mutable files can be modified,
+and everyone who has access to the \emph{signing key} can make new versions of
+the mutable file.
+%More text here?
 
 \paragraph{Erasure coding.}
 
@@ -225,7 +229,7 @@ replicated systems with similar storage and bandwidth requirements.}''
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\columnwidth]{Tahoe-hashing.pdf}
-    \caption{Tahoe-LAFS: Location of hashing.}
+    \caption{Tahoe-LAFS: Hashing operations in mutable files.}
     \label{fig:tahoehashing}
     \emph{Figure from
      \href{http://tahoe-lafs.org/source/tahoe/trunk/docs/specifications/mut.svg}
