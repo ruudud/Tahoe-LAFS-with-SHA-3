@@ -15,7 +15,7 @@ for ftype in ${file_types[*]}; do
     counter=1
     for file in $files; do
         tahoe cp $file tahoe: > /dev/null
-        echo $ftype '-get: ' $counter '/' $total
+        echo $ftype '-put: ' $counter '/' $total
         let counter=counter+1
     done
 
@@ -27,7 +27,7 @@ for ftype in ${file_types[*]}; do
     counter=1
     for file in $files; do
         tahoe cp tahoe:$file /tmp/$ftype/$file > /dev/null
-        echo $ftype '-put: ' $counter '/' $total
+        echo $ftype '-get: ' $counter '/' $total
         let counter=counter+1
     done
 
