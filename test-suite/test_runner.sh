@@ -10,9 +10,13 @@ for ftype in ${file_types[*]}; do
     echo '0' > /tmp/number_of_hashops
 
     files=`ls $ftype*`
+    total=`ls $ftype* | wc -l`
 
+    counter=1
     for file in $files; do
-        tahoe cp $file tahoe:
+        tahoe cp $file tahoe: > /dev/null
+        echo $ftype '-get: ' $counter '/' $total
+        let counter=counter+1
     done
 
     cp /tmp/time_spent_hashing ./$ftype\_tshp.txt
@@ -20,9 +24,11 @@ for ftype in ${file_types[*]}; do
     echo '0' > /tmp/time_spent_hashing
     echo '0' > /tmp/number_of_hashops
 
+    counter=1
     for file in $files; do
-        #tahoe get $file > /dev/null
-        tahoe cp tahoe:$file /tmp/$ftype/$file
+        tahoe cp tahoe:$file /tmp/$ftype/$file > /dev/null
+        echo $ftype '-put: ' $counter '/' $total
+        let counter=counter+1
     done
 
     cp /tmp/time_spent_hashing ./$ftype\_tshg.txt
