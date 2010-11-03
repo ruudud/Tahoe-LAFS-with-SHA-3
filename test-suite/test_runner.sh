@@ -3,6 +3,7 @@
 # Requires that the grid is up and running, and
 # that there exists an tahoe alias named 'tahoe'
 
+mkdir ./logs
 file_types=(1b 1kb 1mb 100mb 1gb)
 
 for ftype in ${file_types[*]}; do
@@ -19,8 +20,8 @@ for ftype in ${file_types[*]}; do
         let counter=counter+1
     done
 
-    cp /tmp/time_spent_hashing ./$ftype\_tshp.txt
-    cp /tmp/number_of_hashops ./$ftype\_nohashopsp.txt
+    cp /tmp/time_spent_hashing ./logs/$ftype\_tshp.txt
+    cp /tmp/number_of_hashops ./logs/$ftype\_nohashopsp.txt
     echo '0' > /tmp/time_spent_hashing
     echo '0' > /tmp/number_of_hashops
 
@@ -31,6 +32,6 @@ for ftype in ${file_types[*]}; do
         let counter=counter+1
     done
 
-    cp /tmp/time_spent_hashing ./$ftype\_tshg.txt
-    cp /tmp/number_of_hashops ./$ftype\_nohashopsg.txt
+    cp /tmp/time_spent_hashing ./logs/$ftype\_tshg.txt
+    cp /tmp/number_of_hashops ./logs/$ftype\_nohashopsg.txt
 done
