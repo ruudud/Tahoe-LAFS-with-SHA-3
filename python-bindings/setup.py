@@ -175,6 +175,7 @@ setup(
         'sha3lib.hash_functions.fugue',
         'sha3lib.hash_functions.shabal',
         'sha3lib.hash_functions.hamsi',
+        'sha3lib.hash_functions.cubehash',
         ],
     #py_modules = ['sha3lib'],    
 )
