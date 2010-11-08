@@ -28,11 +28,12 @@ cdef class bmw:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    cpdef bmw_h.BitSequence *hashval
-    cpdef bmw_h.hashState previous_state
-    cpdef bmw_h.hashState state
-    cpdef int finished
-    cpdef int hashbitlen
+    #cpdef bmw_h.BitSequence *hashval
+    cdef bmw_h.hashState previous_state
+    cdef bmw_h.hashState state
+    cdef int finished
+    cdef int hashbitlen
+    cdef list hashval
 
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
@@ -52,14 +53,17 @@ cdef class bmw:
         bmw_h.Update(&self.state, <bmw_h.BitSequence *> data, data_len)
 
     cpdef final(self):
-        self.hashval = <bmw_h.BitSequence *> malloc(self.hashbitlen*8)
+        cdef bmw_h.BitSequence *hashval = <bmw_h.BitSequence *> malloc(self.hashbitlen*8)
 
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
-        bmw_h.Final(&self.state, self.hashval)
+        bmw_h.Final(&self.state, hashval)
         self.finished = 1
+
+        self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
+        free(hashval)
 
     cpdef copy(self):
         s = bmw(self.hashbitlen)
@@ -74,14 +78,10 @@ cdef class bmw:
         if not self.finished:
             self.final()
 
-        digest = [self.hashval[i] for i from 0 <= i < self.hashbitlen / 8]
-        return ''.join(map(chr, digest))
+        return ''.join(map(chr, self.hashval))
 
     def hexdigest(self):
         if not self.finished:
             self.final()
 
-        digest = [self.hashval[i] for i from 0 <= i < self.hashbitlen / 8]
-
-        # Return a hex string using str format specification
-        return ''.join(['%02x' % i for i in digest])
+        return ''.join(['%02x' % i for i in self.hashval])
