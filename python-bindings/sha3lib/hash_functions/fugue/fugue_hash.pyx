@@ -62,10 +62,10 @@ cdef class fugue:
 
         fugue_hash_h.Final(&self.state, hashval)
         self.finished = 1
-
+        
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
         free(hashval)
-    
+
     cpdef copy(self):
         s = fugue(self.hashbitlen)
         s.state = self.state

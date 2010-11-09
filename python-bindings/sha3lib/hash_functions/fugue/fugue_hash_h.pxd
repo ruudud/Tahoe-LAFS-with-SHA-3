@@ -1,4 +1,4 @@
-cdef extern from "SHA3api_ref.h":
+cdef extern from "sha3nist.h":
     ctypedef unsigned char BitSequence
     ctypedef unsigned long long DataLength
 
@@ -6,11 +6,11 @@ cdef extern from "SHA3api_ref.h":
         SUCCESS = 0
         FAIL = 1
         BAD_HASHLEN = 2
-    
+
     ctypedef struct hashState:
         pass
 
-    HashReturn Hash(int hasbitlen, BitSequence *data, DataLength databitlen, BitSequence *hashval)
+    HashReturn Hash(int, BitSequence *data, DataLength, BitSequence *hashval)
     HashReturn Init(hashState *state, int hashbitlen)
     HashReturn Update(hashState *state, BitSequence *data, DataLength databitlen)
     HashReturn Final(hashState *state, BitSequence *hashval)
