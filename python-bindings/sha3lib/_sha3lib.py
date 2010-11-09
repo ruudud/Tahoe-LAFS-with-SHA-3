@@ -1,7 +1,6 @@
 # coding: utf-8
-from hash_functions import(bmw,groestl,echo,blake,skein, 
-        luffa,shavite3,simd,keccak,jh,fugue,shabal,cubehash,
-        hamsi)
+from hash_functions import (bmw, groestl, echo, blake, skein, luffa, shavite3,
+                            simd, keccak,jh,fugue,shabal,cubehash, hamsi)
 
 class bmw256(bmw):
     def __init__(self, initial=None):

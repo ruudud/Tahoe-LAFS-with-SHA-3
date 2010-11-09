@@ -60,11 +60,14 @@ Cryptographic Operations and Primitives}
 \acro{UEB}{URI Extension Block}
 \end{acronym}
 
+%**************************************%
 \chapter{Introduction}
+%**************************************%
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-Thorough problem description
+Thorough problem description. \\
+Stepwise, what will we actually do?
 
 \section{Method}
 
@@ -79,9 +82,10 @@ Should we include this?
 
 What follows in this document, chapter by chapter
 
-
+%**************************************%
 \chapter{Background technologies}
-% Find new and better title
+%**************************************%
+% FIXME: Find new and better title
 
 \section{Cryptographic Hash Functions}
 % Get a source for this %
@@ -127,7 +131,7 @@ of a flexible hash function is that it should have a simple and elegant design
 to encourage understanding, analysis and design confidence.
 
 \subsection{\ac{SUPERCOP}}
-% TODO: Sjekk hvordan det er med sitering her
+% TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 \ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
 of cryptographic software\cite{s_supercop}. In relation to hash functions
 \ac{SUPERCOP} measures the following:
@@ -146,6 +150,7 @@ from 32-/64-bit optimalizations, the use of extended instruction sets such as
 others. Also the toolkit will try different compiler-optimalizations to get the
 best results possible for each function.
 % Skal jeg sitere kildekode her?
+% TODO: Insert image to visualize the forest of different implementations.
 
 The benchmarking results for the \ac{SUPERCOP} toolkit of \ac{SHA}-3 candidates
 and \ac{SHA}-2 functions on a number of different plattforms and architectures 
@@ -312,28 +317,62 @@ that utilises the Python C-API. Afterwards the generated source files can be
 compiled as if they were written directly in C. A small performance tradeoff is
 to be expected from this, due to the extra layer of abstraction.
 
+%**************************************%
 \chapter{Procedure}
+%**************************************%
 
-TODO: We have to figure out a new title
-Keywords: Python bindings in detail, unit tests, using it in Tahoe-LAFS
+% FIXME: A more descriptive/better chapter title
+%
+%A bit more technical description of how we tested the candidates in Tahoe-LAFS
+% - Limitations/assumptions
+% - Optimized candidates.
+% - Error sources.
+% The points above should be taken into consideration on each section in this
+% chapter.
 
-A bit more technical description of how we tested the candidates in Tahoe-LAFS
+In this chapter we will outline the procedure followed to complete our task.
 
-Limitations/assumptions
+\section{Choosing implementations of the SHA-3 Candidates}
 
-Optimized candidates.
+% sphlib, SUPERCOP, NIST
 
-Error sources.
+\section{Python bindings}
 
+Since Tahoe-\ac{LAFS} is written in Python, we needed some way of interacting
+with the C implementations of the NIST candidates.
 
-\chapter{Results}
+\subsection{Unit tests}
+% Include the use of Known Answer Tests
 
+\section{Modifications in the Tahoe-LAFS Code}
+
+% This should be a short text, but maybe drag in a discussion of how we SHOULD
+% have implemented it if we had the time, ref. capabilities.
+
+\section{Test vectors and Configuration}
+
+\subsection{Physical Setup}
+
+\section{Distribution of the Code}
+% Distutil, bash scripts
+
+%**************************************%
+\chapter{Measurements and Results}
+%**************************************%
+
+% Maybe cite
+% \url{http://tahoe-lafs.org/trac/tahoe-lafs/wiki/Performance?version=32}
 What is tested and what is not tested?
 
-tables, graphs?
+How much time is spent on hashing versus upload over network?
 
+How much gain can Tahoe-LAFS get by switching to SHA-3?
 
+Plenty of tables, graphs
+
+%**************************************%
 \chapter{Discussion}
+%**************************************%
 
 What could have been done differently?
 
@@ -341,14 +380,12 @@ Compare results with general (supercop) results.
 
 Optimized candidates.
 
-\cite{s_nistround2}
+%**************************************%
+\chapter{Conclusion and Future Work}
+%**************************************%
 
-
-\chapter{Conclusion}
-
-A somewhat short conclusion summing up results and discussion
-
-\section{Future work}
+A somewhat short conclusion summing up what has been done, and results and
+discussion
 
 New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
 
