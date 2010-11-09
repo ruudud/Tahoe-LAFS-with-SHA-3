@@ -1,4 +1,4 @@
-cdef extern from "hash.c":
+cdef extern from "hash.h":
     ctypedef unsigned char u8
     ctypedef unsigned long long u64
     ctypedef unsigned int u32

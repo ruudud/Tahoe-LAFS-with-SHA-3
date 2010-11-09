@@ -18,12 +18,13 @@ ext_modules = [
         [hashpath+"bmw/bmw.pyx", hashpath+'bmw/BlueMidnightWish.c'],),
     Extension("sha3lib.hash_functions.groestl.groestl_hash",
         [hashpath+"groestl/groestl_hash.pyx", hashpath+'groestl/sha3nist.c',
-            hashpath+"groestl/groestl.c"],
-        extra_compile_args='-mssse3'),
+            hashpath+"groestl/groestl.c"],),
     Extension("sha3lib.hash_functions.echo.echo",
         [hashpath+"echo/echo.pyx", hashpath+'echo/echo32.c'],),
-#    Extension("sha3lib.hash_functions.blake.blake",
-#        [hashpath+"blake/blake.pyx", hashpath+'blake/hash.c'],),
+    Extension("sha3lib.hash_functions.blake.blake",
+        [hashpath+"blake/blake.pyx", hashpath+'blake/hash.c'],
+        extra_compile_args=['-mssse3','-m32','-march=native','-mtune=native',
+        '-O', '-fomit-frame-pointer']),
     Extension("sha3lib.hash_functions.skein.skein_hash",
         [hashpath+"skein/skein_hash.pyx", hashpath+'skein/SHA3api_ref.c',
             hashpath+"skein/skein_block.c",hashpath+"skein/skein.c"],),
@@ -53,7 +54,7 @@ ext_modules = [
         [hashpath+"hamsi/hamsi_hash.pyx",hashpath+"hamsi/sha3nist.c",
             hashpath+"hamsi/hamsi.c",hashpath+"hamsi/hamsi_helper.c"],),
     ]
-#fugue_256.c  fugue_384.c  fugue_512.c
+
 class RunTests(Command):
     
     user_options = []
@@ -120,7 +121,7 @@ class RealClean(Command):
                 './sha3lib/hash_functions/skein/skein_hash.c',
                 './sha3lib/hash_functions/echo/echo.c',
                 './sha3lib/hash_functions/shavite3/shavite3.c',
-        #        './sha3lib/hash_functions/blake/blake.c',
+                './sha3lib/hash_functions/blake/blake.c',
                 './sha3lib/hash_functions/simd/simd.c',
                 './sha3lib/hash_functions/keccak/keccak.c',
                 './sha3lib/hash_functions/jh/jh_hash.c',
@@ -166,7 +167,7 @@ setup(
         'sha3lib.hash_functions.bmw',
         'sha3lib.hash_functions.echo', 
         'sha3lib.hash_functions.groestl',
-        #'sha3lib.hash_functions.blake', 
+        'sha3lib.hash_functions.blake', 
         'sha3lib.hash_functions.skein', 
         'sha3lib.hash_functions.luffa', 
         'sha3lib.hash_functions.shavite3',
@@ -176,7 +177,7 @@ setup(
         'sha3lib.hash_functions.fugue',
         'sha3lib.hash_functions.shabal',
         'sha3lib.hash_functions.hamsi',
-        #'sha3lib.hash_functions.cubehash',
+        'sha3lib.hash_functions.cubehash',
         ],
     #py_modules = ['sha3lib'],    
 )
