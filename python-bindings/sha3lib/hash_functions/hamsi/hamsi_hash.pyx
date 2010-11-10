@@ -11,6 +11,10 @@ def hash(int hashbitlen, bytes data, int in_length):
     cdef char* c_string = <char *> data
     cdef hamsi_hash_h.DataLength datalen = in_length
     cdef hamsi_hash_h.BitSequence *hashval = <hamsi_hash_h.BitSequence *> malloc(hashbitlen*8)
+    
+    #cdef hamsi_hash_h.hashState state
+    #hamsi_hash_h.Init(&state, 256)
+    #return 0
 
     hamsi_hash_h.Hash(hashbitlen, <hamsi_hash_h.BitSequence *> c_string, datalen, hashval)
 
@@ -38,8 +42,10 @@ cdef class hamsi:
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        hamsi_hash_h.Init(&self.state, self.hashbitlen)
-
+        cdef hamsi_hash_h.hashState state
+        hamsi_hash_h.Init(&state, 256)
+        self.state = state
+        
         if initial:
             self.update(initial)
 
@@ -51,7 +57,12 @@ cdef class hamsi:
             self.finished = 0
             self.state = self.previous_state
 
-        hamsi_hash_h.Update(&self.state, <hamsi_hash_h.BitSequence *> data, data_len)
+        self.c_update(data, data_len)
+
+    cdef c_update(self, char* data, int data_len):
+        cdef hamsi_hash_h.hashState state = self.state
+        hamsi_hash_h.Update(&state, <hamsi_hash_h.BitSequence *> data, data_len)
+        self.state = state
 
     cpdef final(self):
         cdef hamsi_hash_h.BitSequence *hashval = <hamsi_hash_h.BitSequence *> malloc(self.hashbitlen*8)
@@ -59,11 +70,13 @@ cdef class hamsi:
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
-
-        hamsi_hash_h.Final(&self.state, hashval)
+        
+        cdef hamsi_hash_h.hashState state = self.state
+        hamsi_hash_h.Final(&state, hashval)
         self.finished = 1
         
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
+        self.state = state
         free(hashval)
 
     cpdef copy(self):

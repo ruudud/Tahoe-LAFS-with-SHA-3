@@ -55,8 +55,8 @@ ext_modules = [
         [hashpath+"cubehash/cubehash_hash.pyx",hashpath+"cubehash/sha3nist.c",
             hashpath+"cubehash/cubehash.c"],),
     Extension("sha3lib.hash_functions.hamsi.hamsi_hash",
-        [hashpath+"hamsi/hamsi_hash.pyx",hashpath+"hamsi/sha3nist.c",
-            hashpath+"hamsi/hamsi.c",hashpath+"hamsi/hamsi_helper.c"],),
+        [hashpath+"hamsi/hamsi_hash.pyx",hashpath+"hamsi/hamsi.c"],
+        extra_compile_args=['-msse2','-funroll-loops','-m32','-march=pentium-m','-03','-fomit-frame-pointer']),
     ]
 
 class RunTests(Command):
