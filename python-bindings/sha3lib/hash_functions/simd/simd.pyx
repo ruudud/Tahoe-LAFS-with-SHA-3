@@ -38,7 +38,10 @@ cdef class simd:
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        simd_h.Init(&self.state, self.hashbitlen)
+        
+        cdef simd_h.hashState state
+        simd_h.Init(&state, self.hashbitlen)
+        self.state = state
 
         if initial:
             self.update(initial)
@@ -50,8 +53,10 @@ cdef class simd:
         if self.finished:
             self.finished = 0
             self.state = self.previous_state
-
-        simd_h.Update(&self.state, <simd_h.BitSequence *> data, data_len)
+        
+        cdef simd_h.hashState state = self.state
+        simd_h.Update(&state, <simd_h.BitSequence *> data, data_len)
+        self.state = state
 
     cpdef final(self):
         cdef simd_h.BitSequence *hashval = <simd_h.BitSequence *> malloc(self.hashbitlen*8)
@@ -59,9 +64,11 @@ cdef class simd:
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
-
-        simd_h.Final(&self.state, hashval)
+        
+        cdef simd_h.hashState state = self.state
+        simd_h.Final(&state, hashval)
         self.finished = 1
+        self.state = state
         
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
         free(hashval)

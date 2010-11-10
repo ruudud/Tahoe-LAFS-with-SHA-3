@@ -889,7 +889,7 @@ void SIMD_Compress(hashState * state, const unsigned char *m, int final) {
     union cv Y[16];
     short* y = (short*) Y[0].u16;
 
-#ifdef v16_broadcast
+#if 0
     if (final == 2) {
       fft128_msg_final(y, m);
       rounds(state->A, m, y);

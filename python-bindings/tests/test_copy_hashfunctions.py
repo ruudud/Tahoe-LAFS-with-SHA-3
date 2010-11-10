@@ -9,9 +9,10 @@ class HashCopyTester(unittest.TestCase):
     def test_hashfunctions_support_copy_of_nonfinished_hash(self):
         #print ""
         for r in hash_functions.HASHES:
-            # simd and groestl segfaults
-            if r in ('simd',):
-                continue
+            # SIMD does not support this for an odd reason
+            if r in ('simd'):
+                continue 
+            
             f = eval(r+'256')
             s = f('foo')
             u = s.copy()
@@ -23,9 +24,6 @@ class HashCopyTester(unittest.TestCase):
     def test_update_of_copied_does_not_affect_original(self):
         #print ""
         for r in hash_functions.HASHES:
-            # simd and groestl segfaults
-            if r in ('simd',):
-                continue
             f = eval(r+'256')
             s = f('foo')
             t = s.copy()
@@ -39,9 +37,6 @@ class HashCopyTester(unittest.TestCase):
     def test_copied_object_support_update(self):
         #print ""
         for r in hash_functions.HASHES:
-            # a lot segfaults here
-            if r in ('simd',):
-                continue
             f = eval(r+'256')
             control = f('foobar').hexdigest()
             s = f('foo')
@@ -56,8 +51,6 @@ class HashCopyTester(unittest.TestCase):
     def test_hashfunctions_support_copy_of_finished_hash(self):
         #print ""
         for r in hash_functions.HASHES:
-            if r in ('simd',):
-                continue
             f = eval(r+'256')
             orig = f('foobar')
             check = orig.hexdigest()
@@ -71,7 +64,8 @@ class HashCopyTester(unittest.TestCase):
     def test_support_copy_and_update_of_finished_hash(self):
         #print ""
         for r in hash_functions.HASHES:
-            if r in ('simd',):
+            # SIMD does not support this in sha3lib
+            if r in ('simd'):
                 continue
             f = eval(r+'256')
             control = f('foobar').hexdigest()
