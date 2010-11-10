@@ -46,6 +46,7 @@
 
 \begin{acronym}
 \acro{AES}{Advanced Encryption Standard}
+\acro{API}{Application programming interface}
 \acro{CEB}{Capability Extension Block}
 \acro{FEC}{Forward Error Correction}
 \acro{LAFS}{Least-Authority Filesystem}
@@ -133,6 +134,31 @@ and to use parallelism and instruction set extensions. Another key point of a
 flexible hash function is that it should have a simple and elegant design to
 encourage understanding, analysis and design confidence.
 
+\subsubsection{\ac{NIST} \ac{SHA}-3 \ac{API}}
+\ac{NIST} required that every submission conform to a specified
+\ac{API}\cite{s_fedreg}. The \ac{API} is specified at \cite{s_nistapi} and in
+shortness it requires every candidate to implement four functions.
+
+\begin{verbatim}
+HashReturn Init(hashState *state, int hashbitlen);
+HashReturn Update(hashState *state, const BitSequence *data, 
+    DataLength databitlen);
+HashReturn Final(hashState *state, BitSequence *hashval);
+HashReturn Hash(int hashbitlen, const BitSequence *data, 
+    DataLength databitlen, BitSequence *hashval);
+\end{verbatim}
+
+The Init() function basically sets up the internal state of the function, to
+make it ready to start processing real data. The Update() function is used to
+provide the actuall data to the hash function. The Final() function should be
+called when all necessary data has been gived through Update(), it will then
+finish the hash function and provide the digest. The Hash() function basically a wrapper
+for doing a call to the three other functions.
+
+HashReturn is an enum representing that an operation either succeded (0) or
+went wrong. The BitSequence is a representation of an array of bytefields and
+DataLength represents the size in bits of the data provided.
+
 \subsection{\ac{SUPERCOP}}
 % TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 \ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
@@ -149,7 +175,7 @@ of cryptographic software \cite{s_supercop}. In relation to hash functions
 The Round 2 \ac{SHA}-3 candidates are all included in the toolkit, with a number
 of different optimizations for each candidate. Optimizations range from
 32-/64-bit specific implementations, the use of extended instruction sets such
-as \ac{SSE2} and \ac{SSE3}, optimizations for different number of cores and
+as \ac{SSE2} and \ac{SSSE3}, optimizations for different number of cores and
 others. The toolkit will also try different compiler optimizations to get the
 best results possible for each function.
 % TODO: Insert image to visualize the forest of different implementations.
@@ -159,6 +185,21 @@ candidates and \ac{SHA}-2 functions on a number of different plattforms and
 architectures are available at
 \footnote{\url{http://bench.cr.yp.to/results-sha3.html}}
 % TODO: Link to appendix with tahoe04 SUPERCOP results.
+
+\subsubsection{\ac{SUPERCOP} \ac{API}}
+\ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
+conform to\cite{s_supercopapi}. This \ac{API} specifies the naming and
+organization of files, and that a submission must include a function
+crypto\_hash() which is similar to the function Hash() in the \ac{NIST} \ac{SHA}-3
+\ac{API}. The only difference beeing the naming of datatypes and that the
+crypto\_hash() function does not need an input of how long the output of the
+hash function should be. Instead double or different submissions are used for
+different output lengths.
+
+\begin{verbatim}
+int crypto_hash(unsigned char *out, const unsigned char *in,
+    unsigned long long inlen)
+\end{verbatim}
 
 \section{Tahoe-LAFS}
 %What is it, how/where are hash functions used, Python, pycryptopp
