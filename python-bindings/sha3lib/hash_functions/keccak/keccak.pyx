@@ -38,8 +38,10 @@ cdef class keccak:
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        keccak_h.Init(&self.state, self.hashbitlen)
-
+        cdef keccak_h.hashState state
+        keccak_h.Init(&state, self.hashbitlen)
+        self.state = state
+    
         if initial:
             self.update(initial)
 
@@ -51,7 +53,9 @@ cdef class keccak:
             self.finished = 0
             self.state = self.previous_state
 
-        keccak_h.Update(&self.state, <keccak_h.BitSequence *> data, data_len)
+        cdef keccak_h.hashState state = self.state
+        keccak_h.Update(&state, <keccak_h.BitSequence *> data, data_len)
+        self.state = state
 
     cpdef final(self):
         cdef keccak_h.BitSequence *hashval = <keccak_h.BitSequence *> malloc(self.hashbitlen*8)
@@ -60,7 +64,9 @@ cdef class keccak:
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
-        keccak_h.Final(&self.state, hashval)
+        cdef keccak_h.hashState state = self.state
+        keccak_h.Final(&state, hashval)
+        self.state = state
         self.finished = 1
         
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
