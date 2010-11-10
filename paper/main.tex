@@ -88,74 +88,78 @@ What follows in this document, chapter by chapter
 % FIXME: Find new and better title
 
 \section{Cryptographic Hash Functions}
-% Get a source for this %
-A Cryptographic Hash function is a deterministic mathematical procedure which
-takes an arbritary block of data and outputs a fixed-size bit string. The
-output is refered to as the hash value, message digest or simply digest.
-Another property of a cryptographic hash function is that a small change in the
-input data (just 1 bit) should completly change the output of the hash
+
+A cryptographic hash function is a deterministic mathematical procedure which
+takes an arbitrary block of data and outputs a fixed-size bit string. The output
+is referred to as the hash value, message digest or simply digest.
+Another property of a cryptographic hash function is that the smallest change in
+the input data (e.g. one bit) should completely change the output of the hash
 function. In other words it should be infeasible to find the reverse of a
-cryptographic hash function. It should also be infeasible to find two blocks of
-data which produce the same hash value (a collision).
+cryptographic hash function \cite{stallings}. It should also be infeasible to
+find two blocks of data which produce the same hash value (a \emph{collision}).
 
 \subsection{NIST SHA-3 Competition}
-The \ac{SHA} version 3 is a comming standard set to superceed the current
-standards \ac{SHA}-1 and the \ac{SHA}-2 family. The hash function to become
-\ac{SHA}-3 will be decided by \ac{NIST} and choosen between the submitted
-contestants to the \ac{NIST} hash competition. The current status of the 
-competition is officially called Round 2, with 14 of 64 candidates having 
-survived round 1\cite{s_fedreg}. 
+The \ac{SHA} version 3 is a coming standard set to supersede the current
+standards that the \ac{SHA}-1 and the \ac{SHA}-2 family has become. The hash
+function that will be known as \ac{SHA}-3 will be decided by the \ac{NIST} and
+chosen between the submitted contestants to the \ac{NIST} hash competition.
+At the time of writing, the current status of the competition is officially
+called Round 2, with 14 of 64 candidates having ``survived'' Round 1
+\cite{s_fedreg}.
 
-\subsubsection{\ac{NIST} evaluation criterias for \ac{SHA}-3}
+\subsubsection{\ac{NIST} evaluation criteria for \ac{SHA}-3}
 
-\paragraph{Security} is the most important criteria for the SHA-3
-candidates\cite{s_nistround2}. The full description of security criterias are
-mentioned in \cite{s_fedreg}, however the most noteworthy criteria in regards
-to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
+\paragraph{Security.} The most important criteria for the SHA-3
+candidates\cite{s_nistround2} is security. The full description of security
+criteria are mentioned in \cite{s_fedreg}, however the most noteworthy criterion
+in regards to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
 resistance against length-extension attacks. Both \ac{SHA}-1 and the \ac{SHA}-2
-family are vulnerable to this attack\cite{s_mdre}.
+family are vulnerable to this attack\cite{s_mdre}, and this requires Tahoe to
+run the algorithm twice, as described by .
+%TODO: cite Practical cryptography/Niels Ferguson, Bruce Schneier
 
-\paragraph{Cost and Performance} are considered to be the 2nd most important
-criteria. The absolute minimum for performance is that the SHA-3 candidate
-should be faster than the functions in the \ac{SHA}-2 family. Cost is a measure
-of how much memory an implementation requires in software, both the 
-implementation itself and the use of \ac{RAM} during runtime. Another measure
-of cost is how many logic gates it takes to implement the function in hardware.
+\paragraph{Cost and Performance.} Cost and Performance are considered to be the
+2nd most important criterion. The absolute minimum for performance is that the
+SHA-3 candidate should be faster than the functions in the \ac{SHA}-2 family.
+Cost is a measure of how much memory an implementation requires in software,
+both the implementation itself and the use of \ac{RAM} during runtime. Another
+measure of cost is how many logic gates it takes to implement the function in
+hardware.
 
-\paragraph{Algorithm and implementation characteristics} is the third criteria.
-By this criteria \ac{NIST} emphasis that algorithms with greater flexbility
-will be given preference over other algorithms\cite{s_nistround2}. By flexible
-they imply the possiblity of the function to run efficiently on a varity of
-plattforms, to use parallelism or instruction set extensions. Another key point
-of a flexible hash function is that it should have a simple and elegant design
-to encourage understanding, analysis and design confidence.
+\paragraph{Algorithm and implementation characteristics.} By this 3rd criteria,
+\ac{NIST} emphasis that algorithms with greater flexibility will be given
+preference over other algorithms \cite{s_nistround2}. By flexible they imply the
+possibility of the function to run efficiently on a variety of platforms, and to
+use parallelism or instruction set extensions. Another key point of a flexible
+hash function is that it should have a simple and elegant design to encourage
+understanding, analysis and design confidence.
 
 \subsection{\ac{SUPERCOP}}
 % TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 \ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
-of cryptographic software\cite{s_supercop}. In relation to hash functions
+of cryptographic software \cite{s_supercop}. In relation to hash functions
 \ac{SUPERCOP} measures the following:
 
 \begin{itemize}
-    \item Time to hash a very short packet of data
-    \item Time to hash a typical-size Internet packet
-    \item Time to hash a long message
-    \item Length of the hash output
+    \item Time to hash a very short packet of data.
+    \item Time to hash a typical-size Internet packet.
+    \item Time to hash a long message.
+    \item Length of the hash output.
 \end{itemize}
 
-The round 2 \ac{SHA}-3 candidates are all included in the toolkit, with a
-number of different optimalizations for each candidate. Optimalizations range
-from 32-/64-bit optimalizations, the use of extended instruction sets such as
-\ac{SSE2} and \ac{SSSE3}, optimalizations for different number of cores and
-others. Also the toolkit will try different compiler-optimalizations to get the
+The Round 2 \ac{SHA}-3 candidates are all included in the toolkit, with a number
+of different optimizations for each candidate. Optimizations range from
+32-/64-bit specific implementations, the use of extended instruction sets such
+as \ac{SSE2} and \ac{SSSE3}, optimizations for different number of cores and
+others. The toolkit will also try different compiler optimizations to get the
 best results possible for each function.
-% Skal jeg sitere kildekode her?
 % TODO: Insert image to visualize the forest of different implementations.
 
-The benchmarking results for the \ac{SUPERCOP} toolkit of \ac{SHA}-3 candidates
-and \ac{SHA}-2 functions on a number of different plattforms and architectures 
-are available at
+The benchmarking results for the \ac{SUPERCOP} toolkit of the \ac{SHA}-3
+candidates and \ac{SHA}-2 functions on a number of different plattforms and
+architectures are available at
 \footnote{\url{http://bench.cr.yp.to/results-sha3.html}}
+% TODO: Link to appendix with tahoe04 SUPERCOP results.
 
 \section{Tahoe-LAFS}
 %What is it, how/where are hash functions used, Python, pycryptopp
