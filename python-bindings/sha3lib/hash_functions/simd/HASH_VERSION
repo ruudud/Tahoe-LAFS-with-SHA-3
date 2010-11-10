@@ -1,1 +1,3 @@
-supercop-20100926/crypto_hash/simd256/opt
+supercop-20101014/crypto_hash/simd256/vect128
+
+And patch from author
