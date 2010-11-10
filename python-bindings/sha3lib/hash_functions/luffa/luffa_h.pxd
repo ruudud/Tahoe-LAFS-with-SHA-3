@@ -1,4 +1,4 @@
-cdef extern from "luffa_for_32.h":
+cdef extern from "luffa_for_sse2.h":
     ctypedef unsigned char BitSequence
     ctypedef unsigned long long DataLength
     

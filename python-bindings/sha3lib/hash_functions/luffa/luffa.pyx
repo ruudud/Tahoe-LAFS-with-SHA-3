@@ -38,7 +38,10 @@ cdef class luffa:
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        luffa_h.Init(&self.state, self.hashbitlen)
+        
+        cdef luffa_h.hashState state
+        luffa_h.Init(&state, self.hashbitlen)
+        self.state = state
 
         if initial:
             self.update(initial)
@@ -50,8 +53,10 @@ cdef class luffa:
         if self.finished:
             self.finished = 0
             self.state = self.previous_state
-
-        luffa_h.Update(&self.state, <luffa_h.BitSequence *> data, data_len)
+        
+        cdef luffa_h.hashState state = self.state
+        luffa_h.Update(&state, <luffa_h.BitSequence *> data, data_len)
+        self.state = state
 
     cpdef final(self):
         cdef luffa_h.BitSequence *hashval = <luffa_h.BitSequence *> malloc(self.hashbitlen*8)
@@ -59,8 +64,10 @@ cdef class luffa:
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
-
-        luffa_h.Final(&self.state, hashval)
+        
+        cdef luffa_h.hashState state = self.state
+        luffa_h.Final(&state, hashval)
+        self.state = state
         self.finished = 1
         
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
