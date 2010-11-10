@@ -95,7 +95,7 @@ is referred to as the hash value, message digest or simply digest.
 Another property of a cryptographic hash function is that the smallest change in
 the input data (e.g. one bit) should completely change the output of the hash
 function. In other words it should be infeasible to find the reverse of a
-cryptographic hash function \cite{stallings}. It should also be infeasible to
+cryptographic hash function \cite[p. 335]{stallings}. It should also be infeasible to
 find two blocks of data which produce the same hash value (a \emph{collision}).
 
 \subsection{NIST SHA-3 Competition}
@@ -114,9 +114,8 @@ candidates\cite{s_nistround2} is security. The full description of security
 criteria are mentioned in \cite{s_fedreg}, however the most noteworthy criterion
 in regards to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
 resistance against length-extension attacks. Both \ac{SHA}-1 and the \ac{SHA}-2
-family are vulnerable to this attack\cite{s_mdre}, and this requires Tahoe to
-run the algorithm twice, as described by .
-%TODO: cite Practical cryptography/Niels Ferguson, Bruce Schneier
+family are vulnerable to this kind of attack, and thus requires
+Tahoe to run the algorithm twice, as described by \citet{schneier}.
 
 \paragraph{Cost and Performance.} Cost and Performance are considered to be the
 2nd most important criterion. The absolute minimum for performance is that the
@@ -127,12 +126,12 @@ measure of cost is how many logic gates it takes to implement the function in
 hardware.
 
 \paragraph{Algorithm and implementation characteristics.} By this 3rd criteria,
-\ac{NIST} emphasis that algorithms with greater flexibility will be given
-preference over other algorithms \cite{s_nistround2}. By flexible they imply the
-possibility of the function to run efficiently on a variety of platforms, and to
-use parallelism or instruction set extensions. Another key point of a flexible
-hash function is that it should have a simple and elegant design to encourage
-understanding, analysis and design confidence.
+\ac{NIST} emphasizes that algorithms with greater flexibility will be given
+preference over other algorithms \cite{s_nistround2}. By flexible, they imply
+the possibility of the function to run efficiently on a variety of platforms,
+and to use parallelism and instruction set extensions. Another key point of a
+flexible hash function is that it should have a simple and elegant design to
+encourage understanding, analysis and design confidence.
 
 \subsection{\ac{SUPERCOP}}
 % TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
@@ -150,7 +149,7 @@ of cryptographic software \cite{s_supercop}. In relation to hash functions
 The Round 2 \ac{SHA}-3 candidates are all included in the toolkit, with a number
 of different optimizations for each candidate. Optimizations range from
 32-/64-bit specific implementations, the use of extended instruction sets such
-as \ac{SSE2} and \ac{SSSE3}, optimizations for different number of cores and
+as \ac{SSE2} and \ac{SSE3}, optimizations for different number of cores and
 others. The toolkit will also try different compiler optimizations to get the
 best results possible for each function.
 % TODO: Insert image to visualize the forest of different implementations.
