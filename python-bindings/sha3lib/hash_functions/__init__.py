@@ -30,4 +30,4 @@ from hamsi.hamsi_hash import hash as hamsi256hash
 
 # skein ignored due to possible wrong kat-files or implementation
 HASHES = ('bmw', 'echo', 'groestl', 'blake', 'luffa', 'shavite3', 'simd',
-          'keccak','jh','fugue','shabal','cubehash','hamsi')
+          'keccak','jh','fugue','shabal','cubehash','hamsi','skein')
