@@ -36,7 +36,8 @@ ext_modules = [
         [hashpath+"luffa/luffa.pyx", hashpath+'luffa/luffa_for_sse2.c'],
         extra_compile_args=['-msse2','-funroll-loops','-march=k8','-O3','-fomit-frame-pointer']),
     Extension("sha3lib.hash_functions.shavite3.shavite3",
-        [hashpath+"shavite3/shavite3.pyx", hashpath+'shavite3/SHAvite3.c'],),
+        [hashpath+"shavite3/shavite3.pyx", hashpath+'shavite3/SHAvite3.c'],
+        extra_compile_args=['-funroll-loops','-march=i486','-O','-fomit-frame-pointer']),
     Extension("sha3lib.hash_functions.simd.simd",
         [hashpath+"simd/simd.pyx",hashpath+"simd/optimized.c",
             hashpath+"simd/nist.c"],),
@@ -58,7 +59,7 @@ ext_modules = [
             hashpath+"cubehash/cubehash.c"],),
     Extension("sha3lib.hash_functions.hamsi.hamsi_hash",
         [hashpath+"hamsi/hamsi_hash.pyx",hashpath+"hamsi/hamsi.c"],
-        extra_compile_args=['-msse2','-funroll-loops','-m32','-march=pentium-m','-03','-fomit-frame-pointer']),
+        extra_compile_args=['-msse2','-funroll-loops','-m32','-march=pentium-m','-O3','-fomit-frame-pointer']),
     ]
 
 class RunTests(Command):
