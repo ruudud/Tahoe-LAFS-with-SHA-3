@@ -49,6 +49,7 @@
 \acro{API}{Application programming interface}
 \acro{CEB}{Capability Extension Block}
 \acro{FEC}{Forward Error Correction}
+\acro{KAT}{Known Answer Test}
 \acro{LAFS}{Least-Authority Filesystem}
 \acro{NIST}{National Institute of Standards and Technology}
 \acro{RAM}{Random Access Memory}
@@ -377,6 +378,32 @@ to be expected from this, due to the extra layer of abstraction.
 In this chapter we will outline the procedure followed to complete our task.
 
 \section{Choosing implementations of the SHA-3 Candidates}
+While the official \ac{NIST} \ac{SHA}-3 second round submissions contains both
+reference and different optimized version of the candidates does not appear to
+be updateded since the submission deadline on September 15, 2009. They also do
+not contain any benchmarking util which could be used to decide on the best
+implementation for a particular plattform or architecture. \ac{SUPERCOP} on the
+other hand provides both, in combination with results stating which compiler
+arguments gives the best performance. On the downside the \ac{SUPERCOP}
+\ac{API} only specifies the crypto\_hash() function and not an Update()
+function which Tahoe-\ac{LAFS} is dependant on. 
+
+Since Tahoe-\ac{LAFS} uses \ac{SHA}-256 internally, we use only \ac{SHA}-3
+functions with 256-bit output in our implementation. The results of \ac{SHA}-3
+256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
+tables... % FIXME
+
+We then chose the fastest implementation of each candidate that conforms to the
+following criterias.
+\begin{enumerate}
+    \item The implementation must have an \ac{API} defined in C. (Not only
+    assembly)
+    \item The implementation must include a working Update() function.
+    \item The implementation must not use assembly which can not be made
+    position independant by gcc.
+    \item The implementation should conform to the \ac{KAT}s specified in the
+    \ac{NIST} submission package, or later updates by the author
+\end{enumerate}
 
 % sphlib, SUPERCOP, NIST
 
