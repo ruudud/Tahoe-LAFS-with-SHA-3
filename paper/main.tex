@@ -35,7 +35,7 @@
 
 \tableofcontents
 
-\addcontentsline{toc}{chapter}{\listfigurename} % Manual, because report style
+\addcontentsline{toc}{chapter}{\listfigurename} % Manually add to ToC
 \listoffigures
 
 \addcontentsline{toc}{chapter}{\listtablename}
@@ -49,6 +49,7 @@
 \acro{API}{Application programming interface}
 \acro{CEB}{Capability Extension Block}
 \acro{FEC}{Forward Error Correction}
+\acro{GCC}{GNU Compiler Collection}
 \acro{KAT}{Known Answer Test}
 \acro{LAFS}{Least-Authority Filesystem}
 \acro{NIST}{National Institute of Standards and Technology}
@@ -286,7 +287,7 @@ storage and bandwidth requirements.}''
     \label{fig:tahoehashing}
     \emph{Figure based on
      \href{http://tahoe-lafs.org/source/tahoe/trunk/docs/specifications/CHK-hashes.svg}
-     {CHK-hashes.svg from tahoe-lafs.org}}
+     {CHK-hashes.svg from Tahoe-LAFS documentation}}
      %TODO: Footnote with full URL using footnotemark
 \end{figure}
 
@@ -357,9 +358,9 @@ the best performance. % TODO: KILDE?
 \subsection{Cython}
 Cython\footnote{\url{http://www.cython.org}} is a language for writing Python
 extensions in a language that closely resembles the Python language itself.
-Basically what Cython does is to parse cython files and generate C source files
+Basically what Cython does is to parse Cython files and generate C source files
 that utilises the Python C-API. Afterwards the generated source files can be
-compiled as if they were written directly in C. A small performance tradeoff is
+compiled as if they were written directly in C. A small performance trade-off is
 to be expected from this, due to the extra layer of abstraction.
 
 %**************************************%
@@ -378,34 +379,24 @@ to be expected from this, due to the extra layer of abstraction.
 In this chapter we will outline the procedure followed to complete our task.
 
 \section{Choosing implementations of the SHA-3 Candidates}
-While the official \ac{NIST} \ac{SHA}-3 second round submissions contains both
-reference and different optimized version of the candidates does not appear to
-be updateded since the submission deadline on September 15, 2009. They also do
-not contain any benchmarking util which could be used to decide on the best
-implementation for a particular plattform or architecture. \ac{SUPERCOP} on the
-other hand provides both, in combination with results stating which compiler
-arguments gives the best performance. On the downside the \ac{SUPERCOP}
-\ac{API} only specifies the crypto\_hash() function and not an Update()
-function which Tahoe-\ac{LAFS} is dependant on. 
 
-Since Tahoe-\ac{LAFS} uses \ac{SHA}-256 internally, we use only \ac{SHA}-3
+While the official \ac{NIST} \ac{SHA}-3 second round submissions contain both
+a reference version and different optimized versions of the candidates, it does not
+appear to be updated since the submission deadline on September 15, 2009. They
+also do not contain any benchmarking utility which could be used to decide on
+the best implementation for a particular platform or architecture. \ac{SUPERCOP}
+on the other hand, provides both, in combination with results stating which
+compiler arguments gives the best performance. On the downside, the
+\ac{SUPERCOP} \ac{API} only specifies the \texttt{crypto\_hash()} function and
+not an \texttt{update()} function which Tahoe-\ac{LAFS} is dependent on using.
+
+Since Tahoe-\ac{LAFS} is using \ac{SHA}-256 internally, we only test \ac{SHA}-3
 functions with 256-bit output in our implementation. The results of \ac{SHA}-3
 256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
-tables... % FIXME
-
-We then chose the fastest implementation of each candidate that conforms to the
-following criterias.
-\begin{enumerate}
-    \item The implementation must have an \ac{API} defined in C. (Not only
-    assembly)
-    \item The implementation must include a working Update() function.
-    \item The implementation must not use assembly which can not be made
-    position independant by gcc.
-    \item The implementation should conform to the \ac{KAT}s specified in the
-    \ac{NIST} submission package, or later updates by the author
-\end{enumerate}
-
-% sphlib, SUPERCOP, NIST
+tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
+\ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
+\ref{tbl:supercop:8}. The lower the numbers, the faster the algorithms
+performed in the test.
 
 \input{tables/supercop_long_msgs}
 \input{tables/supercop_4096}
@@ -413,6 +404,21 @@ following criterias.
 \input{tables/supercop_576}
 \input{tables/supercop_64}
 \input{tables/supercop_8}
+
+We then chose the fastest implementation of each candidate that conforms to the
+following criteria:
+\begin{enumerate}
+  \item The implementation must have an \ac{API} defined in C.
+  \item The implementation must include a working \verb update() function.
+  \item The implementation must not use assembly that can not be made
+    position independent by \ac{GCC}.
+  \item The implementation should conform to the \acp{KAT} specified in the
+    \ac{NIST} submission package, or later updates by the author.
+\end{enumerate}
+
+% TODO: Add some lines that give reasons for the criteria above.
+
+% sphlib, SUPERCOP, NIST
 
 \section{Python bindings}
 
@@ -472,9 +478,10 @@ New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
 \bibliographystyle{plainnat}
 \bibliography{ref_sha3,ref_tahoe}
 
-\appendix
-\appendixpage
-\addappheadtotoc
+% Uncomment to enable appendices.
+%\appendix
+%\appendixpage
+%\addappheadtotoc
 
 % Use ordinary \chapters from here on..
 
