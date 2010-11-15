@@ -381,7 +381,7 @@ In this chapter we will outline the procedure followed to complete our task.
 \section{Choosing implementations of the SHA-3 Candidates}
 
 While the official \ac{NIST} \ac{SHA}-3 second round submissions contain both
-a reference version and different optimized versions of the candidates, it does not
+a reference version and optimized versions of the candidates, it does not
 appear to be updated since the submission deadline on September 15, 2009. They
 also do not contain any benchmarking utility which could be used to decide on
 the best implementation for a particular platform or architecture. \ac{SUPERCOP}
@@ -393,20 +393,6 @@ not an \texttt{update()} function which Tahoe-\ac{LAFS} is dependent on using.
 Since Tahoe-\ac{LAFS} is using \ac{SHA}-256 internally, we only test \ac{SHA}-3
 functions with 256-bit output in our implementation. 
 
-\subsection{\ac{SUPERCOP} benchmarks}
-The results of \ac{SHA}-3
-256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
-tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
-\ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
-\ref{tbl:supercop:8}. The lower the numbers, the faster the algorithms
-performed in the test.
-
-\input{tables/supercop_long_msgs}
-\input{tables/supercop_4096}
-\input{tables/supercop_1536}
-\input{tables/supercop_576}
-\input{tables/supercop_64}
-\input{tables/supercop_8}
 
 \subsection{Criteria for implementation selection}
 
@@ -429,14 +415,23 @@ available at source.
 
 \subsection{Chosen implementations}
 
-The chosen implementations are shown in \ref{tbl:sha3:implementations} and
-their compiler flags used, which are extracted from the \ac{SUPERCOP} results
-can be seen in \ref{tbl:sha3:compilerflags}. It should be noted that 32 in
-blake32 does not refer to the output length of the function, but the fact that
-the algorithm is optimized for 32-bit usage. 512 in Keccackc512 also does not
-mean 512-bit output, but 512 cycles in the internal function. For the most part
-we have found working versions of all candidates in \ac{SUPERCOP}, however
-there are some exceptions.
+\input{tables/sha3_implementations}
+
+The chosen implementations are shown in Table \ref{tbl:sha3:implementations}
+and their compiler flags used, which are extracted from the \ac{SUPERCOP}
+results can be seen in Table\ref{tbl:sha3:compilerflags}. It should be noted
+that 32 in blake32 does not refer to the output length of the function, but the
+fact that the algorithm is optimized for 32-bit usage. 512 in Keccackc512 also
+does not mean 512-bit output, but 512 cycles in the internal function. The
+relative speeds of the implementations chosen compared to the best version in
+\ac{SUPERCOP} and relative speed of the benchmark compared to other candidates
+can bee seen in Table \ref{tbl:sha3:speedrelative}. For the most part we have
+found working versions of all candidates in \ac{SUPERCOP}, however there are
+some exceptions. 
+
+\input{tables/sha3_flags}
+
+\input{tables/sha3_relativespeed}
 
 \paragraph{JH} seems to be broken in every implementation with regard to
 criteria 2. For both the optimized versions found in \ac{SUPERCOP} and the
@@ -448,11 +443,19 @@ official JH candidate and that the author has been made aware of the problem
 but has not released any updated version yet.
 % TODO: Fix hvordan vi referer til e-post?
 
-\paragraph{Cubehash} sadly does not have a version in supercop with a 256-bit
-ouput, which is why we have only included a version from sphlib.
+\paragraph{Cubehash} sadly does not have a version in \ac{SUPERCOP} with a 256-bit
+output, which is why we have only included a version from sphlib.
 
-\input{tables/sha3_implementations}
-\input{tables/sha3_flags}
+\paragraph{Simd vect128 implementation} does not by default conform to
+criteria 4, because of a bug in the implementation. This has confirmed by the
+author who also supplied us with a patch to correct the bug.
+
+\paragraph{Blake32 \ac{SSSE3}} implementation also fail to wholly fulfill
+criteria 4, however it does validate all test vectors that have a length 
+in bits which is a multiple of 8. Since our python wrappers only allow, and
+only need, to provide data in full bytes we decided to keep this
+implementation.
+
 
 % TODO: Add some lines that give reasons for the criteria above.
 
@@ -484,6 +487,23 @@ with the C implementations of the NIST candidates.
 
 % Maybe cite
 % \url{http://tahoe-lafs.org/trac/tahoe-lafs/wiki/Performance?version=32}
+
+
+\subsection{\ac{SUPERCOP} benchmarks}
+The results of \ac{SHA}-3
+256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
+tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
+\ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
+\ref{tbl:supercop:8}. The lower the numbers, the faster the algorithms
+performed in the test.
+
+\input{tables/supercop_long_msgs}
+\input{tables/supercop_4096}
+\input{tables/supercop_1536}
+\input{tables/supercop_576}
+\input{tables/supercop_64}
+\input{tables/supercop_8}
+
 What is tested and what is not tested?
 
 How much time is spent on hashing versus upload over network?
