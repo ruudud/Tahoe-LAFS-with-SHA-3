@@ -427,7 +427,7 @@ on our benchmark in \ac{SUPERCOP}. The relative speed of each implementation, in
 relation to other implementation for the same and other candidates are
 available at source.
 
-\subsection {Chosen implementations}
+\subsection{Chosen implementations}
 
 The chosen implementations are shown in \ref{tbl:sha3:implementations} and
 their compiler flags used, which are extracted from the \ac{SUPERCOP} results
@@ -441,7 +441,7 @@ there are some exceptions.
 \paragraph{JH} seems to be broken in every implementation with regard to
 criteria 2. For both the optimized versions found in \ac{SUPERCOP} and the
 reference implementations in the \ac{NIST} submission package, Hash("foofoo")
-will not give the same result as two consecutive calls to Update("foo").
+will not yield the same result as two consecutive calls to Update("foo").
 However the implementation in sphlib does fulfill this requirement. We have
 also contacted the author, Thomas Pornin, which confirms this problem with the
 official JH candidate and that the author has been made aware of the problem
