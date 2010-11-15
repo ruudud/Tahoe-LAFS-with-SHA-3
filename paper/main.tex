@@ -10,6 +10,38 @@
 \usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
 
+% Packages and settings for code listings
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{upquote}
+\usepackage{xcolor}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\lstset{
+language=Python,
+keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+identifierstyle=\ttfamily,
+commentstyle=\color[rgb]{0.133,0.545,0.133},
+stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+showstringspaces=false,
+basicstyle=\small,
+numberstyle=\footnotesize,
+numbers=left,
+stepnumber=1,
+numbersep=10pt,
+tabsize=2,
+breaklines=true,
+prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+breakatwhitespace=false,
+aboveskip={1.5\baselineskip},
+columns=fixed,
+upquote=true,
+extendedchars=true,
+frame=bottomline,
+inputencoding=utf8
+}
+
 % Set equal margins on book style
 % \usepackage{layout} % Use \layout to print out the margins (debug)
 \usepackage{geometry}
@@ -112,6 +144,7 @@ called Round 2, with 14 of 64 candidates having ``survived'' Round 1
 
 \subsubsection{\ac{NIST} evaluation criteria for \ac{SHA}-3}
 
+\label{sec:lengthextension}
 \paragraph{Security.} The most important criteria for the SHA-3
 candidates\cite{s_nistround2} is security. The full description of security
 criteria are mentioned in \cite{s_fedreg}, however the most noteworthy criterion
@@ -377,6 +410,7 @@ to be expected from this, due to the extra layer of abstraction.
 % chapter.
 
 In this chapter we will outline the procedure followed to complete our task.
+% TODO: Mer intro
 
 \section{Choosing implementations of the SHA-3 Candidates}
 
@@ -469,14 +503,92 @@ with the C implementations of the NIST candidates.
 \subsection{Unit tests}
 % Include the use of Known Answer Tests
 
-\section{Modifications in the Tahoe-LAFS Code}
+\section{Modifications in the Tahoe-\ac{LAFS} Code}
 
-% This should be a short text, but maybe drag in a discussion of how we SHOULD
-% have implemented it if we had the time, ref. capabilities.
+The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
+This, along with the code being highly modular, emphasizes code readability.
+With some experience using Python, it is not difficult to learn the Tahoe code
+enough to understand what is happening when a file is uploaded or downloaded
+with the system.
+
+All hashing operations requested by the Tahoe system is routed through a
+couple of classes and functions, and the connection to the underlying hash
+function library is made on only one line. This is displayed in Listing
+\ref{lst:hashutil}.
+
+\begin{lstlisting}[label=lst:hashutil, caption=Extract from hashutil.py of Tahoe-LAFS source.]
+from pycryptopp.hash.sha256 import SHA256
+...
+class _SHA256d_Hasher:
+    ...
+    def __init__(self, truncate_to=None):
+        self.h = SHA256()
+        self.truncate_to = truncate_to
+        self._digest = None
+
+    def update(self, data):
+        assert isinstance(data, str) # no unicode
+        self.h.update(data)
+
+    def digest(self):
+        if self._digest is None:
+            h1 = self.h.digest()
+            del self.h
+            h2 = SHA256(h1).digest()
+            if self.truncate_to:
+                h1 = h1[:self.truncate_to]
+                h2 = h2[:self.truncate_to]
+            self._digest = h2
+
+        return self._digest
+\end{lstlisting}
+
+As stated in Section \ref{sec:lengthextension}, none of the SHA-3 candidates is
+vulnerable to the length-extension attack. Since we are interested in finding
+out how Tahoe-\ac{LAFS} performs when utilizing the SHA-3 functions, we can
+remove the lines that fixes the length-extension problems manually. In addition,
+to try out one of the new implementations, we change line one in Listing
+\ref{lst:hashutil}, and the result can be seen in Listing \ref{lst:hashutilmod}.
+
+\begin{lstlisting}[label=lst:hashutilmod, caption=Relevant parts of hashutil.py of Tahoe-LAFS source after modification.]
+from sha3lib import bmw256 as SHA256
+...
+class _SHA256d_Hasher:
+    ...
+    def __init__(self, truncate_to=None):
+        self.h = SHA256()
+        self.truncate_to = truncate_to
+        self._digest = None
+
+    def update(self, data):
+        assert isinstance(data, str) # no unicode
+        self.h.update(data)
+
+    def digest(self):
+        if self._digest is None:
+            h1 = self.h.digest()
+            del self.h
+            if self.truncate_to:
+                h1 = h1[:self.truncate_to]
+            self._digest = h1
+
+        return self._digest
+\end{lstlisting}
+
+Some notes has to be made regarding the first line in Listing
+\ref{lst:hashutilmod}. For every candidate we test, the whole setup and grid is
+started from ground up, since changing the hash function this way cause a
+backwards compatibility break, making it impossible to download files put to the
+grid while using another hash function.
+For the same reasons, some of the built-in unit tests of Tahoe-LAFS fail when
+changing this line, because they contain test fixtures made with SHA-256.
+This also renders uploading of mutable files impossible, since the internal
+verification fails. For this reason, \emph{only immutable files} are tested and
+measured in this paper.
 
 \section{Test vectors and Configuration}
 
-\subsection{Physical Setup}
+% TODO: Write something about why we only test the client
 
 \section{Distribution of the Code}
 % Distutil, bash scripts
