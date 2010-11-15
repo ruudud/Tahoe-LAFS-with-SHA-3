@@ -391,7 +391,10 @@ compiler arguments gives the best performance. On the downside, the
 not an \texttt{update()} function which Tahoe-\ac{LAFS} is dependent on using.
 
 Since Tahoe-\ac{LAFS} is using \ac{SHA}-256 internally, we only test \ac{SHA}-3
-functions with 256-bit output in our implementation. The results of \ac{SHA}-3
+functions with 256-bit output in our implementation. 
+
+\subsection{\ac{SUPERCOP} benchmarks}
+The results of \ac{SHA}-3
 256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
 tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
 \ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
@@ -405,7 +408,9 @@ performed in the test.
 \input{tables/supercop_64}
 \input{tables/supercop_8}
 
-We then chose the fastest implementation of each candidate that conforms to the
+\subsection{Criteria for implementation selection}
+
+We chose the fastest implementation of each candidate that conforms to the
 following criteria:
 \begin{enumerate}
   \item The implementation must have an \ac{API} defined in C.
@@ -415,6 +420,39 @@ following criteria:
   \item The implementation should conform to the \acp{KAT} specified in the
     \ac{NIST} submission package, or later updates by the author.
 \end{enumerate}
+
+% TODO fix kilde
+Based on these criteria, we choose the fastest possible implementation based
+on our benchmark in \ac{SUPERCOP}. The relative speed of each implementation, in
+relation to other implementation for the same and other candidates are
+available at source.
+
+\subsection {Chosen implementations}
+
+The chosen implementations are shown in \ref{tbl:sha3:implementations} and
+their compiler flags used, which are extracted from the \ac{SUPERCOP} results
+can be seen in \ref{tbl:sha3:compilerflags}. It should be noted that 32 in
+blake32 does not refer to the output length of the function, but the fact that
+the algorithm is optimized for 32-bit usage. 512 in Keccackc512 also does not
+mean 512-bit output, but 512 cycles in the internal function. For the most part
+we have found working versions of all candidates in \ac{SUPERCOP}, however
+there are some exceptions.
+
+\paragraph{JH} seems to be broken in every implementation with regard to
+criteria 2. For both the optimized versions found in \ac{SUPERCOP} and the
+reference implementations in the \ac{NIST} submission package, Hash("foofoo")
+will not give the same result as two consecutive calls to Update("foo").
+However the implementation in sphlib does fulfill this requirement. We have
+also contacted the author, Thomas Pornin, which confirms this problem with the
+official JH candidate and that the author has been made aware of the problem
+but has not released any updated version yet.
+% TODO: Fix hvordan vi referer til e-post?
+
+\paragraph{Cubehash} sadly does not have a version in supercop with a 256-bit
+ouput, which is why we have only included a version from sphlib.
+
+\input{tables/sha3_implementations}
+\input{tables/sha3_flags}
 
 % TODO: Add some lines that give reasons for the criteria above.
 

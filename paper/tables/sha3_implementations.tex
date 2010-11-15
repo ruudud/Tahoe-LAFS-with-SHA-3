@@ -1,0 +1,23 @@
+\begin{table}
+  \centering
+  \begin{tabular}{ | c | c | c | }
+    \hline
+    \textbf{candidate} & \textbf{from} & \textbf{implementation} \\ \hline
+     blake      & supercop-20101014 & blake32/ssse3 \\ \hline
+     bmw        & supercop-20101014 & optc01        \\ \hline
+     cubehash   & sphlib 2.1        & c/cubehash.c  \\ \hline
+     echo       & supercop-20101014 & sphlib        \\ \hline
+     fugue      & supercop-20101014 & sphlib        \\ \hline
+     groestl    & supercop-20101014 & sphlib        \\ \hline
+     hamsi      & supercop-20101014 & simd-1        \\ \hline
+     jh         & supercop-20101014 & sphlib        \\ \hline
+     keccak     & supercop-20101014 & keccakc512/sseu2 \\ \hline
+     luffa      & supercop-20101014 & sse2          \\ \hline
+     shabal     & supercop-20101014 & sphlib        \\ \hline
+     shavite3   & supercop-20101014 & no-salt       \\ \hline
+     simd       & supercop-20101014 & vect128 + patch \\ \hline
+     skein      & supercop-20101014 & opt           \\ \hline
+  \end{tabular}
+  \caption{Choosen \ac{SHA}-3 candidate implementations}
+  \label{tbl:sha3:implementations}
+\end{table}
