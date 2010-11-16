@@ -406,10 +406,10 @@ The gain on the other hand, is significant in comparison to implementing
 functions directly in Python.
 
 %**************************************%
-\chapter{Procedure}
+\chapter{Technical Procedure}
 %**************************************%
 
-% FIXME: A more descriptive/better chapter title
+% FIXME: A more descriptive/better chapter title?
 %
 %A bit more technical description of how we tested the candidates in Tahoe-LAFS
 % - Limitations/assumptions
@@ -418,8 +418,18 @@ functions directly in Python.
 % The points above should be taken into consideration on each section in this
 % chapter.
 
-In this chapter we will outline the procedure followed to complete our task.
-% TODO: Mer intro
+In this chapter we will outline the procedure followed to complete our work.
+Although not carried out sequentially, the problem was split up to the
+following parts:
+
+\begin{enumerate}
+  \item Choose the best suiting implementations of the SHA-3 candidates.
+  \item Write Python bindings, with unit tests for verification, to be able to
+    use the functions from Python.
+  \item Modify the Tahoe-LAFS code to utilize the SHA-3 functions.
+  \item Create a method of distributing new code fast and easy to the test grid.
+  \item Set up the test environment and choose test vectors.
+\end{enumerate}
 
 \section{Choosing implementations of the SHA-3 Candidates}
 
@@ -692,12 +702,10 @@ setup(
 
 \end{lstlisting}
 
-
-
 \subsection{Unit tests}
 % Include the use of Known Answer Tests
 
-\section{Modifications in the Tahoe-\ac{LAFS} Code}
+\section{Modifications to the Tahoe-\ac{LAFS} Code}
 
 The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
 This, along with the code being highly modular and consistent to its
@@ -783,6 +791,9 @@ SHA-256.  An implication of this is that uploading of mutable files renders
 impossible, since the internal verification fails. For this reason, \emph{only
 immutable files} are tested and measured in this paper.
 
+\section{Distribution of the Code}
+% Distutil, bash scripts
+
 \section{Configuration of test environment}
 
 Tahoe-\ac{LAFS} was configured to have three storage nodes available --
@@ -820,9 +831,6 @@ what happens when network delay is brought to a minimum. At the other extreme,
 the one gigabyte file will show another perspective of resource utilization.
 
 % FIXME: Maybe add some more reasoning here.
-
-\section{Distribution of the Code}
-% Distutil, bash scripts
 
 %**************************************%
 \chapter{Measurements and Results}
