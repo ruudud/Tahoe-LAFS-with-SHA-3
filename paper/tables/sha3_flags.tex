@@ -10,7 +10,7 @@
      fugue       & -funroll-loops -O -fomit-frame-pointer                           \\ \hline
      groestl     & -m32 -march=pentium3 -O -fomit-frame-pointer                     \\ \hline
      hamsi       & -msse2 -funroll-loops -m32 -march=pentium-m -O3 -fomit-frame-pointer\\ \hline
-     jh          & none                                                             \\ \hline
+     jh          & -m32 -march=core2 -msse4.1 -O -fomit-frame-pointer               \\ \hline
      keccak      & -msse2 -march=barcelona -O3 -fomit-frame-pointer                 \\ \hline
      luffa       & -msse2 -funroll-loops -march=k8 -O3 -fomit-frame-pointer         \\ \hline
      shabal      & -funroll-loops -m32 -march=pentium2 -O -fomit-frame-pointer      \\ \hline
@@ -18,6 +18,6 @@
      simd        & -m32 -march=barcelona -O2 -fomit-frame-pointer                   \\ \hline
      skein       & -march=pentium2 -O2 -fomit-frame-pointer                         \\ \hline
   \end{tabular}
-  \caption{\ac{GCC} compiler flags used for the implementations}
+  \caption{\ac{GCC} compiler flags used on the implementations}
   \label{tbl:sha3:compilerflags}
 \end{table}

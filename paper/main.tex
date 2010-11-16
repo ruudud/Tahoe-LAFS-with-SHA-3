@@ -459,9 +459,11 @@ fact that the algorithm is optimized for 32-bit usage. 512 in Keccackc512 also
 does not mean 512-bit output, but 512 cycles in the internal function. The
 relative speeds of the implementations chosen compared to the best version in
 \ac{SUPERCOP} and relative speed of the benchmark compared to other candidates
-can bee seen in Table \ref{tbl:sha3:speedrelative}. For the most part we have
-found working versions of all candidates in \ac{SUPERCOP}, however there are
-some exceptions. 
+can bee seen in Table \ref{tbl:sha3:speedrelative}. It should also be noted
+that the fastest sha256 implementation in \ac{SUPERCOP} is
+cryptopp\footnote{\url{http://www.cryptopp.com/}}, which is the one used by
+Tahoe-\ac{LAFS}. For the most part we have found working versions of all
+candidates in \ac{SUPERCOP}, however there are some exceptions. 
 
 \input{tables/sha3_flags}
 
@@ -490,6 +492,12 @@ in bits which is a multiple of 8. Since our python wrappers only allow, and
 only need, to provide data in full bytes we decided to keep this
 implementation.
 
+\paragraph{Shavite3} seems to have received an update\footnote{see
+\url{http://www.cs.technion.ac.il/~orrd/SHAvite-3/}}. We have observed that
+implementations of Shavite3 in \ac{SUPERCOP}-20101014 or later seems to fail to
+verify the \ac{KAT}s, while the version we have used does. We believe this is
+only because newer \ac{KAT}s will have to be generated, but since the author
+has not done so we chose to use an older version of the algorithm.
 
 % TODO: Add some lines that give reasons for the criteria above.
 
