@@ -515,12 +515,12 @@ has not done so we chose to use an older version of the algorithm.
 
 Since Tahoe-\ac{LAFS} is written in Python, we needed some way of interacting
 with the C implementations of the NIST candidates. We did this by the use of
-Cython, and built a python object-oriented library which we named Sha3lib.
-Sha3lib supports all of the 14 second round \ac{SHA}-3 candidates, but only in
+Cython, and built a python object-oriented library which we named SHA3lib.
+SHA3lib supports all of the 14 second round \ac{SHA}-3 candidates, but only in
 their 256-bit form.
 
-\subsection{Sha3lib}
-Sha3lib is built to mimic the functionality of
+\subsection{SHA3lib}
+SHA3lib is built to mimic the functionality of
 hashlib\footnote{\url{http://docs.python.org/library/hashlib.html}}, the
 default python library for MD5, \ac{SHA}-1 and the \ac{SHA}-2 family. 
 % TODO, figure or listing of what this means
@@ -546,10 +546,16 @@ cdef extern from "sha3nist.h":
     ctypedef struct hashState:
         pass
 
-    HashReturn Hash(int, BitSequence *data, DataLength, BitSequence *hashval)
-    HashReturn Init(hashState *state, int hashbitlen)
-    HashReturn Update(hashState *state, BitSequence *data, DataLength databitlen)
-    HashReturn Final(hashState *state, BitSequence *hashval)
+    HashReturn Hash(int, BitSequence *data, 
+                    DataLength, 
+                    BitSequence *hashval)
+    HashReturn Init(hashState *state, 
+                    int hashbitlen)
+    HashReturn Update(hashState *state, 
+                      BitSequence *data, 
+                      DataLength databitlen)
+    HashReturn Final(hashState *state, 
+                    BitSequence *hashval)
 \end{lstlisting}
 
 We then create a wrapper-class that mimics hashlib, this is shown in Listing
@@ -566,18 +572,18 @@ from libc.stdlib cimport *
 
 cdef class echo:
     '''
-    A class that tries to mimic the behaviour of hashlib, i.e. keeping state
-    so that one can update the hashing procedure instead of doing it from
-    scratch.
+    A class that tries to mimic the behaviour of hashlib, 
+    i.e.  keeping state so that one can update the hashing 
+    procedure instead of doing it from scratch.
     '''
-    #cdef echo_hash_h.BitSequence *hashval
     cdef echo_hash_h.hashState previous_state
     cdef echo_hash_h.hashState state
     cdef int finished
     cdef int hashbitlen
     cdef list hashval
 
-    def __init__(self, int in_hashbitlen, bytes initial=None):
+    def __init__(self, int in_hashbitlen, 
+                 bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
         echo_hash_h.Init(&self.state, self.hashbitlen)
@@ -593,19 +599,25 @@ cdef class echo:
             self.finished = 0
             self.state = self.previous_state
 
-        echo_hash_h.Update(&self.state, <echo_hash_h.BitSequence *> data, data_len)
+        echo_hash_h.Update(&self.state, 
+                        <echo_hash_h.BitSequence *> data, 
+                        data_len)
 
     cpdef final(self):
-        cdef echo_hash_h.BitSequence *hashval = <echo_hash_h.BitSequence *> malloc(self.hashbitlen*8)
+        cdef echo_hash_h.BitSequence *hashval = \
+        <echo_hash_h.BitSequence *> \
+        malloc(self.hashbitlen*8)
 
-        # We copy the state so that we can continue to update.
-        # This equals hashlibs functionality, but not pycryptopp.
+        # We copy the state so that we can continue to 
+        # update. This equals hashlibs functionality, 
+        # but not pycryptopp.
         self.previous_state = self.state
 
         echo_hash_h.Final(&self.state, hashval)
         self.finished = 1
 
-        self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
+        self.hashval = [hashval[i] for i from 0 <= i \
+                        < self.hashbitlen / 8]
         free(hashval)
 
     cpdef copy(self):
@@ -639,7 +651,8 @@ C-files and then install by copying into the correct system directory where
 python libraries should be stored. \ac{Distutils} also support expansion
 through self defined commands, something we have utilised to do Unit Testing.
 Options and configuration for \ac{Distutils} is done through a file setup.py.
-Relevant configuration for compiling the echo extension can be seen in Listing.
+Relevant configuration for compiling the echo extension, and installing SHA3lib
+can bee seen in Listing \ref{lst:setup_py}.
 
 
 \begin{lstlisting}[label=lst:setup_py, caption=Compiling echo from \ac{Distutils}]
@@ -657,7 +670,8 @@ ext_modules = [
          hashpath+"echo/echo.c"],
     extra_compile_args=[
         '-funroll-loops',
-        '-m32','-march=prescott',
+        '-m32',
+        '-march=prescott',
         '-O2',
         '-fomit-frame-pointer']
     ),
@@ -672,8 +686,7 @@ setup(
     packages =
         ['sha3lib',
         'sha3lib.hash_functions',
-        'sha3lib.hash_functions.echo',
-        ],
+        'sha3lib.hash_functions.echo',],
 )
 
 \end{lstlisting}
