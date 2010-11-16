@@ -80,6 +80,7 @@ inputencoding=utf8
 \acro{AES}{Advanced Encryption Standard}
 \acro{API}{Application programming interface}
 \acro{CEB}{Capability Extension Block}
+\acro{CPU}{Central Processing Unit}
 \acro{Distutils}{Python Distribution Utilities}
 \acro{FEC}{Forward Error Correction}
 \acro{GCC}{GNU Compiler Collection}
@@ -244,7 +245,7 @@ int crypto_hash(unsigned char *out, const unsigned char *in,
 The Tahoe \ac{LAFS} is a system for secure,
 distributed data storage. Files are encrypted client side, then
 split up, before each part is sent to other nodes in the grid, as depicted in
-figure \ref{fig:tahoeinsertion}. The integrity and confidentiality of the files
+Figure \ref{fig:tahoeinsertion}. The integrity and confidentiality of the files
 are guaranteed by the algorithms used on the client, and is independent of the
 storage servers, which may be operated by untrusted people. This is defined as
 \emph{provider-independent security} \cite{t_tahoe}.
@@ -745,7 +746,7 @@ to try out one of the new implementations, we change line one in Listing
 \ref{lst:hashutil}, and an example of this can be seen in Listing
 \ref{lst:hashutilmod}.
 
-\begin{lstlisting}[label=lst:hashutilmod, caption=Relevant parts of hashutil.py of Tahoe-LAFS source after modification.]
+\begin{lstlisting}[label=lst:hashutilmod, caption=Parts of hashutil.py of Tahoe-LAFS source after modification.]
 from sha3lib import bmw256 as SHA256
 ...
 class _SHA256d_Hasher:
@@ -775,15 +776,50 @@ Some notes has to be made regarding the first line in Listing
 started from ground up, since changing the hash function this way cause a
 backwards compatibility break, making it impossible to download files put to the
 grid while using another hash function.
+
 For the same reasons, some of the built-in unit tests of Tahoe-LAFS fail when
-changing this line, because they contain test fixtures made with SHA-256.
-This also renders uploading of mutable files impossible, since the internal
-verification fails. For this reason, \emph{only immutable files} are tested and
-measured in this paper.
+changing this line, because they contain test fixtures made with the included
+SHA-256.  An implication of this is that uploading of mutable files renders
+impossible, since the internal verification fails. For this reason, \emph{only
+immutable files} are tested and measured in this paper.
 
-\section{Test vectors and Configuration}
+\section{Configuration of test environment}
 
-% TODO: Write something about why we only test the client
+Tahoe-\ac{LAFS} was configured to have three storage nodes available --
+\emph{shares available} -- and that only two of these had to be accessible to be
+able to restore files from the grid -- \emph{shares needed}. A setting called
+\emph{shares happy} was set to three storage nodes. This makes Tahoe ensure that
+all storage nodes are available, so that the test environment behaves the same
+for all the different tests.
+
+The performance measurements are only performed on the Tahoe client, and not on
+the storage servers. We motivated this by looking at the system performance
+graphs of the storage nodes during upload and retrieval, where neither the
+\ac{CPU}, network, disk or memory usage runs out of capacity. The \ac{CPU} usage
+during testing on one of the storage nodes is depicted in Figure
+\ref{fig:munin:storagenode}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{munin-tahoe05-cpuday.png}
+    \caption{Graph of CPU usage during testing on a Tahoe storage node.}
+    \label{fig:munin:storagenode}
+\end{figure}
+
+\subsection{Test Vectors}
+
+A variety of different files was uploaded and subsequently downloaded using the
+configured Tahoe grid. The numbers of the randomly generated different files
+tested are shown in Table \ref{tbl:test_vectors}.
+
+\input{tables/test_vectors}
+
+The distribution of file sizes is based on the need to test different use cases.
+Although it is probably unusual to upload one byte files, this enables us to see
+what happens when network delay is brought to a minimum. At the other extreme,
+the one gigabyte file will show another perspective of resource utilization.
+
+% FIXME: Maybe add some more reasoning here.
 
 \section{Distribution of the Code}
 % Distutil, bash scripts
@@ -828,6 +864,12 @@ What could have been done differently?
 Compare results with general (supercop) results.
 
 Optimized candidates.
+
+What if we had used another coding scheme?
+
+Implications of only testing immutable files?
+
+Adding a capability to support new hash functions in tahoe.
 
 %**************************************%
 \chapter{Conclusion and Future Work}
