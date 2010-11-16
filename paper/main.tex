@@ -321,7 +321,6 @@ storage and bandwidth requirements.}''
     \emph{Figure based on
      \href{http://tahoe-lafs.org/source/tahoe/trunk/docs/specifications/CHK-hashes.svg}
      {CHK-hashes.svg from Tahoe-LAFS documentation}}
-     %TODO: Footnote with full URL using footnotemark
 \end{figure}
 
 As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
@@ -371,30 +370,38 @@ used for both server selection and to index shares within each storage node.
 \section{Python and Cython}
 %What is it, how, why, alternatives?
 % TODO: Finn en kilde på pythonting, om det trengs?
-Python\footnote{\url{http://www.python.org}} is a high-level general-purpose
+Python\footnote{\url{http://www.python.org/}} is a high-level general-purpose
 programming language. Python is also an interpreted language, which means that
-python programs are compiled at runtime.  There exists multiple implementations
+Python programs are compiled at runtime. There exists multiple implementations
 of Python, however the most common, CPython, is implemented in C. The fact that
-Python is a high-level language usually means that there is performance penalty
-in contrast with lower level languages, shuch as C. To remedy this problem it
-is possible to write extensions to the language by using the official C-API.
-This approach has been used by several cryptographic libraries for python such
-as the official hashlib\footnote{\url{http://code.krypto.org/python/hashlib/}}
-and pycryptopp\footnote{\url{http://tahoe-lafs.org/trac/pycryptopp}}.
+Python is a high-level language usually means that there are performance
+penalties in contrast to lower level languages, such as C. To remedy this
+problem it is possible to write extensions to the language by using the official
+C-API. This approach has been used by several cryptographic libraries for
+Python, such as pycryptopp\footnote{\url{http://tahoe-lafs.org/trac/pycryptopp}}
+and the official hashlib\footnote{\url{http://code.krypto.org/python/hashlib/}}.
 
-Tahoe-\ac{LAFS} is written in python, but the SHA-3 candidate implementations found
-in both the official NIST submissions and supercop are either in C or in
-assembly. Therefore it is necessary to either implement the functions in python
-or make extensions to python through the C-API. Where extensions should give
-the best performance. % TODO: KILDE? 
+Tahoe-\ac{LAFS} is written in Python, but the SHA-3 candidate implementations found
+in both the official NIST submissions and SUPERCOP are either in C or in
+assembly. Therefore it is necessary to either implement the functions in Python
+or make extensions to Python through the C-API, where extensions should give
+the best performance.
 
 \subsection{Cython}
-Cython\footnote{\url{http://www.cython.org}} is a language for writing Python
+Cython\footnote{\url{http://www.cython.org/}} is a language for writing Python
 extensions in a language that closely resembles the Python language itself.
-Basically what Cython does is to parse Cython files and generate C source files
+Basically what Cython does, is to parse Cython files and generate C source files
 that utilises the Python C-API. Afterwards the generated source files can be
-compiled as if they were written directly in C. A small performance trade-off is
-to be expected from this, due to the extra layer of abstraction.
+compiled as if they were written directly in C.
+
+Direct calling of external C functions and methods is also supported, thus
+making Cython an attractive way of wrapping external libraries written in C to
+enable access from Python code.
+
+Since the generation of C source files is an automated procedure, a small
+performance trade-off is to be expected, due to the extra layer of abstraction.
+The gain on the other hand, is significant in comparison to implementing
+functions directly in Python.
 
 %**************************************%
 \chapter{Procedure}
@@ -488,7 +495,7 @@ author who also supplied us with a patch to correct the bug.
 
 \paragraph{Blake32 \ac{SSSE3}} implementation also fail to wholly fulfill
 criteria 4, however it does validate all test vectors that have a length 
-in bits which is a multiple of 8. Since our python wrappers only allow, and
+in bits which is a multiple of 8. Since our Python wrappers only allow, and
 only need, to provide data in full bytes we decided to keep this
 implementation.
 
@@ -514,7 +521,8 @@ with the C implementations of the NIST candidates.
 \section{Modifications in the Tahoe-\ac{LAFS} Code}
 
 The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
-This, along with the code being highly modular, emphasizes code readability.
+This, along with the code being highly modular and consistent to its
+architecture, emphasizes code readability.
 With some experience using Python, it is not difficult to learn the Tahoe code
 enough to understand what is happening when a file is uploaded or downloaded
 with the system.
@@ -556,7 +564,8 @@ vulnerable to the length-extension attack. Since we are interested in finding
 out how Tahoe-\ac{LAFS} performs when utilizing the SHA-3 functions, we can
 remove the lines that fixes the length-extension problems manually. In addition,
 to try out one of the new implementations, we change line one in Listing
-\ref{lst:hashutil}, and the result can be seen in Listing \ref{lst:hashutilmod}.
+\ref{lst:hashutil}, and an example of this can be seen in Listing
+\ref{lst:hashutilmod}.
 
 \begin{lstlisting}[label=lst:hashutilmod, caption=Relevant parts of hashutil.py of Tahoe-LAFS source after modification.]
 from sha3lib import bmw256 as SHA256
