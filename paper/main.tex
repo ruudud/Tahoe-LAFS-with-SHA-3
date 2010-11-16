@@ -80,6 +80,7 @@ inputencoding=utf8
 \acro{AES}{Advanced Encryption Standard}
 \acro{API}{Application programming interface}
 \acro{CEB}{Capability Extension Block}
+\acro{Distutils}{Python Distribution Utilities}
 \acro{FEC}{Forward Error Correction}
 \acro{GCC}{GNU Compiler Collection}
 \acro{KAT}{Known Answer Test}
@@ -513,7 +514,171 @@ has not done so we chose to use an older version of the algorithm.
 \section{Python bindings}
 
 Since Tahoe-\ac{LAFS} is written in Python, we needed some way of interacting
-with the C implementations of the NIST candidates.
+with the C implementations of the NIST candidates. We did this by the use of
+Cython, and built a python object-oriented library which we named Sha3lib.
+Sha3lib supports all of the 14 second round \ac{SHA}-3 candidates, but only in
+their 256-bit form.
+
+\subsection{Sha3lib}
+Sha3lib is built to mimic the functionality of
+hashlib\footnote{\url{http://docs.python.org/library/hashlib.html}}, the
+default python library for MD5, \ac{SHA}-1 and the \ac{SHA}-2 family. 
+% TODO, figure or listing of what this means
+
+\subsubsection{Cython}
+We employ Cython to generate bindings for the C implementation and the
+different candidates, as well as to create the base python classes. To access
+functions in C we need to generate a Cython header file, which pretty much does
+the same as a C header file; it tells which functions and data types are
+available. How we accomplish this for an implementation that satisfies the
+\ac{NIST} \ac{API} is shown in Listing \ref{lst:cython_header}. 
+
+\begin{lstlisting}[label=lst:cython_header, caption=Cython header\, echo\_hash\_h.pxd]
+cdef extern from "sha3nist.h":
+    ctypedef unsigned char BitSequence
+    ctypedef unsigned long long DataLength
+
+    cdef enum HashReturn:
+        SUCCESS = 0
+        FAIL = 1
+        BAD_HASHLEN = 2
+
+    ctypedef struct hashState:
+        pass
+
+    HashReturn Hash(int, BitSequence *data, DataLength, BitSequence *hashval)
+    HashReturn Init(hashState *state, int hashbitlen)
+    HashReturn Update(hashState *state, BitSequence *data, DataLength databitlen)
+    HashReturn Final(hashState *state, BitSequence *hashval)
+\end{lstlisting}
+
+We then create a wrapper-class that mimics hashlib, this is shown in Listing
+\ref{lst:cython_impl}. Functions declared with def er python functions, cdef are
+Cython only while cpdef are functions that can be accessed from both. While
+this is just the implementation for the echo candidate, the almost exact same
+pattern is used for all of the other candidates. 
+
+\begin{lstlisting}[label=lst:cython_impl, caption=Cython class\, echo\_hash.pyx]
+cimport echo_hash_h
+cimport cython
+
+from libc.stdlib cimport *
+
+cdef class echo:
+    '''
+    A class that tries to mimic the behaviour of hashlib, i.e. keeping state
+    so that one can update the hashing procedure instead of doing it from
+    scratch.
+    '''
+    #cdef echo_hash_h.BitSequence *hashval
+    cdef echo_hash_h.hashState previous_state
+    cdef echo_hash_h.hashState state
+    cdef int finished
+    cdef int hashbitlen
+    cdef list hashval
+
+    def __init__(self, int in_hashbitlen, bytes initial=None):
+        self.finished = 0
+        self.hashbitlen = in_hashbitlen
+        echo_hash_h.Init(&self.state, self.hashbitlen)
+
+        if initial:
+            self.update(initial)
+
+    cpdef update(self, bytes in_data):
+        cdef char* data = <char *> in_data
+        cdef int data_len = len(in_data)*8
+
+        if self.finished:
+            self.finished = 0
+            self.state = self.previous_state
+
+        echo_hash_h.Update(&self.state, <echo_hash_h.BitSequence *> data, data_len)
+
+    cpdef final(self):
+        cdef echo_hash_h.BitSequence *hashval = <echo_hash_h.BitSequence *> malloc(self.hashbitlen*8)
+
+        # We copy the state so that we can continue to update.
+        # This equals hashlibs functionality, but not pycryptopp.
+        self.previous_state = self.state
+
+        echo_hash_h.Final(&self.state, hashval)
+        self.finished = 1
+
+        self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
+        free(hashval)
+
+    cpdef copy(self):
+        s = echo(self.hashbitlen)
+        s.state = self.state
+        s.previous_state = self.previous_state
+        s.finished = self.finished
+        if s.finished:
+            s.hashval = self.hashval
+
+        return s
+
+    def digest(self):
+        if not self.finished:
+            self.final()
+
+        return ''.join(map(chr, self.hashval))
+
+    def hexdigest(self):
+        if not self.finished:
+            self.final()
+
+        return ''.join(['%02x' % i for i in self.hashval])
+\end{lstlisting}
+
+\subsubsection{\ac{Distutils}} We use the
+\ac{Distutils}\footnote{\url{http://docs.python.org/distutils/}} to build and
+install our code. The alternative to doing this would be to manually transform
+cython files to C-files, build the shared library from this and other relevant
+C-files and then install by copying into the correct system directory where
+python libraries should be stored. \ac{Distutils} also support expansion
+through self defined commands, something we have utilised to do Unit Testing.
+Options and configuration for \ac{Distutils} is done through a file setup.py.
+Relevant configuration for compiling the echo extension can be seen in Listing.
+
+
+\begin{lstlisting}[label=lst:setup_py, caption=Compiling echo from \ac{Distutils}]
+from distutils.core import setup, Command
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
+
+srcpath = 'sha3lib/'
+hashpath = srcpath + 'hash_functions/'
+
+ext_modules = [
+    Extension("sha3lib.hash_functions.echo.echo_hash",
+        [hashpath+"echo/echo_hash.pyx", 
+         hashpath+'echo/sha3nist.c', 
+         hashpath+"echo/echo.c"],
+    extra_compile_args=[
+        '-funroll-loops',
+        '-m32','-march=prescott',
+        '-O2',
+        '-fomit-frame-pointer']
+    ),
+]
+
+setup(
+    name='SHA3lib',
+    version='0.1',
+    description='Python bindings for SHA3-256 using Cython',
+    cmdclass = {'build_ext': build_ext},
+    ext_modules = ext_modules,
+    packages =
+        ['sha3lib',
+        'sha3lib.hash_functions',
+        'sha3lib.hash_functions.echo',
+        ],
+)
+
+\end{lstlisting}
+
+
 
 \subsection{Unit tests}
 % Include the use of Known Answer Tests
