@@ -130,8 +130,17 @@ Stepwise, what will we actually do?
 
 \section{Method}
 
-Technical procedure, Cython, two persons, test environment, how we test,
-GitHub?
+All work associated with the project has been carried out by the two authors in
+cooperation. Code are written using the VIM editor on Ubuntu Linux
+driven machines, and version-controlled using the distributed revision control
+system Git. All material produced, including this paper, are publicly available
+on GitHub\footnote{\url{http://github.com/ruudud/Tahoe-LAFS-with-SHA-3}}.
+
+The \ac{SHA}-3 candidates are tested on the Tahoe-\ac{LAFS} using uploading and
+downloading of files on four desktop computers. Various file sizes are used to
+simulate different use cases, and to broaden the perspective as to how the
+different candidates perform and behaves when implemented in a secure,
+distributed file system.
 
 \section{Scope and objectives}
 
@@ -144,7 +153,6 @@ What follows in this document, chapter by chapter
 %**************************************%
 \chapter{Background technologies}
 %**************************************%
-% FIXME: Find new and better title
 
 \section{Cryptographic Hash Functions}
 
@@ -854,7 +862,14 @@ immutable files} are tested and measured in this paper.
 \section{Distribution of the Code}
 % Distutil, bash scripts
 
-\section{Configuration of test environment}
+\section{Configuration of Test Environment}
+
+Four machines was used as a testing grid, each containing an Intel(R) Core(TM)2
+Duo E8300 \ac{CPU} and 4GB of \ac{RAM}. The 32-bit version of Ubuntu Linux
+Server Edition 10.04 was the operating system of choice. The installed versions
+of other relevant software can be seen in Table \ref{tbl:installedsw}.
+
+\input{tables/installed_software}
 
 Tahoe-\ac{LAFS} was configured to have three storage nodes available --
 \emph{shares available} -- and that only two of these had to be accessible to be
@@ -863,7 +878,7 @@ able to restore files from the grid -- \emph{shares needed}. A setting called
 all storage nodes are available, so that the test environment behaves the same
 for all the different tests.
 
-The performance measurements are only performed on the Tahoe client, and not on
+The performance measurements were only performed on the Tahoe client, and not on
 the storage servers. We motivated this by looking at the system performance
 graphs of the storage nodes during upload and retrieval, where neither the
 \ac{CPU}, network, disk or memory usage runs out of capacity. The \ac{CPU} usage
@@ -876,6 +891,17 @@ during testing on one of the storage nodes is depicted in Figure
     \caption{Graph of CPU usage during testing on a Tahoe storage node.}
     \label{fig:munin:storagenode}
 \end{figure}
+
+The tests was carried out as follows, for each of the test vectors:
+
+\begin{itemize}
+  \item Upload all files in the same category (as defined shortly) one by one.
+  \item Download all files in the same manner.
+\end{itemize}
+
+During these operations, we counted the number of hashing operations performed,
+and timed total time spent hashing, i.e. the total time it took for the function
+calls to the underlying hashing operations to complete.
 
 \subsection{Test Vectors}
 
