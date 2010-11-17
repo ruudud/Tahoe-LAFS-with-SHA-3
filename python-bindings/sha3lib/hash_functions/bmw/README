@@ -1,8 +1,9 @@
 Blue Midnight Wish - 256 as submitted to NIST on 15 Sept 2009.
-This is optimized C eBASH implementation.
+This eBASH implementation is just an eBASH wrapping around 
+optimized C version submitted to NIST.
 
-Programmer:  Rune E. Jensen, 
-             email: runeerle@stud.ntnu.no 
+Programmer:  Danilo Gligoroski, 
+             email: danilog@item.ntnu.no 
              December 2009
 
 Level of copyright protection: 0
