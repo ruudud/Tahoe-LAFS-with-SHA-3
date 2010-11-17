@@ -47,6 +47,28 @@ inputencoding=utf8
 \usepackage{geometry}
 \geometry{bindingoffset=1cm}
 
+% Restyle chapter headers
+\usepackage{fix-cm}
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \vspace{15pt}%
+    \ifnum \c@secnumdepth >\m@ne
+        %\hfill\huge\scshape \@chapapp\space
+        \hfill\fontsize{60}{90}\selectfont \thechapter % Chapter number
+        \par\nobreak
+        \vskip 20\p@
+    \fi
+    \interlinepenalty\@M
+    \hfill \Huge \scshape #1\par % Chapter title
+    \vspace{5pt}
+    \hrule
+    \nobreak
+    \vskip 40\p@
+  }}
+\makeatother
+
 \author{Eirik Haver \and Pål Ruud}
 \title{Project assignment - Tahoe-LAFS with SHA-3 candidates}
 \date{\today}
