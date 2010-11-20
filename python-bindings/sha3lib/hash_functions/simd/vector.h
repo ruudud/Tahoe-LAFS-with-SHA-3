@@ -121,7 +121,7 @@ union u32 {
 
 #define v16_broadcast(x) ({                     \
       union u32 u;                              \
-      u32 xx = x;                               \
+      u32 xx = (x) & 0xffff;                    \
       u.u[0] = xx | (xx << 16);                 \
       V3216(v32_shuf(u.v,0)); })
 
