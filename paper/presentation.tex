@@ -1,0 +1,88 @@
+\documentclass[screen]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+%
+%   For at dette skal funke:
+%   wget http://www.ntnu.no/selvhjelpspakken/ntnubeamer/beamerntnu.tar.gz
+%   extract til: /usr/share/texmf/tex/latex/beamer/themes
+%   kjør sudo mktexlsr
+%   sourcE: http://www.ntnu.no/selvhjelpspakken/ntnubeamer/
+
+% Bruk NTNU-temaet for beamer (her i bokmålvariant), alternativer er
+% ntnunynorsk og ntnuenglish.
+\usetheme{ntnuenglish}
+ 
+% Angi tittelen, vi gir også en kortere variant som brukes nederst på
+% hver slide:
+\title[SHA-3 in Tahoe-LAFS]%
+{Experimenting with SHA-3 candidates in Tahoe Least Authorithy File System}
+
+% Denne kan du også bruke hvis det passer seg:
+%\subtitle{Valgfri undertittel}
+
+% Angir foredragsholder, også en (valgfri) kortversjon i
+% hakeparanteser først som kommer nederst på hver slide:
+\author[EH \& PR]{Eirik Haver and Pål Ruud}
+
+% Institusjon. Bruk gjerne disse slik det passer best med det du vil
+% ha.  Valgfri kortversjon her også
+\institute[NTNU]{Department of Telematics}
+
+% Datoen blir også trykket på forsida. 
+\date{X. December 2010}
+%\date{} % Bruk denne hvis du ikke vil ha noe dato på forsida.
+
+
+% Fra her av begynner selve dokumentet
+\begin{document}
+
+% Siden NTNU-malen har en annen bakgrunn på forsida, må dette gjøres
+% i en egen kommando, ikke på vanlig beamer-måte:
+\ntnutitlepage
+
+% Her begynner første slide/frame, (nummer to etter forsida). 
+\begin{frame}
+  \frametitle{Tahoe-LAFS}
+  \begin{itemize}
+  \item Distributed FS
+  \item Principle of Least Authority
+  \item Erasure coding, k-out-of-n
+  \item Written in Python
+  \item Uses (double) SHA256-today
+    \begin{itemize}
+        \item Because of Length-Extension-Attack
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{NIST SHA-3 Competition}
+  \begin{itemize}
+  \item Select SHA-3 implementation by 2nd Quarter 2012
+  \item Currently 14 candidates, one from NTNU
+  \item Resistant to Length-Extension-Attacks
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{What we have done}
+  \begin{enumerate}
+  \item Made Python-binding for all candidates (C implementations) 
+  \item Modified Tahoe-LAFS to use the bindings
+  \item Benchmarked Tahoe-LAFS with the different candidate implementations
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Python-bindings}
+  \begin{itemize}
+  \item Optimized version of candidates available at eBACS: ECRYPT Benchmarking
+  of Cryptographic Systems.
+  \item We have used the fastest, capable C-version available for our target
+  architecture, 32-bit.
+  \item Made them available in Python by the use of Cython in ``SHA3Lib''
+  \end{itemize}
+\end{frame}
+
+\end{document}
