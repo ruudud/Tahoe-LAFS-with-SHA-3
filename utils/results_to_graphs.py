@@ -1,78 +1,135 @@
 #!/usr/bin/python
+"""
+A tool to download graphs based on results from the measurements in the
+SHA-3 in Tahoe-LAFS project, using Google Chart API.
+
+Requirements:
+Modified pygooglechart with ScaledTextData data class.
+
+Missing features:
+o Some sort of cache, maybe in the form of a json/pickling file.
+
+"""
 import getopt
 import os
 import sys
 from pygooglechart import StackedVerticalBarChart
 
+VECTORS = ('1b', '1kb', '1mb', '100mb', '1gb')
+VECTOR_COUNT = {'1b': 1000, '1kb': 100, '1mb': 50, '100mb': 5, '1gb': 1}
+OPERATIONS = {'get': ('tshg', 'totaltimeget', 'nohashopsg'),
+              'put': ('tshp', 'totaltimeput', 'nohashopsp'),}
+
 def get_candidates(directory=None):
-    sub_directories = [os.path.join(directory, f) for f in os.listdir(directory)
-        if os.path.isdir(os.path.join(directory, f))]
+    sub_directories = [f for f in os.listdir(directory) if os.path.isdir(
+        os.path.join(directory, f))]
+    sub_directories.sort()
     return sub_directories
 
-def get_results_from_data(candidates):
+def read_results(directory, candidate, vector):
+    base_path = os.path.join(directory, candidate)
+
+    results = {'put': None, 'get': None}
+    for cmd, items in OPERATIONS.items():
+        cmd_results = []
+        for op in items:
+            file_path = os.path.join(base_path, '%s_%s.txt' % (vector, op))
+            fp = open(file_path, 'r')
+            value = float(fp.readline())
+            fp.close()
+            cmd_results.append(value)
+
+        results[cmd] = tuple(cmd_results)
+
+    return results
+
+def get_results_from_data(candidates, directory):
     """
     Return value example:
     {
-        '100MB': {
+        '100mb': {
                 'candidate': {
-                        'get': ('time_in_sec', 'number_of_hashops'),
-                        'put': ('time_in_sec', 'number_of_hashops'),
+                        'get': ('time_spent_hashing', 'total_time',
+                                'number_of_hashops'),
+                        'put': ('time_spent_hashing', 'total_time',
+                                'number_of_hashops'),
                     },
                 'BMW': {
-                        'get': (88.3, 2999.0),
-                        'put': (983488.3, 19834999.0),
+                        'get': (88.3, 9888.3, 2999.0),
+                        'put': (983488.3, 2929239838.3, 19834999.0),
             },
-        '1GB': {
+        '1gb': {
                 'candidate': {
-                        'get': ('time_in_sec', 'number_of_hashops'),
-                        'put': ('time_in_sec', 'number_of_hashops'),
+                        'get': ('time_spent_hashing', 'total_time',
+                                'number_of_hashops'),
+                        'put': ('time_spent_hashing', 'total_time',
+                                'number_of_hashops'),
                     },
             }
     }
     """
     results = {}
+    for v in VECTORS:
+        results[v] = {}
+        for c in candidates:
+            v_numbers = read_results(directory, c, v)
+            results[v][c] = {'get': v_numbers['get'], 'put': v_numbers['put']}
 
-    for cd in candidates:
-        pass
+    return results
 
-def graph_test_vector(candidates, data, operation, count, vector):
+def graph_test_vector(candidates, data, directory, title, y_axis):
     if len(candidates) != len(data):
         raise AttributeError('Length of candidates and data does not match')
 
-    chart = StackedVerticalBarChart(400, 400)
+    chart = StackedVerticalBarChart(700, 428, auto_scale=False,
+                                    custom_scaling=True)
     chart.set_bar_width(41)
     chart.set_colours(('3366CC', '000000'))
     chart.add_data(data)
-    chart.set_axis_range('y', 0, 40)
+    chart.set_axis_range('y', 0, max(data) + 0.1 * max(data))
     chart.set_axis_labels('x', candidates)
     x_title_index = chart.set_axis_labels('x', ['Candidate'])
-    y_title_index = chart.set_axis_labels('y', ['Seconds'])
+    y_title_index = chart.set_axis_labels('y', [y_axis])
     chart.set_axis_positions(x_title_index, [50])
     chart.set_axis_positions(y_title_index, [50])
-
-    chart.set_title('%s of %s %s file(s)' % (operation, str(count), vector))
+    chart.set_title(title)
 
     # (dataset, all bars, formating, colour, width)
     chart.add_marker(0, -1, 'N', '000000', 11)
+    chart.download(os.path.join(directory, '%s.png' % title.replace(' ','')))
 
-    chart.download('%s%s.png' % (vector, op))
+def graph_data(results, candidates, directory):
+    for vector in VECTORS:
+        for op in ('get', 'put'):
+            y_axis = 'Seconds'
+            data = [results[vector][c][op][0] for c in candidates]
+            title = 'Time spent hashing: %s of %s %s file(s)' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            graph_test_vector(candidates, data, directory, title, y_axis)
 
-def graph_data(data):
-    pass
+            data = [results[vector][c][op][1] for c in candidates]
+            title = 'Total time spent: %s of %s %s file(s)' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            graph_test_vector(candidates, data, directory, title, y_axis)
+
+            y_axis = 'Count'
+            data = [results[vector][c][op][2] for c in candidates]
+            title = 'Hash operations: %s of %s %s file(s)' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            graph_test_vector(candidates, data, directory, title, y_axis)
 
 def results_to_graphs(directory=None):
     if directory is None:
         directory = os.getcwd()
     candidates = get_candidates(directory)
-    results = get_results_from_data(candidates)
-    graph_data(results)
-    print candidates
+    results = get_results_from_data(candidates, directory)
+    graph_data(results, candidates, directory)
 
 def usage():
-    usage = """Export results to CSV file.
-    -d <dir> 
-    --directory=<dir> 
-      Generate CSV for candidates in <dir>
+    usage = """Export results to graphs.
+    -d <dir>
+    --directory=<dir>
+      Generate graphs for candidates in <dir>
 
     -h
     --help
@@ -101,7 +158,7 @@ def main(argv=None):
         else:
             assert False, 'Unhandled option'
 
-    results_to_graphs(directory) 
+    results_to_graphs(directory)
     return 0
 
 if __name__ == "__main__":
