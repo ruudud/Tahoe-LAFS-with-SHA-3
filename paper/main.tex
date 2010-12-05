@@ -89,11 +89,21 @@ inputencoding=utf8
 
 \tableofcontents
 
-\addcontentsline{toc}{chapter}{\listfigurename} % Manually add to ToC
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
 
+\cleardoublepage
+\phantomsection
 \addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\lstlistlistingname}
+\lstlistoflistings
+\cleardoublepage
 
 \chapter*{Acronyms}
 \addcontentsline{toc}{chapter}{Acronyms}
@@ -704,7 +714,7 @@ immutable files} are tested and measured in this paper. Implications of this is
 discussed further in Chapter \ref{ch:discussion}.
 
 \section{Distribution of the Code}
-% Distutil, bash scripts
+% TODO: Distutil, bash scripts
 
 \section{Configuration of Test Environment}
 
