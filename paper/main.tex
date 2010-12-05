@@ -223,23 +223,23 @@ shortness it requires every candidate to implement four functions.
 
 \begin{verbatim}
 HashReturn Init(hashState *state, int hashbitlen);
-HashReturn Update(hashState *state, const BitSequence *data, 
+HashReturn Update(hashState *state, const BitSequence *data,
     DataLength databitlen);
 HashReturn Final(hashState *state, BitSequence *hashval);
-HashReturn Hash(int hashbitlen, const BitSequence *data, 
+HashReturn Hash(int hashbitlen, const BitSequence *data,
     DataLength databitlen, BitSequence *hashval);
 \end{verbatim}
 
-The Init() function basically sets up the internal state of the function, to
-make it ready to start processing real data. The Update() function is used to
-provide the actuall data to the hash function. The Final() function should be
-called when all necessary data has been gived through Update(), it will then
+The {\verb Init() } function basically sets up the internal state of the function, to
+make it ready to start processing real data. The {\verb Update() } function is used to
+provide the actual data to the hash function. The {\verb Final() } function should be
+called when all necessary data has been given through {\verb Update() }, it will then
 finish the hash function and provide the digest. The Hash() function basically a wrapper
 for doing a call to the three other functions.
 
-HashReturn is an enum representing that an operation either succeded (0) or
-went wrong. The BitSequence is a representation of an array of bytefields and
-DataLength represents the size in bits of the data provided.
+{\verb HashReturn } is an \emph{enum} representing that an operation either succeeded (0) or
+went wrong. The {\verb BitSequence } is a representation of an array of byte fields and
+{\verb DataLength } represents the size in bits of the data provided.
 
 \subsubsection{The second round candidates}
 The names of the second round candidates for the \ac{SHA}-3 \ac{NIST}
@@ -279,11 +279,11 @@ architectures are available at
 \ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
 conform to\cite{s_supercopapi}. This \ac{API} specifies the naming and
 organization of files, and that a submission must include a function
-crypto\_hash() which is similar to the function Hash() in the \ac{NIST} \ac{SHA}-3
-\ac{API}. The only difference beeing the naming of datatypes and that the
-crypto\_hash() function does not need an input of how long the output of the
-hash function should be. Instead double or different submissions are used for
-different output lengths.
+{\verb crypto\_hash() } which is similar to the function {\verb Hash() } in the
+\ac{NIST} \ac{SHA}-3 \ac{API}. The only difference being the naming of
+data types and that the {\verb crypto\_hash() } function does not need an input
+of how long the output of the hash function should be. Instead double or
+different submissions are used for different output lengths.
 
 \begin{verbatim}
 int crypto_hash(unsigned char *out, const unsigned char *in,
@@ -344,7 +344,7 @@ interface to the directories and files.
 There are two kinds of files in the Tahoe-\ac{LAFS} -- \textbf{immutable} and
 \textbf{mutable} files. An immutable file is created exactly once, i.e. it
 cannot be modified, and can be read repeatedly. Mutable files can be modified,
-and everyone who has access to the \emph{signing key} can make new versions of
+and everyone who has access to the signing key can make new versions of
 the mutable file.
 %More text here?
 
@@ -398,7 +398,7 @@ used for instance to start playing a movie file while it is still being
 downloaded.
 
 These secure hashes of the shares of a file, are contained within a small
-datastructure named the \emph{\ac{CEB}}.
+data structure named the \emph{\ac{CEB}}.
 
 \paragraph{Capabilities.}
 
@@ -461,8 +461,6 @@ functions directly in Python.
 \chapter{Technical Procedure}
 %**************************************%
 
-% FIXME: A more descriptive/better chapter title?
-%
 %A bit more technical description of how we tested the candidates in Tahoe-LAFS
 % - Limitations/assumptions
 % - Optimized candidates.
