@@ -15,7 +15,7 @@ main.pdf: main.tex title.tex *.bib tables/*.tex
 	bibtex main
 	pdflatex main.tex
 	pdflatex main.tex
-	rm -rf *.aux *.log *.toc *.out *.lof *.lot *.bbl *.blg *.dvi
+	rm -rf *.aux *.log *.toc *.out *.lof *.lot *.bbl *.blg *.dvi *.lol
 
 problem:
 	pdflatex problem_description.tex
@@ -30,6 +30,6 @@ presentation.pdf: presentation.tex
 all: main.pdf presentation.pdf
 
 clean:
-	rm -rf *.aux *.log *.toc *.out *.lof *.lot *.bbl *.blg *.dvi *.pdf
+	rm -rf *.aux *.log *.toc *.out *.lof *.lot *.bbl *.blg *.dvi *.pdf *.lol
 
 .PHONY: clean problem

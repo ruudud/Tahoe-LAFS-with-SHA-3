@@ -520,7 +520,7 @@ class Chart(object):
         resolution (http://code.google.com/apis/chart/#chart_data).
         """
         assert(isinstance(data, list) or isinstance(data, tuple))
-        return ScaledTextData
+        # FIXME: Extend the logic to include ScaledTextData
         if not isinstance(self, (LineChart, BarChart, ScatterChart)):
             # From the link above:
             #   Simple encoding is suitable for all other types of chart

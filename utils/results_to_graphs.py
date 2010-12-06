@@ -102,13 +102,18 @@ def graph_data(results, candidates, directory):
     for vector in VECTORS:
         for op in ('get', 'put'):
             y_axis = 'Seconds'
-            data = [results[vector][c][op][0] for c in candidates]
+            tsh_data = [results[vector][c][op][0] for c in candidates]
             title = 'Time spent hashing: %s of %s %s file(s)' % (
                 op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
-            graph_test_vector(candidates, data, directory, title, y_axis)
+            graph_test_vector(candidates, tsh_data, directory, title, y_axis)
 
-            data = [results[vector][c][op][1] for c in candidates]
+            tts_data = [results[vector][c][op][1] for c in candidates]
             title = 'Total time spent: %s of %s %s file(s)' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            graph_test_vector(candidates, tts_data, directory, title, y_axis)
+
+            data = map(lambda x, y: float(y) - float(x), tsh_data, tts_data)
+            title = 'Time spent NOT hashing: %s of %s %s file(s)' % (
                 op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
             graph_test_vector(candidates, data, directory, title, y_axis)
 
@@ -143,6 +148,8 @@ def main(argv=None):
 
     try:
         opts, args = getopt.getopt(argv[1:], 'hd:', ['help', 'directory='])
+        if len(opts) == 0 and len(args) != 0:
+            raise getopt.GetoptError('Invalid argument')
     except getopt.GetoptError as err:
         print(err)
         usage()
