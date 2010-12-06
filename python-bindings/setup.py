@@ -16,7 +16,7 @@ hashpath = srcpath + 'hash_functions/'
 ext_modules = [
     Extension("sha3lib.hash_functions.bmw.bmw",
         [hashpath+"bmw/bmw.pyx", hashpath+'bmw/BlueMidnightWish.c'],
-        extra_compile_args=['-funroll-loops','-m32','-march=pentium4','-O3','-fomit-frame-pointer']),
+        extra_compile_args=['-m32','-march=i386','-O','-fomit-frame-pointer']),
     Extension("sha3lib.hash_functions.groestl.groestl_hash",
         [hashpath+"groestl/groestl_hash.pyx", hashpath+'groestl/sha3nist.c',
             hashpath+"groestl/groestl.c"],

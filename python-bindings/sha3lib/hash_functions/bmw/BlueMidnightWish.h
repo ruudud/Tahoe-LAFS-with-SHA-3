@@ -52,12 +52,12 @@ typedef enum { SUCCESS = 0, FAIL = 1, BAD_HASHLEN = 2, BAD_CONSECUTIVE_CALL_TO_U
 
 typedef struct
 {
-	u_int32_t DoublePipe[32];
+	u_int32_t DoublePipe[16];
 	BitSequence LastPart[BlueMidnightWish256_BLOCK_SIZE * 2];
 } Data256;
 typedef struct
 {
-	u_int64_t DoublePipe[32];
+	u_int64_t DoublePipe[16];
 	BitSequence LastPart[BlueMidnightWish512_BLOCK_SIZE * 2];
 } Data512;
 
@@ -68,13 +68,18 @@ typedef struct {
 	u_int64_t bits_processed;
 	union
     { 
-		Data256  p256[1];
-		Data512  p512[1];
+		#if defined ( _MSC_VER )
+		__declspec(align(16)) Data256  p256[1];
+		__declspec(align(16)) Data512  p512[1];
+		#else
+		__attribute__ ((aligned (16))) Data256  p256[1];
+		__attribute__ ((aligned (16))) Data512  p512[1];
+		#endif
     } pipe[1];
 	int unprocessed_bits;
 } hashState;
 
 HashReturn Init(hashState *state, int hashbitlen);
-HashReturn Update(hashState *state, const BitSequence *data, DataLength databitlen);
+HashReturn Update256(hashState *state, const BitSequence *data, DataLength databitlen);
 HashReturn Final(hashState *state, BitSequence *hashval);
 HashReturn Hash(int hashbitlen, const BitSequence *data, DataLength databitlen, BitSequence *hashval);

@@ -50,7 +50,7 @@ cdef class bmw:
             self.finished = 0
             self.state = self.previous_state
 
-        bmw_h.Update(&self.state, <bmw_h.BitSequence *> data, data_len)
+        bmw_h.Update256(&self.state, <bmw_h.BitSequence *> data, data_len)
 
     cpdef final(self):
         cdef bmw_h.BitSequence *hashval = <bmw_h.BitSequence *> malloc(self.hashbitlen*8)

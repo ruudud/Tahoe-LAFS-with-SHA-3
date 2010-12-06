@@ -19,5 +19,5 @@ cdef extern from "BlueMidnightWish.h":
 
     HashReturn Hash(int, BitSequence *data, DataLength, BitSequence *hashval)
     HashReturn Init(hashState *state, int)
-    HashReturn Update(hashState *state, BitSequence *data, DataLength)
+    HashReturn Update256(hashState *state, BitSequence *data, DataLength)
     HashReturn Final(hashState *state, BitSequence *hashval)
