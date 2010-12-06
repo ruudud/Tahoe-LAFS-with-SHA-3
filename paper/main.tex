@@ -202,9 +202,9 @@ called Round 2, with 14 of 64 candidates having ``survived'' Round 1
 \subsubsection{\ac{NIST} evaluation criteria for \ac{SHA}-3}
 
 \label{sec:lengthextension}
-\paragraph{Security.} The most important criteria for the SHA-3
-candidates\cite{s_nistround2} is security. The full description of security
-criteria are mentioned in \cite{s_fedreg}, however the most noteworthy criterion
+\paragraph{Security.} The most important criterion for the SHA-3
+candidates\cite{s_nistround2} is security. \citet{s_fedreg} lays out the full
+description of security criteria, however the most noteworthy criterion
 in regards to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
 resistance against length-extension attacks. Both \ac{SHA}-1 and the \ac{SHA}-2
 family are vulnerable to this kind of attack, and thus requires
@@ -218,7 +218,7 @@ both the implementation itself and the use of \ac{RAM} during runtime. Another
 measure of cost is how many logic gates it takes to implement the function in
 hardware.
 
-\paragraph{Algorithm and implementation characteristics.} By this 3rd criteria,
+\paragraph{Algorithm and implementation characteristics.} By this 3rd criterion,
 \ac{NIST} emphasizes that algorithms with greater flexibility will be given
 preference over other algorithms \cite{s_nistround2}. By flexible, they imply
 the possibility of the function to run efficiently on a variety of platforms,
@@ -226,10 +226,10 @@ and to use parallelism and instruction set extensions. Another key point of a
 flexible hash function is that it should have a simple and elegant design to
 encourage understanding, analysis and design confidence.
 
-\subsubsection{\ac{NIST} \ac{SHA}-3 \ac{API}}
-\ac{NIST} required that every submission conform to a specified
-\ac{API}\cite{s_fedreg}. The \ac{API} is specified at \cite{s_nistapi} and in
-shortness it requires every candidate to implement four functions.
+\subsubsection{\ac{NIST} \ac{SHA}-3 \ac{API}} \ac{NIST} required that every
+submission should conform to a specified \ac{API}\cite{s_fedreg}. The \ac{API}
+specification \cite{s_nistapi} states in shortness that it requires every
+candidate to implement four functions:
 
 \begin{verbatim}
 HashReturn Init(hashState *state, int hashbitlen);
@@ -244,24 +244,23 @@ The {\verb Init() } function basically sets up the internal state of the functio
 make it ready to start processing real data. The {\verb Update() } function is used to
 provide the actual data to the hash function. The {\verb Final() } function should be
 called when all necessary data has been given through {\verb Update() }, it will then
-finish the hash function and provide the digest. The Hash() function basically a wrapper
-for doing a call to the three other functions.
+finish the hash function and provide the digest. The {\verb Hash() } function
+can be described as a wrapper for doing a call to the three other functions.
 
-{\verb HashReturn } is an \emph{enum} representing that an operation either succeeded (0) or
+{\verb HashReturn } is an \emph{enum} representing that an operation either succeeded or
 went wrong. The {\verb BitSequence } is a representation of an array of byte fields and
 {\verb DataLength } represents the size in bits of the data provided.
 
 \subsubsection{The second round candidates}
 The names of the second round candidates for the \ac{SHA}-3 \ac{NIST}
 competition along with their principal submitters are listed in Table
-\ref{tbl:sha3:candidates}\cite{s_nistround2}.
+\ref{tbl:sha3:candidates} \cite{s_nistround2}.
 
 \input{tables/sha3_authors}
 
 \subsection{\ac{SUPERCOP}}
-% TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 \ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
-of cryptographic software \cite{s_supercop}. In relation to hash functions
+of cryptographic software \cite{s_supercop}. In relation to hash functions,
 \ac{SUPERCOP} measures the following:
 
 \begin{itemize}
@@ -277,21 +276,20 @@ of different optimizations for each candidate. Optimizations range from
 as \ac{SSE2} and \ac{SSSE3}, optimizations for different number of cores and
 others. The toolkit will also try different compiler optimizations to get the
 best results possible for each function.
-% TODO: Insert image to visualize the forest of different implementations.
 
 The benchmarking results for the \ac{SUPERCOP} toolkit of the \ac{SHA}-3
 candidates and \ac{SHA}-2 functions on a number of different plattforms and
-architectures are available at
-\footnote{\url{http://bench.cr.yp.to/results-sha3.html}}
-% TODO: Link to appendix with tahoe04 SUPERCOP results.
+architectures are available at the webpage of eBACS
+\footnote{\url{http://bench.cr.yp.to/results-sha3.html}}.
+%FIXME: Reference appendix if tahoe04 results end up there.
 
 \subsubsection{\ac{SUPERCOP} \ac{API}}
 \ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
-conform to\cite{s_supercopapi}. This \ac{API} specifies the naming and
+conform to \cite{s_supercopapi}. This \ac{API} specifies the naming and
 organization of files, and that a submission must include a function
-{\verb crypto\_hash() } which is similar to the function {\verb Hash() } in the
+{\verb crypto_hash() } which is similar to the function {\verb Hash() } in the
 \ac{NIST} \ac{SHA}-3 \ac{API}. The only difference being the naming of
-data types and that the {\verb crypto\_hash() } function does not need an input
+data types and that the {\verb crypto_hash() } function does not need an input
 of how long the output of the hash function should be. Instead double or
 different submissions are used for different output lengths.
 
@@ -387,7 +385,7 @@ storage and bandwidth requirements.}''
      {CHK-hashes.svg from Tahoe-LAFS documentation}}
 \end{figure}
 
-As seen in figure \ref{fig:tahoehashing}, the usage of secure hashing is
+As seen in Figure \ref{fig:tahoehashing}, the usage of secure hashing is
 extensive in Tahoe, and has to be considered as a key part of the functionality,
 and thus affecting the performance.
 
@@ -402,7 +400,7 @@ and thus affecting the performance.
 
 A hash tree, also known as a \emph{Merkle tree}, is a type of data structure
 which can be described as a tree with nodes that can verify all information
-below in the hierarchy, as depicted in figure \ref{fig:tahoemerkletree}. This
+below in the hierarchy, as depicted in Figure \ref{fig:tahoemerkletree}. This
 enables Tahoe to verify small segments of a file at the time, and this can be
 used for instance to start playing a movie file while it is still being
 downloaded.
@@ -416,7 +414,7 @@ A \textbf{capability} (or an URI) contains the encryption key, and a hash of the
 \emph{\ac{UEB}}. The \ac{UEB} for each file is a data structure containing the
 hash of the \ac{CEB}, the size of the file, any encoding parameters necessary to
 perform the erasure decoding, and a hash of the plaintext and the encrypted
-text. This is illustrated in figure \ref{fig:tahoeueb}.
+text. This is illustrated in Figure \ref{fig:tahoeueb}.
 
 \begin{figure}[!h]
     \centering
@@ -458,7 +456,7 @@ Basically what Cython does, is to parse Cython files and generate C source files
 that utilises the Python C-API. Afterwards the generated source files can be
 compiled as if they were written directly in C.
 
-Direct calling of external C functions and methods is also supported, thus
+Direct calling of external C functions and methods are also supported, thus
 making Cython an attractive way of wrapping external libraries written in C to
 enable access from Python code.
 
@@ -499,88 +497,87 @@ appear to be updated since the submission deadline on September 15, 2009. They
 also do not contain any benchmarking utility which could be used to decide on
 the best implementation for a particular platform or architecture. \ac{SUPERCOP}
 on the other hand, provides both, in combination with results stating which
-compiler arguments gives the best performance. On the downside, the
-\ac{SUPERCOP} \ac{API} only specifies the \texttt{crypto\_hash()} function and
-not an \texttt{update()} function which Tahoe-\ac{LAFS} is dependent on using.
+compiler arguments that gives the best performance. On the downside, the
+\ac{SUPERCOP} \ac{API} only specifies the {\verb crypto_hash() } function and
+not an {\verb update() } function which Tahoe-\ac{LAFS} is dependent on using.
 
 Since Tahoe-\ac{LAFS} is using \ac{SHA}-256 internally, we only test \ac{SHA}-3
-functions with 256-bit output in our implementation. 
-
+functions with 256-bit output in our implementation.
 
 \subsection{Criteria for implementation selection}
 
 We chose the fastest implementation of each candidate that conforms to the
 following criteria:
-\begin{enumerate}
-  \item The implementation must have an \ac{API} defined in C.
-  \item The implementation must include a working \verb update() function.
-  \item The implementation must not use assembly that can not be made
-    position independent by \ac{GCC}.
-  \item The implementation should conform to the \acp{KAT} specified in the
+\paragraph{Criterion 1} The implementation must have an \ac{API} defined in C.
+\paragraph{Criterion 2} The implementation must include a working {\verb update() } function.
+\paragraph{Criterion 3} The implementation must not use assembly that can not be made
+    position independent by \ac{GCC}.%FIXME: State the reason for this somewhere?
+\paragraph{Criterion 4} The implementation should conform to the \acp{KAT} specified in the
     \ac{NIST} submission package, or later updates by the author.
-\end{enumerate}
 
-% TODO fix kilde
+\vspace{12pt}
 Based on these criteria, we choose the fastest possible implementation based
 on our benchmark in \ac{SUPERCOP}. The relative speed of each implementation, in
 relation to other implementation for the same and other candidates are
 available at source.
+% TODO: Link to appendix with tahoe04 SUPERCOP results.
 
 \subsection{Chosen implementations}
 
 \input{tables/sha3_implementations}
+% FIXME: Insert image to visualize the forest of different implementations.
 
-The chosen implementations are shown in Table \ref{tbl:sha3:implementations}
-and their compiler flags used, which are extracted from the \ac{SUPERCOP}
-results can be seen in Table\ref{tbl:sha3:compilerflags}. It should be noted
-that 32 in blake32 does not refer to the output length of the function, but the
-fact that the algorithm is optimized for 32-bit usage. 512 in Keccackc512 also
-does not mean 512-bit output, but 512 cycles in the internal function. The
-relative speeds of the implementations chosen compared to the best version in
-\ac{SUPERCOP} and relative speed of the benchmark compared to other candidates
-can bee seen in Table \ref{tbl:sha3:speedrelative}. It should also be noted
-that the fastest sha256 implementation in \ac{SUPERCOP} is
+The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
+Their compiler flags used, which are extracted from the \ac{SUPERCOP}
+results, can be seen in Table \ref{tbl:sha3:compilerflags}.
+
+It should be noted that \emph{32} in blake32 does not refer to the output length
+of the function, but the fact that the algorithm is optimized for 32-bit usage.
+Similarly, \emph{512} in keccakc512 does not mean 512-bit output, but 512 cycles in the
+internal function.
+
+The relative speeds of the implementations chosen compared to
+the best version in \ac{SUPERCOP}, and relative speed of the benchmark compared
+to other candidates, can bee seen in Table \ref{tbl:sha3:speedrelative}.
+Worth mentioning is that the fastest SHA-256 implementation in \ac{SUPERCOP} is
 cryptopp\footnote{\url{http://www.cryptopp.com/}}, which is the one used by
 Tahoe-\ac{LAFS}. For the most part we have found working versions of all
-candidates in \ac{SUPERCOP}, however there are some exceptions. 
+candidates in \ac{SUPERCOP}, however there are some exceptions.
 
 \input{tables/sha3_flags}
 
 \input{tables/sha3_relativespeed}
 
 \paragraph{JH} seems to be broken in every implementation with regard to
-criteria 2. For both the optimized versions found in \ac{SUPERCOP} and the
+Criterion 2. For both the optimized versions found in \ac{SUPERCOP} and the
 reference implementations in the \ac{NIST} submission package, Hash("foofoo")
 will not yield the same result as two consecutive calls to Update("foo").
 However the implementation in sphlib does fulfill this requirement. We have
 also contacted the author, Thomas Pornin, which confirms this problem with the
 official JH candidate and that the author has been made aware of the problem
 but has not released any updated version yet.
-% TODO: Fix hvordan vi referer til e-post?
+% TODO: How to reference email?
+% TODO: We have to write someting about sphlib itself
 
 \paragraph{Cubehash} sadly does not have a version in \ac{SUPERCOP} with a 256-bit
 output, which is why we have only included a version from sphlib.
 
-\paragraph{Simd vect128 implementation} does not by default conform to
-criteria 4, because of a bug in the implementation. This has confirmed by the
-author who also supplied us with a patch to correct the bug.
+\paragraph{Simd vect128 implementation} does not by default conform to Criterion
+4, because of a bug in the implementation. This has been confirmed by the author
+who also supplied us with a patch to correct the bug.
 
-\paragraph{Blake32 \ac{SSSE3}} implementation also fail to wholly fulfill
-criteria 4, however it does validate all test vectors that have a length 
-in bits which is a multiple of 8. Since our Python wrappers only allow, and
-only need, to provide data in full bytes we decided to keep this
+\paragraph{Blake32 \ac{SSSE3}} implementation also fail to completely fulfill
+Criterion 4, however it does validate all test vectors that have a length
+in bits which is a multiple of 8. Since our Python wrappers only allow (and
+only need) to provide data in full bytes, we decided to keep this
 implementation.
 
-\paragraph{Shavite3} seems to have received an update\footnote{see
+\paragraph{Shavite3} seems to have received an update\footnote{See
 \url{http://www.cs.technion.ac.il/~orrd/SHAvite-3/}}. We have observed that
 implementations of Shavite3 in \ac{SUPERCOP}-20101014 or later seems to fail to
 verify the \ac{KAT}s, while the version we have used does. We believe this is
 only because newer \ac{KAT}s will have to be generated, but since the author
-has not done so we chose to use an older version of the algorithm.
-
-% TODO: Add some lines that give reasons for the criteria above.
-
-% sphlib, SUPERCOP, NIST
+has not done so, we chose to use an older version of the algorithm.
 
 \section{Python bindings}
 
@@ -600,7 +597,7 @@ candidatename+256 and that the classes included the following functions:
 \begin{itemize}
     \item Constructur with an optional data element that does the same as
     Update()
-    \item Update() takes data that should be considered in hashing 
+    \item Update() takes data that should be considered in hashing
     \item digest() that produce a raw byte-digest from submitted data
     \item hexdigest() that produce a hex representation of the digest
     \item copy() that copies the internal state of the function and produces a
@@ -808,19 +805,18 @@ performed in the test.
 %**************************************%
 \label{ch:discussion}
 
-\begin{itemize}
-    \item What could have been done differently?
-    \item Compare our results with general (supercop) results.
-    \item Optimized candidates - which gain could be expected from more
-    optimized candidates
-    \item What if we had used another coding scheme? - does Cython lower the
-    candidates performance?
-    \item Implications of only testing immutable files? (mutable files also
-    include directories)
-    \item Adding a capability to support new hash functions in tahoe. (Our
-    current way breaks backwards compatability)
-    \item Time gain of removing ``double'' SHA-256. Double only in digest()
-\end{itemize}
+% TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
+% What could have been done differently?
+% Compare our results with general (supercop) results.
+% Optimized candidates - which gain could be expected from more optimized
+%   candidates?
+% What if we had used another coding scheme? - does Cython lower the
+%   candidates performance?
+% Implications of only testing immutable files? (mutable files also
+%   include directories)
+% Adding a capability to support new hash functions in tahoe. (Our
+%   current way breaks backwards compatability)
+% Time gain of removing ``double'' SHA-256. Double only in digest()
 
 %**************************************%
 \chapter{Conclusion and Future Work}
