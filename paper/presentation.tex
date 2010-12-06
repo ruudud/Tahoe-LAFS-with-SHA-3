@@ -1,7 +1,32 @@
 \documentclass[screen]{beamer}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-
+\usepackage{color}
+\usepackage{graphicx}
+\graphicspath{{images/presentation/}}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{listings}
+\lstset{
+  language=Python,
+  backgroundcolor=\color{gray},
+  keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+  identifierstyle=\ttfamily,
+  commentstyle=\color[rgb]{0.133,0.545,0.133},
+  stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+  showstringspaces=false,
+  basicstyle=\small,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=2,
+  breaklines=true,
+  prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+  breakatwhitespace=false,
+  aboveskip={1.5\baselineskip},
+  columns=fixed,
+  upquote=true,
+  extendedchars=true,
+  inputencoding=utf8
+}
 %
 %   For at dette skal funke:
 %   wget http://www.ntnu.no/selvhjelpspakken/ntnubeamer/beamerntnu.tar.gz
@@ -12,7 +37,7 @@
 % Bruk NTNU-temaet for beamer (her i bokmålvariant), alternativer er
 % ntnunynorsk og ntnuenglish.
 \usetheme{ntnuenglish}
- 
+
 % Angi tittelen, vi gir også en kortere variant som brukes nederst på
 % hver slide:
 \title[SHA-3 in Tahoe-LAFS]%
@@ -29,7 +54,7 @@
 % ha.  Valgfri kortversjon her også
 \institute[NTNU]{Department of Telematics}
 
-% Datoen blir også trykket på forsida. 
+% Datoen blir også trykket på forsida.
 \date{December 7th 2010}
 %\date{} % Bruk denne hvis du ikke vil ha noe dato på forsida.
 
@@ -41,15 +66,26 @@
 % i en egen kommando, ikke på vanlig beamer-måte:
 \ntnutitlepage
 
-% Her begynner første slide/frame, (nummer to etter forsida). 
+% Her begynner første slide/frame, (nummer to etter forsida).
 \begin{frame}
-  \frametitle{Tahoe-LAFS}
+  \frametitle{Goal}
+
+  Measure and compare performance of the current SHA-3 candidates within the
+  Tahoe-Least Authority File System.
+
+\end{frame}
+
+\begin{frame}
+  \begin{textblock*}{76mm}[1,1](83mm,18mm)
+  \includegraphics[scale=0.4]{tahoe-logo.pdf}
+  \end{textblock*}
+
   \begin{itemize}
   \item Distributed FS
   \item Principle of Least Authority
   \item Erasure coding, k-out-of-n
   \item Written in Python
-  \item Uses (double) SHA256-today
+  \item Uses (double) SHA256 today
     \begin{itemize}
         \item Because of Length-Extension-Attack
     \end{itemize}
@@ -68,7 +104,7 @@
 \begin{frame}
   \frametitle{What we have done}
   \begin{enumerate}
-  \item Made Python-binding for all candidates (C implementations) 
+  \item Made Python-binding for all candidates (C implementations)
   \item Modified Tahoe-LAFS to use the bindings
   \item Benchmarked Tahoe-LAFS with the different candidate implementations
   \end{enumerate}
@@ -85,12 +121,17 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Modification of Tahoe-LAFS}
   \begin{enumerate}
   \item Quick hack to quickly swap used hash implementation
-  \item Benchmarking data (number of hashoperations, timers)
+  \item Benchmarking data (number of hash operations, timers)
   \end{enumerate}
+
+  \begin{lstlisting}
+    from sha3lib import bmw256 as SHA256
+  \end{lstlisting}
+
 \end{frame}
 
 \begin{frame}
@@ -105,7 +146,7 @@
 
 \begin{frame}
     \frametitle{Benchmarking}
-    
+
     INSERT graphs.. % TODO
 \end{frame}
 
@@ -116,7 +157,7 @@
             \begin{enumerate}
                 \item Speed of Update() is neglected
                 \item Implementations are not correct according to specification
-                \item Some implementations fails to fullfill the basic requirements
+                \item Some implementations fails to fulfill the basic requirements
                 of HASH functions
             \end{enumerate}
         \item Our implementations are not the fastest possible
@@ -136,12 +177,12 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Conclusion}
+    \frametitle{Preliminary Conclusion}
     \begin{enumerate}
         \item There is a performance gain by switching to another hash
-        function
+        function.
         \item However, the gain is small and we believe improving other areas
-        could imporve performance more
+        could improve Tahoe performance more.
     \end{enumerate}
 \end{frame}
 
