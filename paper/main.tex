@@ -779,8 +779,15 @@ the one gigabyte file will show another perspective of resource utilization.
 % Maybe cite
 % \url{http://tahoe-lafs.org/trac/tahoe-lafs/wiki/Performance?version=32}
 
+\begin{itemize}
+    \item Section should only contain the hard facts of our measurements
+    \item What is tested and what is not tested?
+    \item How much time is spent on hashing versus total time of
+    uploading/downloading
+    \item How much gain can Tahoe-LAFS get by switching to SHA-3?
+\end{itemize}
 
-\subsection{\ac{SUPERCOP} benchmarks}
+\section{\ac{SUPERCOP} benchmarks}
 The results of \ac{SHA}-3
 256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
 tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
@@ -795,30 +802,24 @@ performed in the test.
 \input{tables/supercop_64}
 \input{tables/supercop_8}
 
-What is tested and what is not tested?
-
-How much time is spent on hashing versus upload over network?
-
-How much gain can Tahoe-LAFS get by switching to SHA-3?
-
-Plenty of tables, graphs
 
 %**************************************%
 \chapter{Discussion}
 %**************************************%
 \label{ch:discussion}
 
-What could have been done differently?
-
-Compare results with general (supercop) results.
-
-Optimized candidates.
-
-What if we had used another coding scheme?
-
-Implications of only testing immutable files?
-
-Adding a capability to support new hash functions in tahoe.
+\begin{itemize}
+    \item What could have been done differently?
+    \item Compare our results with general (supercop) results.
+    \item Optimized candidates - which gain could be expected from more
+    optimized candidates
+    \item What if we had used another coding scheme? - does Cython lower the
+    candidates performance?
+    \item Implications of only testing immutable files? (mutable files also
+    include directories)
+    \item Adding a capability to support new hash functions in tahoe. (Our
+    current way breaks backwards compatability)
+\end{itemize}
 
 %**************************************%
 \chapter{Conclusion and Future Work}
