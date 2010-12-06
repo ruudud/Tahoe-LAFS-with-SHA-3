@@ -30,7 +30,7 @@
 \institute[NTNU]{Department of Telematics}
 
 % Datoen blir også trykket på forsida. 
-\date{X. December 2010}
+\date{December 7th 2010}
 %\date{} % Bruk denne hvis du ikke vil ha noe dato på forsida.
 
 
@@ -78,11 +78,71 @@
   \frametitle{Python-bindings}
   \begin{itemize}
   \item Optimized version of candidates available at eBACS: ECRYPT Benchmarking
-  of Cryptographic Systems.
-  \item We have used the fastest, capable C-version available for our target
+  of Cryptographic Systems. (SUPERCOP toolkit)
+  \item We have used the fastest, capable C-implementations available for our target
   architecture, 32-bit.
   \item Made them available in Python by the use of Cython in ``SHA3Lib''
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Modification of Tahoe-LAFS}
+  \begin{enumerate}
+  \item Quick hack to quickly swap used hash implementation
+  \item Benchmarking data (number of hashoperations, timers)
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Tahoe-LAFS is SLOW}
+    \begin{itemize}
+        \item On 1 Gbit network - with modern computers
+        \item Tahoe-LAFS output is about 10-12 Megabyte/s
+        \item SCP output is about 80 Megabyte/s
+        \item High-CPU load on client but not on storage nodes
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Benchmarking}
+    
+    INSERT graphs.. % TODO
+\end{frame}
+
+\begin{frame}
+    \frametitle{Criticism}
+    \begin{itemize}
+        \item SUPERCOP is a good idea, however we see problems
+            \begin{enumerate}
+                \item Speed of Update() is neglected
+                \item Implementations are not correct according to specification
+                \item Some implementations fails to fullfill the basic requirements
+                of HASH functions
+            \end{enumerate}
+        \item Our implementations are not the fastest possible
+            \begin{enumerate}
+                \item Some performance loss by using Cython (?)
+                \item Not (always) the fastest versions from SUPERCOP
+            \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Remaining}
+    \begin{enumerate}
+        \item Figure out inconsistencies.
+        \item Finish report....
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conclusion}
+    \begin{enumerate}
+        \item There is a performance gain by switching to another hash
+        function
+        \item However, the gain is small and we believe improving other areas
+        could imporve performance more
+    \end{enumerate}
 \end{frame}
 
 \end{document}
