@@ -25,7 +25,7 @@ problem:
 presentation.pdf: presentation.tex
 	pdflatex presentation.tex
 	pdflatex presentation.tex
-	rm -rf *.aux *.log *.toc *.out *.lof *.lot *.bbl *.blg *.dvi *.nav *.snm
+	rm -rf *.aux *.log *.toc *.out *.lof *.lot *.bbl *.blg *.dvi *.nav *.snm *.vrb
 
 all: main.pdf presentation.pdf
 
