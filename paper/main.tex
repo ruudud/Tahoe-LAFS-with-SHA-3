@@ -694,6 +694,7 @@ copied state does not affect the original.
 
 
 \section{Modifications to the Tahoe-\ac{LAFS} Code}
+\label{sec:modtahoe}
 
 The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
 This, along with the code being highly modular and consistent to its
@@ -782,8 +783,8 @@ for all the different tests.
 The performance measurements were only performed on the Tahoe client, and not on
 the storage servers. We motivated this by looking at the system performance
 graphs of the storage nodes during upload and retrieval, where neither the
-\ac{CPU}, network, disk or memory usage runs out of capacity. The \ac{CPU} usage
-during testing on one of the storage nodes is depicted in Figure
+\ac{CPU}, network, disk or memory usage raise towards maximum threshold. The
+\ac{CPU} usage during testing on one of the storage nodes is depicted in Figure
 \ref{fig:munin:storagenode}.
 
 \begin{figure}[h!]
@@ -823,31 +824,52 @@ the one gigabyte file will show another perspective of resource utilization.
 \chapter{Measurements and Results}
 %**************************************%
 
-% Maybe cite
-% \url{http://tahoe-lafs.org/trac/tahoe-lafs/wiki/Performance?version=32}
-
-% Munin?
+% FIXME: Decide whether Munin should be included?
 
 % How much time is spent on hashing versus total time of
 %   uploading/downloading
 
 In this chapter, we will focus on the concrete results derived from our testing.
+The method of testing is described, along with the test scope.
+
+Further on, we exhibit the results from the \ac{SUPERCOP} benchmark, before
+presenting the graphs of how much time the hashing operations take when
+downloading and uploading a number of different test vectors, and show these
+data in relation to other measurements, such as total operation time.
 
 \section{Test scope}
-% What is tested and what is not tested?
-Immutable files are not tested, move text from Section 3.3.3.
+
+As stated in Section \ref{sec:modtahoe}, only immutable files are tested. The
+mutable files are not tested because of our way of integrating the SHA-3
+candidates within the Tahoe-LAFS code.
+
+To measure the performance impact of the different implementations, we time the
+hash function calls from Tahoe, in addition to timing the total operation time,
+e.g. the total time it takes for a 1GB file to be uploaded to grid.
 
 \section{Measuring Performance}
-Include code from hashutil.py and the use of time in bash.
+
+Listing \ref{lst:hashutil_time} demonstrates the use of the {\verb time } module
+in Python. On every call to {\verb update() } or {\verb digest() }, a variable
+is increased with the time it took to run the underlying hash library
+functionality. Similarly, Listing \ref{lst:testrunner} shows the use of the
+{\verb date } command to calculate the number of seconds it takes it takes for
+Tahoe to put a file to the grid.
+
+\lstinputlisting[label=lst:hashutil_time, caption=Timing in Python (extraction from hashutil.py)]
+{listings/hashutil_timing.py}
+
+\lstinputlisting[language=sh, label=lst:testrunner, caption=Timing in Bash from test runner]
+{listings/test_runner.sh}
 
 \section{\ac{SUPERCOP} benchmarks}
-% TODO: more introduction text here.
+% TODO: more introduction text here?
 
-The results of \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
+The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
 \ac{SUPERCOP} can be seen in tables \ref{tbl:supercop:long},
 \ref{tbl:supercop:4096}, \ref{tbl:supercop:1536}, \ref{tbl:supercop:576},
 \ref{tbl:supercop:64} and \ref{tbl:supercop:8}. The lower the numbers, the
-faster the algorithms performed in the test.
+faster and better the algorithms performed in the test.
 
 \input{tables/supercop_long_msgs}
 \input{tables/supercop_4096}
@@ -886,7 +908,8 @@ faster the algorithms performed in the test.
 % What if we had used another coding scheme? - does Cython lower the
 %   candidates performance?
 %
-% More general stuff. What could have been done differently?
+% More general stuff. What could have been done differently? Critisize
+% ourselves.
 
 %**************************************%
 \chapter{Conclusion and Future Work}
