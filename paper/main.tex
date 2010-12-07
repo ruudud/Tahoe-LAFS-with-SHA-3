@@ -888,6 +888,32 @@ faster and better the algorithms performed in the test.
 %**************************************%
 \label{ch:discussion}
 
+\section{\ac{SUPERCOP} results}
+We see in tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
+\ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
+\ref{tbl:supercop:8} that in general BLAKE, \ac{BMW}, Luffa, Shabal and Simd
+outperform \ac{SHA}-256. However, given that Tahoe-LAFS uses double
+\ac{SHA}-256, this means that it will also have to hash another 32 bytes for
+every message it hashes. Since \ac{SUPERCOP} does not have benchmark for 32
+byte messages, we will have to estimate the amount of cycles required for this.
+If we assume that cycles/bytes is linear from 8 byte to 64 byte, we get the
+following estimate for the speed of hashing 32 bytes:
+
+$$179.62 - \frac{179.62 - 38.12}{64 - 8} * (32-8)= 118.98 (Cycles/byte)$$
+
+We can then estimate the result of each message by the following formula:
+$$\frac{median * size + 118.98*32}{size} = SHA256d estimate$$
+
+\input{tables/supercop_sha256d}
+Estimates based on this calculation are shown in Table
+\ref{tbl:supercop:sha256d}. What we can see is that for lower lengths of data,
+more of the candidates are faster than double \ac{SHA}-256. However, given the
+practical situation that Tahoe-\ac{LAFS} is a filesystem, most files processed
+will have be larger than the file sizes estimated here. Even though not all
+hashing operations done in Tahoe are related to the file size, we expect that
+only BLAKE, \ac{BMW}, Luffa, Shabal and SIMD will be able to outperform double
+\ac{SHA}-256.
+
 % This chapter should contain (in listed and grouped order):
 % -----------------------------------------------------------
 % Describe inconsitencies in the numbers, and try to explain them.
