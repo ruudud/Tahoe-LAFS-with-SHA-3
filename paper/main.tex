@@ -127,7 +127,9 @@ inputencoding=utf8
 \acro{SSSE3}{Supplemental Streaming SIMD Extensions 3}
 \acro{SUPERCOP}{System for Unified Performance Evaluation Related to
 Cryptographic Operations and Primitives}
+\acro{SVN}{Subversion}
 \acro{UEB}{URI Extension Block}
+\acro{URI}{Uniform Resource Identifier}
 \end{acronym}
 
 %**************************************%
@@ -553,18 +555,18 @@ Criterion 2. For both the optimized versions found in \ac{SUPERCOP} and the
 reference implementations in the \ac{NIST} submission package, Hash("foofoo")
 will not yield the same result as two consecutive calls to Update("foo").
 However the implementation in sphlib does fulfill this requirement. We have
-also contacted the author, Thomas Pornin, which confirms this problem with the
+contacted the author, Thomas Pornin, which confirms this problem with the
 official JH candidate and that the author has been made aware of the problem
-but has not released any updated version yet.
-% TODO: How to reference email?
-% TODO: We have to write someting about sphlib itself
+but has not released any updated version yet (personal communication, October
+16, 2010).
 
 \paragraph{Cubehash} sadly does not have a version in \ac{SUPERCOP} with a 256-bit
 output, which is why we have only included a version from sphlib.
 
 \paragraph{Simd vect128 implementation} does not by default conform to Criterion
 4, because of a bug in the implementation. This has been confirmed by the author
-who also supplied us with a patch to correct the bug.
+who also supplied us with a patch to correct the bug (Gaëtan Leurent, personal
+communication, November 10, 2010).
 
 \paragraph{Blake32 \ac{SSSE3}} implementation also fail to completely fulfill
 Criterion 4, however it does validate all test vectors that have a length
@@ -686,10 +688,11 @@ function should produce the same digest for the inputs Update("foofoo") and two
 consecutive calls to Update("foo").
 
 \paragraph{Copy Hash Tests} does not test any of the functionality used by
-Tahoe, but the copy()-function is a part of Hashlib. The idea is that if we
-have two bytestring that share a common prefix, we can input this prefix to
-Update(), then copy the state. The tests check if this is possible, and that a
-copy of the state and following update does not affect the original state.
+Tahoe-\ac{LAFS}, but the copy()-function is a part of Hashlib, and we have
+included it in SHA3lib to conform to this. The idea is that if we have two
+bytestring that share a common prefix, we can input this prefix to Update(),
+then copy the state. The tests check if this is possible, and that altering the
+copied state does not affect the original.
 
 
 \section{Modifications to the Tahoe-\ac{LAFS} Code}
@@ -733,8 +736,34 @@ impossible, since the internal verification fails. For this reason, \emph{only
 immutable files} are tested and measured in this paper. Implications of this is
 discussed further in Chapter \ref{ch:discussion}.
 
-\section{Distribution of the Code}
-% TODO: Distutil, bash scripts
+\section{Automatic testing and distribution}
+We fully automate the testing procedure. This is achieved by the use of
+software revision control systems, which distributes both the source code of
+Tahoe-LAFS, SHA3lib and shell-scripts for installation and configuration of
+both. Configuration is mainly done by the use of regular expressions.
+
+The outline of this procedure is:
+
+\vspace{12pt}
+\noindent For every \ac{SHA}-3 candidate:
+        \begin{enumerate}
+            \item Install SHA3lib on all nodes
+            \item Replace used hash algorithm in Tahoe-LAFS with current
+            candidate
+            \item Install Tahoe-LAFS
+            \item Create and start one Tahoe-LAFS introducer
+            \item Create and start Tahoe-LAFS storage nodes on 3 nodes
+            \item Create a Tahoe-LAFS client on a previously unnused node
+            \item Do testing
+            \item clean up
+        \end{enumerate}
+
+\paragraph{Distribution of source code for Tahoe-LAFS and SHA3lib} is done by
+\ac{SVN} and GIT respectivly. The change of hash algorithm in Tahoe-LAFS is
+however done with the use of a regular expression, because of both the
+simplicity of the change, and to not clutter the revision control system. Both
+Tahoe-LAFS and SHA3lib uses \ac{Distutils}, which includes options to install
+them globally on a system.
 
 \section{Configuration of Test Environment}
 
