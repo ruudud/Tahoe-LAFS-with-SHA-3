@@ -590,9 +590,9 @@ HashReturn Update(hashState *state, const BitSequence *data, DataLength databitl
 		}
 		else
 		{
-			LastBytes = (int)databitlen >> 3; // LastBytes = databitlen / 8
+			LastBytes = (int)(databitlen >> 3); // LastBytes = databitlen / 8
 			memcpy(hashState256(state)->LastPart + (state->unprocessed_bits >> 3), data, LastBytes );
-			state->unprocessed_bits += (int)databitlen;
+			state->unprocessed_bits += databitlen;
 			databitlen = state->unprocessed_bits;
 			data32 = (u_int32_t *)hashState256(state)->LastPart;
 		}
@@ -844,7 +844,7 @@ t256_18=p256_14=p256[14]^data32[14];	td32_14=rotl32(data32[14],15);	t256_16 = p2
 
 		data32 += 16;
 	}
-	state->unprocessed_bits = (int)databitlen;
+	state->unprocessed_bits = databitlen;
 	if (databitlen > 0)
 	{
 		LastBytes = ((~(((- (int)databitlen)>>3) & 0x01ff)) + 1) & 0x01ff;  // LastBytes = Ceil(databitlen / 8)
@@ -873,7 +873,7 @@ HashReturn Final(hashState *state, BitSequence *hashval)
 
 	int LastByte, PadOnePosition;
 
-	LastByte = (int)state->unprocessed_bits >> 3;
+	LastByte = (int)(state->unprocessed_bits) >> 3;
 	PadOnePosition = 7 - (state->unprocessed_bits & 0x07);
 	hashState256(state)->LastPart[LastByte] = hashState256(state)->LastPart[LastByte] & (0xff << (PadOnePosition + 1) )\
 		                                    ^ (0x01 << PadOnePosition);
