@@ -432,8 +432,7 @@ used for both server selection and to index shares within each storage node.
 % More here?
 
 \section{Python and Cython}
-%What is it, how, why, alternatives?
-% TODO: Finn en kilde på pythonting, om det trengs?
+
 Python\footnote{\url{http://www.python.org/}} is a high-level general-purpose
 programming language. Python is also an interpreted language, which means that
 Python programs are compiled at runtime. There exists multiple implementations
@@ -522,12 +521,11 @@ Based on these criteria, we choose the fastest possible implementation based
 on our benchmark in \ac{SUPERCOP}. The relative speed of each implementation, in
 relation to other implementation for the same and other candidates are
 available at source.
-% TODO: Link to appendix with tahoe04 SUPERCOP results.
+% FIXME: Link to appendix with tahoe04 SUPERCOP results.
 
 \subsection{Chosen implementations}
 
 \input{tables/sha3_implementations}
-% FIXME: Insert image to visualize the forest of different implementations.
 
 The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
 Their compiler flags used, which are extracted from the \ac{SUPERCOP}
@@ -828,21 +826,28 @@ the one gigabyte file will show another perspective of resource utilization.
 % Maybe cite
 % \url{http://tahoe-lafs.org/trac/tahoe-lafs/wiki/Performance?version=32}
 
-\begin{itemize}
-    \item Section should only contain the hard facts of our measurements
-    \item What is tested and what is not tested?
-    \item How much time is spent on hashing versus total time of
-    uploading/downloading
-    \item How much gain can Tahoe-LAFS get by switching to SHA-3?
-\end{itemize}
+% Munin?
+
+% How much time is spent on hashing versus total time of
+%   uploading/downloading
+
+In this chapter, we will focus on the concrete results derived from our testing.
+
+\section{Test scope}
+% What is tested and what is not tested?
+Immutable files are not tested, move text from Section 3.3.3.
+
+\section{Measuring Performance}
+Include code from hashutil.py and the use of time in bash.
 
 \section{\ac{SUPERCOP} benchmarks}
-The results of \ac{SHA}-3
-256-bit functions and \ac{SHA}-256 benchmarking in \ac{SUPERCOP} can be seen in
-tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
-\ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
-\ref{tbl:supercop:8}. The lower the numbers, the faster the algorithms
-performed in the test.
+% TODO: more introduction text here.
+
+The results of \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
+\ac{SUPERCOP} can be seen in tables \ref{tbl:supercop:long},
+\ref{tbl:supercop:4096}, \ref{tbl:supercop:1536}, \ref{tbl:supercop:576},
+\ref{tbl:supercop:64} and \ref{tbl:supercop:8}. The lower the numbers, the
+faster the algorithms performed in the test.
 
 \input{tables/supercop_long_msgs}
 \input{tables/supercop_4096}
@@ -851,24 +856,37 @@ performed in the test.
 \input{tables/supercop_64}
 \input{tables/supercop_8}
 
+\section{Results}
+
+% Go graphs with plenty of short, descriptive comments.
+
 
 %**************************************%
 \chapter{Discussion}
 %**************************************%
 \label{ch:discussion}
 
-% TODO: Mention that some SUPERCOP candidates are missing UPDATE-functionality.
-% What could have been done differently?
+% This chapter should contain (in listed and grouped order):
+% -----------------------------------------------------------
+% Describe inconsitencies in the numbers, and try to explain them.
+%
 % Compare our results with general (supercop) results.
 % Optimized candidates - which gain could be expected from more optimized
 %   candidates?
-% What if we had used another coding scheme? - does Cython lower the
-%   candidates performance?
+% Mention that some SUPERCOP candidates are missing UPDATE-functionality.
+%
+% How much gain can Tahoe-LAFS get by switching to SHA-3?
+% Time gain of removing ``double'' SHA-256. Double only in digest().
+%
 % Implications of only testing immutable files? (mutable files also
 %   include directories)
 % Adding a capability to support new hash functions in tahoe. (Our
 %   current way breaks backwards compatability)
-% Time gain of removing ``double'' SHA-256. Double only in digest()
+%
+% What if we had used another coding scheme? - does Cython lower the
+%   candidates performance?
+%
+% More general stuff. What could have been done differently?
 
 %**************************************%
 \chapter{Conclusion and Future Work}
