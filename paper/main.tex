@@ -914,6 +914,28 @@ hashing operations done in Tahoe are related to the file size, we expect that
 only BLAKE, \ac{BMW}, Luffa, Shabal and SIMD will be able to outperform double
 \ac{SHA}-256.
 
+\section{Validity of \ac{SUPERCOP} results}
+Although we believe the \ac{SUPERCOP} toolkit and results give good indication
+of how fast the different candidate implementations are, we do have som
+comments on it.
+
+\paragraph{Implementations does not conform to \ac{NIST} specification} for
+many of the candidates. By this we mean that there is no Update()-function
+available for all implementation, and that \ac{SUPERCOP} only measures speed of
+hashing full bytestrings. This is also a hasle for programmer who want to use
+the implementations in \ac{SUPERCOP}
+
+\paragraph{Incorrect implementations} are present in \ac{SUPERCOP}. By this we
+mean implementations that does not verify the \ac{KAT}s. 
+
+\parapgraph{Results are only valid for one specific computer}. The results we
+used from \ac{SUPERCOP} are only valid for our specific computer, although it
+gives an indication of which speeds can be achieved on similar computers, i.e.
+32-bit. However to get a complete picture of the performance of the different
+candidates one must look at different computers and architectures. This picture
+might be obtained from looking at the results from all computeres measured by
+\ac{SUPERCOP}.
+
 % This chapter should contain (in listed and grouped order):
 % -----------------------------------------------------------
 % Describe inconsitencies in the numbers, and try to explain them.
