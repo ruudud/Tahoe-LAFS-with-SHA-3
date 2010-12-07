@@ -667,7 +667,30 @@ installing SHA3lib can bee seen in Listing \ref{lst:setup_py}.
 {listings/setup.py}
 
 \subsection{Unit tests}
-% TODO: Include the use of Known Answer Tests
+We Unit Test each new candidate implementation that is included SHA3lib, both
+to verify our own work and to verify that the implementation from \ac{SUPERCOP}
+actually are correct. 
+
+\paragraph{Known-Answer Tests} are used to check that the implementation conform
+to the specifications of the algorithm author. The \ac{KAT}s include
+bytestrings, their length and their expected message digest. The length of the
+inputs range from 0 bits to 34304 bits, and also include a message that should
+be repeated for about 17 million times, to verify that the implementation can handle
+large inputs.
+
+\paragraph{Basic Hash Tests} is what we have named the set of tests which test
+the core basics of what a hash function implementation will have to be able to
+do to be usable. This include that Init(), Update() and Final() works as
+expected, and that the output is of correct size. This include that every
+function should produce the same digest for the inputs Update("foofoo") and two
+consecutive calls to Update("foo").
+
+\paragraph{Copy Hash Tests} does not test any of the functionality used by
+Tahoe, but the copy()-function is a part of Hashlib. The idea is that if we
+have two bytestring that share a common prefix, we can input this prefix to
+Update(), then copy the state. The tests check if this is possible, and that a
+copy of the state and following update does not affect the original state.
+
 
 \section{Modifications to the Tahoe-\ac{LAFS} Code}
 
