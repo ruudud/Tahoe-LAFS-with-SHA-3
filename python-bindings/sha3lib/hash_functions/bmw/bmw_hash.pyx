@@ -1,5 +1,5 @@
 # encoding: utf-8
-cimport bmw_h
+cimport bmw_hash_h
 cimport cython
 
 from libc.stdlib cimport *
@@ -9,10 +9,10 @@ def hash(int hashbitlen, bytes data, int in_length):
     Used for testing purposes.
     '''
     cdef char* c_string = <char *> data
-    cdef bmw_h.DataLength datalen = in_length
-    cdef bmw_h.BitSequence *hashval = <bmw_h.BitSequence *> malloc(hashbitlen*8)
+    cdef bmw_hash_h.DataLength datalen = in_length
+    cdef bmw_hash_h.BitSequence *hashval = <bmw_hash_h.BitSequence *> malloc(hashbitlen*8)
 
-    bmw_h.Hash(hashbitlen, <bmw_h.BitSequence *> c_string, datalen, hashval)
+    bmw_hash_h.Hash(hashbitlen, <bmw_hash_h.BitSequence *> c_string, datalen, hashval)
 
     try:
         digest = [hashval[i] for i from 0 <= i < hashbitlen / 8]
@@ -28,9 +28,9 @@ cdef class bmw:
     so that one can update the hashing procedure instead of doing it from
     scratch.
     '''
-    #cpdef bmw_h.BitSequence *hashval
-    cdef bmw_h.hashState previous_state
-    cdef bmw_h.hashState state
+    #cdef bmw_hash_h.BitSequence *hashval
+    cdef bmw_hash_h.hashState previous_state
+    cdef bmw_hash_h.hashState state
     cdef int finished
     cdef int hashbitlen
     cdef list hashval
@@ -38,7 +38,8 @@ cdef class bmw:
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
-        bmw_h.Init(&self.state, self.hashbitlen)     
+        bmw_hash_h.Init(&self.state, self.hashbitlen)
+
         if initial:
             self.update(initial)
 
@@ -50,18 +51,18 @@ cdef class bmw:
             self.finished = 0
             self.state = self.previous_state
 
-        bmw_h.Update256(&self.state, <bmw_h.BitSequence *> data, data_len)
+        bmw_hash_h.Update(&self.state, <bmw_hash_h.BitSequence *> data, data_len)
 
     cpdef final(self):
-        cdef bmw_h.BitSequence *hashval = <bmw_h.BitSequence *> malloc(self.hashbitlen*8)
+        cdef bmw_hash_h.BitSequence *hashval = <bmw_hash_h.BitSequence *> malloc(self.hashbitlen*8)
 
         # We copy the state so that we can continue to update.
         # This equals hashlibs functionality, but not pycryptopp.
         self.previous_state = self.state
 
-        bmw_h.Final(&self.state, hashval)
+        bmw_hash_h.Final(&self.state, hashval)
         self.finished = 1
-
+        
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
         free(hashval)
 
@@ -72,6 +73,7 @@ cdef class bmw:
         s.finished = self.finished
         if s.finished:
             s.hashval = self.hashval
+
         return s
 
     def digest(self):

@@ -1,4 +1,4 @@
-from bmw.bmw import bmw
+from bmw.bmw_hash import bmw
 from groestl.groestl_hash import groestl
 from echo.echo_hash import echo
 from blake.blake import blake
@@ -13,7 +13,7 @@ from shabal.shabal_hash import shabal
 from cubehash.cubehash_hash import cubehash
 from hamsi.hamsi_hash import hamsi
 
-from bmw.bmw import hash as bmw256hash
+from bmw.bmw_hash import hash as bmw256hash
 from groestl.groestl_hash import hash as groestl256hash
 from echo.echo_hash import hash as echo256hash
 from blake.blake import hash as blake256hash

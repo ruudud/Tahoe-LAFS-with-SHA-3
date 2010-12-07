@@ -14,9 +14,10 @@ srcpath = 'sha3lib/'
 hashpath = srcpath + 'hash_functions/'
 
 ext_modules = [
-    Extension("sha3lib.hash_functions.bmw.bmw",
-        [hashpath+"bmw/bmw.pyx", hashpath+'bmw/BlueMidnightWish.c'],
-        extra_compile_args=['-m32','-march=i386','-O','-fomit-frame-pointer']),
+    Extension("sha3lib.hash_functions.bmw.bmw_hash",
+        [hashpath+"bmw/bmw_hash.pyx", hashpath+'bmw/sha3nist.c',
+            hashpath+"bmw/bmw.c"],
+        extra_compile_args=['-march=k6-3','-O3','-fomit-frame-pointer']),
     Extension("sha3lib.hash_functions.groestl.groestl_hash",
         [hashpath+"groestl/groestl_hash.pyx", hashpath+'groestl/sha3nist.c',
             hashpath+"groestl/groestl.c"],
@@ -126,7 +127,7 @@ class RealClean(Command):
         # Cython generated files, not removing them before rebuilding (after
         # change) can cause unexpected results
         manual_files = [
-                './sha3lib/hash_functions/bmw/bmw.c',
+                './sha3lib/hash_functions/bmw/bmw_hash.c',
                 './sha3lib/hash_functions/luffa/luffa.c',
                 './sha3lib/hash_functions/groestl/groestl_hash.c',
                 './sha3lib/hash_functions/skein/skein_hash.c',
