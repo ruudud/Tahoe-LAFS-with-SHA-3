@@ -48,7 +48,8 @@ cdef class luffa:
 
     cpdef update(self, bytes in_data):
         cdef char* data = <char *> in_data
-        cdef int data_len = len(in_data)*8
+        cdef unsigned long long data_len = len(in_data)
+        data_len *= 8
 
         if self.finished:
             self.finished = 0
