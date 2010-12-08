@@ -13,7 +13,8 @@ o Some sort of cache, maybe in the form of a json/pickling file.
 import getopt
 import os
 import sys
-from pygooglechart import StackedVerticalBarChart
+#from graph_googlechart import graph_test_vector
+from graph_matplotlib import graph_test_vector
 
 VECTORS = ('1b', '1kb', '1mb', '100mb', '1gb')
 VECTOR_COUNT = {'1b': 1000, '1kb': 100, '1mb': 50, '100mb': 5, '1gb': 1}
@@ -76,27 +77,6 @@ def get_results_from_data(candidates, directory):
             results[v][c] = {'get': v_numbers['get'], 'put': v_numbers['put']}
 
     return results
-
-def graph_test_vector(candidates, data, directory, title, y_axis):
-    if len(candidates) != len(data):
-        raise AttributeError('Length of candidates and data does not match')
-
-    chart = StackedVerticalBarChart(700, 428, auto_scale=False,
-                                    custom_scaling=True)
-    chart.set_bar_width(41)
-    chart.set_colours(('3366CC', '000000'))
-    chart.add_data(data)
-    chart.set_axis_range('y', 0, max(data) + 0.1 * max(data))
-    chart.set_axis_labels('x', candidates)
-    x_title_index = chart.set_axis_labels('x', ['Candidate'])
-    y_title_index = chart.set_axis_labels('y', [y_axis])
-    chart.set_axis_positions(x_title_index, [50])
-    chart.set_axis_positions(y_title_index, [50])
-    chart.set_title(title)
-
-    # (dataset, all bars, formating, colour, width)
-    chart.add_marker(0, -1, 'N', '000000', 11)
-    chart.download(os.path.join(directory, '%s.png' % title.replace(' ','')))
 
 def graph_data(results, candidates, directory):
     for vector in VECTORS:
