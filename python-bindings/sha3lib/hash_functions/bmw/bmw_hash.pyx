@@ -57,9 +57,9 @@ cdef class bmw:
             self.finished = 0
             self.state = self.previous_state
 
-        r = bmw_hash_h.Update(&self.state, <bmw_hash_h.BitSequence *> data,data_len):
+        r = bmw_hash_h.Update(&self.state, <bmw_hash_h.BitSequence *> data,data_len)
         if r:
-            self.write_file(r+" "str(data))
+            self.write_file(str(r)+" "+str(data_len))
 
     cpdef final(self):
         cdef bmw_hash_h.BitSequence *hashval = <bmw_hash_h.BitSequence *> malloc(self.hashbitlen*8)
