@@ -878,10 +878,61 @@ faster and better the algorithms performed in the test.
 \input{tables/supercop_64}
 \input{tables/supercop_8}
 
-\section{Results}
+\section{Measurements of Tahoe operations}
+%\vskip -1.5em % This is to fit in two graphs on one page including heading
 
-% Go graphs with plenty of short, descriptive comments.
+% How much time is spent on hashing versus total time of
+%   uploading/downloading
 
+The sum of the times it took for the underlying hash library to calculate the
+hash operations are exhibited in Figures \ref{fig:graph:10001b},
+\ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
+\ref{fig:graph:11gb}. We call this \emph{time spent hashing}.
+
+The numbers for uploading and downloading of one 1GB file are summarized in
+Tables \ref{tbl:hashingtimes:put1gb} and \ref{tbl:hashingtimes:get1gb}.
+
+\input{tables/hashingtimes}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingPUTof10001Bfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingGETof10001Bfiles.pdf}
+    \caption{Figures for hash operations of 1000 1B files.}
+    \label{fig:graph:10001b}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingPUTof1001KBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingGETof1001KBfiles.pdf}
+    \caption{Figures for hash operations of 100 1KB files.}
+    \label{fig:graph:1001kb}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingPUTof501MBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingGETof501MBfiles.pdf}
+    \caption{Figures for hash operations of 50 1MB files.}
+    \label{fig:graph:501mb}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingPUTof5100MBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingGETof5100MBfiles.pdf}
+    \caption{Figures for hash operations of five 100MB files.}
+    \label{fig:graph:5100mb}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingPUTof11GBfile.pdf}
+    \includegraphics[width=0.9\columnwidth]{graphs/TimespenthashingGETof11GBfile.pdf}
+    \caption{Figures for hash operations of one 1GB file.}
+    \label{fig:graph:11gb}
+\end{figure}
 
 %**************************************%
 \chapter{Discussion}
