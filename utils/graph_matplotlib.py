@@ -17,7 +17,7 @@ def graph_test_vector(candidates, data, directory, title, axis):
     plt.yticks(ind + width*1.5, candidates)
 
     plt.xlabel(axis)
-    plt.barh(ind+width, data, height=width)
+    plt.barh(ind+width, data, height=width, color='#3355cc')
 
     # Some tweaking to make it look alright.
     ymin, ymax = plt.ylim()
@@ -28,11 +28,9 @@ def graph_test_vector(candidates, data, directory, title, axis):
     for i in ind:
         plt.text(plt.xlim()[1]*1.01, ind[i] + width*1.25, '%.2f' % data[i])
 
-    filename = os.path.join(directory, '%s.svg' % title.replace(' ',''))
-    print filename, ':'
-    print candidates
-    print data
-    plt.savefig(filename)
+    filename = '%s.svg' % title.replace(' ','')
+    filepath = os.path.join(directory, filename)
+    plt.savefig(filepath)
 
     #Clear the graphs, as it holds state
     plt.cla()

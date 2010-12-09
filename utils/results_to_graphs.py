@@ -81,26 +81,29 @@ def get_results_from_data(candidates, directory):
 def graph_data(results, candidates, directory):
     for vector in VECTORS:
         for op in ('get', 'put'):
+            plural = ''
+            if VECTOR_COUNT[vector] > 1:
+                plural = 's'
             y_axis = 'Seconds'
             tsh_data = [results[vector][c][op][0] for c in candidates]
-            title = 'Time spent hashing: %s of %s %s file(s)' % (
-                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            title = 'Time spent hashing %s of %s %s file%s' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper(), plural)
             graph_test_vector(candidates, tsh_data, directory, title, y_axis)
 
             tts_data = [results[vector][c][op][1] for c in candidates]
-            title = 'Total time spent: %s of %s %s file(s)' % (
-                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            title = 'Total time spent %s of %s %s file%s' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper(), plural)
             graph_test_vector(candidates, tts_data, directory, title, y_axis)
 
             data = map(lambda x, y: float(y) - float(x), tsh_data, tts_data)
-            title = 'Time spent NOT hashing: %s of %s %s file(s)' % (
-                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            title = 'Time spent NOT hashing %s of %s %s file%s' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper(), plural)
             graph_test_vector(candidates, data, directory, title, y_axis)
 
             y_axis = 'Count'
             data = [results[vector][c][op][2] for c in candidates]
-            title = 'Hash operations: %s of %s %s file(s)' % (
-                op.upper(), str(VECTOR_COUNT[vector]), vector.upper())
+            title = 'Hash operations %s of %s %s file%s' % (
+                op.upper(), str(VECTOR_COUNT[vector]), vector.upper(), plural)
             graph_test_vector(candidates, data, directory, title, y_axis)
 
 def results_to_graphs(directory=None):
