@@ -583,25 +583,26 @@ has not done so, we chose to use an older version of the algorithm.
 
 Since Tahoe-\ac{LAFS} is written in Python, we needed some way of interacting
 with the C implementations of the NIST candidates. We did this by the use of
-Cython, and built a python object-oriented library which we named SHA3lib.
+Cython, and built a Python object-oriented library which we named SHA3lib.
 SHA3lib supports all of the 14 second round \ac{SHA}-3 candidates, but only in
 their 256-bit form.
 
 \subsection{SHA3lib}
 SHA3lib is built to mimic the functionality of
 hashlib\footnote{\url{http://docs.python.org/library/hashlib.html}}, the
-default python library for MD5, \ac{SHA}-1 and the \ac{SHA}-2 family. This
-means that we built class names for each candidate on the form
-candidatename+256 and that the classes included the following functions:
+default Python library for MD5, \ac{SHA}-1 and the \ac{SHA}-2 family. This
+made us create class names for each candidate on the form
+\emph{candidate name+256}. In addition, the classes included the following
+functions:
 
 \begin{itemize}
-    \item Constructur with an optional data element that does the same as
-    Update()
-    \item Update() takes data that should be considered in hashing
-    \item digest() that produce a raw byte-digest from submitted data
-    \item hexdigest() that produce a hex representation of the digest
-    \item copy() that copies the internal state of the function and produces a
-    copy of the object.
+    \item Constructor with an optional data element that does the same as
+    {\verb update() }
+    \item {\verb update() } takes data that should be considered in hashing
+    \item {\verb digest() } that produce a raw byte-digest from submitted data
+    \item {\verb hexdigest() } that produce a hex representation of the digest
+    \item {\verb copy() } that copies the internal state of the function and
+        produces a copy of the object.
 \end{itemize}
 
 \subsubsection{Design}
@@ -615,7 +616,6 @@ Tahoe-\ac{LAFS} uses 256-bit output we in the end only included support for
 \ref{fig:python:inheritance}, and does follow the initial idea that SHA3lib
 should support multiple output lengths.
 
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\columnwidth]{python-inheritance.pdf}
@@ -623,17 +623,17 @@ should support multiple output lengths.
     \label{fig:python:inheritance}
 \end{figure}
 
-Basically the class echo resides in Cython and in C and is responsible for
-bringing the C functionality of the C implementation to Python. By compiling
-echo it will be made available for use in Python.  The class echo256 is a
-simple python class which inherits from echo. The only action this class
-actually takes is to set the output size to 256-bit. If the underlying
-C-functions would have supported multiple output sizes the same could have been
-done to incorporate those.
+Basically the class \textbf{echo} resides in Cython and in C, and is responsible
+for bringing the C functionality of the C implementation to Python. By compiling
+\textbf{echo} it will be made available for use in Python.  The class
+\textbf{echo256} is a simple Python class which inherits from \textbf{echo}. The
+only action this class actually takes is to set the output size to 256-bit. If
+the underlying C-functions would have supported multiple output sizes the same
+could have been done to incorporate those.
 
 \subsubsection{Cython}
 We employ Cython to generate bindings for the C implementation and the
-different candidates, as well as to create the base python classes. To access
+different candidates, as well as to create the base Python classes. To access
 functions in C we need to generate a Cython header file, which pretty much does
 the same as a C header file; it tells which functions and data types are
 available. How we accomplish this for an implementation that satisfies the
@@ -643,7 +643,7 @@ available. How we accomplish this for an implementation that satisfies the
 {listings/echo_hash_h.pxd}
 
 We then create a wrapper-class that mimics hashlib, this is shown in Listing
-\ref{lst:cython_impl}. Functions declared with def er python functions,
+\ref{lst:cython_impl}. Functions declared with def er Python functions,
 {\verb cdef } are Cython only while {\verb cpdef } are functions that can be
 accessed from both. While this is just the implementation for the echo
 candidate, the almost exact same pattern is used for all of the other
@@ -657,7 +657,7 @@ We use \ac{Distutils}\footnote{\url{http://docs.python.org/distutils/}} to
 build and install our code. The alternative to doing this would be to manually
 transform Cython files to C-files, build the shared library from this and other
 relevant C-files and then install by copying into the correct system directory
-where python libraries should be stored. \ac{Distutils} also support expansion
+where Python libraries should be stored. \ac{Distutils} also support expansion
 through self defined commands, something we have utilised to do Unit Testing.
 Options and configuration for \ac{Distutils} is done through a file
 {\verb setup.py}. Relevant configuration for compiling the echo extension, and
@@ -1025,7 +1025,7 @@ assignment.
 %   candidates performance?
 %
 \section{The use of Cython}
-The python-bindings generated for Cython in C are not necessarily the most
+The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read or change (from
 a C perspective). However we consider them to be good enough, and they are
 equal for all the \ac{SHA}-3 candidates which means they should give the same
@@ -1040,6 +1040,10 @@ good enough and common \ac{API} for the implementations in \ac{SUPERCOP}.
 Another fact important for this decision was that we did not know exactly which
 implementation of each candidate we would end up using, and we ended up trying
 several for most candidates.
+
+\section{Thoughts on the measurements}
+
+
 
 % More general stuff. What could have been done differently? Criticize
 % ourselves.
