@@ -732,7 +732,7 @@ For the same reasons, some of the built-in unit tests of Tahoe-LAFS fail when
 changing this line, because they contain test fixtures made with the included
 SHA-256.  An implication of this is that uploading of mutable files renders
 impossible, since the internal verification fails. For this reason, \emph{only
-immutable files} are tested and measured in this paper. Implications of this is
+immutable files} are tested and measured in this paper. Implications of this are
 discussed further in Chapter \ref{ch:discussion}.
 
 \section{Automatic testing and distribution}
@@ -754,7 +754,7 @@ The outline of this procedure is:
             \item Create and start Tahoe-LAFS storage nodes on 3 nodes
             \item Create a Tahoe-LAFS client on a previously unnused node
             \item Do testing
-            \item clean up
+            \item Clean up
         \end{enumerate}
 
 \paragraph{Distribution of source code for Tahoe-LAFS and SHA3lib} is done by
@@ -937,44 +937,49 @@ Tables \ref{tbl:hashingtimes:put1gb} and \ref{tbl:hashingtimes:get1gb}.
 \label{ch:discussion}
 
 \section{\ac{SUPERCOP} results}
-We see in tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
+% Time gain of removing ``double'' SHA-256. Double only in digest().
+
+We see in Tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
 \ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
 \ref{tbl:supercop:8} that in general BLAKE, \ac{BMW}, Luffa, Shabal and Simd
 outperform \ac{SHA}-256. However, given that Tahoe-LAFS uses double
 \ac{SHA}-256, this means that it will also have to hash another 32 bytes for
-every message it hashes. Since \ac{SUPERCOP} does not have benchmark for 32
-byte messages, we will have to estimate the amount of cycles required for this.
-If we assume that cycles/bytes is linear from 8 byte to 64 byte, we get the
-following estimate for the speed of hashing 32 bytes:
+every message it returns the digest for. Since \ac{SUPERCOP} does not have
+benchmark for 32 byte messages, we will have to estimate the amount of cycles
+required for this.  If we assume that cycles/bytes is linear from 8 byte to 64
+byte, we get the following estimate for the speed of hashing 32 bytes:
 
 $$179.62 - \frac{179.62 - 38.12}{64 - 8} * (32-8)= 118.98 (Cycles/byte)$$
 
 We can then estimate the result of each message by the following formula:
-$$\frac{median * size + 118.98*32}{size} = SHA256d estimate$$
+$$\frac{median * size + 118.98*32}{size} = SHA256d$$ \emph{estimate}
 
 \input{tables/supercop_sha256d}
+
 Estimates based on this calculation are shown in Table
-\ref{tbl:supercop:sha256d}. What we can see is that for lower lengths of data,
+\ref{tbl:supercop:sha256d}. What we can see that for lower lengths of data,
 more of the candidates are faster than double \ac{SHA}-256. However, given the
 practical situation that Tahoe-\ac{LAFS} is a file system, most files processed
-will have be larger than the file sizes estimated here. Even though not all
+will be larger than the file sizes estimated here. Even though not all
 hashing operations done in Tahoe are related to the file size, we expect that
 only BLAKE, \ac{BMW}, Luffa, Shabal and SIMD will be able to outperform double
 \ac{SHA}-256.
 
 \section{Validity of \ac{SUPERCOP} results}
+% Mention that some SUPERCOP candidates are missing UPDATE-functionality.
+
 Although we believe the \ac{SUPERCOP} toolkit and results give good indication
 of how fast the different candidate implementations are, we do have some
 comments on it.
 
 \paragraph{Implementations does not conform to \ac{NIST} specification} for
-many of the candidates. By this we mean that there is no Update()-function
-available for all implementation, and that \ac{SUPERCOP} only measures speed of
-hashing full byte strings. This is also a hassle for a programmer who want to
-use the implementations in \ac{SUPERCOP}
+many of the candidates. By this we mean that there is no {\verb Update() }
+function available for all implementations, and that \ac{SUPERCOP} only
+measures speed of hashing full byte strings. This is also a hassle for a
+programmer who wants to use the implementations in \ac{SUPERCOP}
 
 \paragraph{Incorrect implementations} are present in \ac{SUPERCOP}. By this we
-mean implementations that does not verify the \ac{KAT}s.
+mean implementations that does not conform to the \ac{KAT}s supplied.
 
 \paragraph{Results are only valid for one specific computer}. The results we
 used from \ac{SUPERCOP} are only valid for our specific computer, although it
@@ -984,6 +989,28 @@ candidates one must look at different computers and architectures. This picture
 might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
+\section{Exclusion of mutable file testing}
+% Implications of only testing immutable files? (mutable files also
+%   include directories)
+% Adding a capability to support new hash functions in tahoe. (Our
+%   current way breaks backwards compability)
+
+Since our minor change in the Tahoe-\ac{LAFS} code broke internal checks, we
+were not able to test mutable files, and hence not directories.
+
+We argue that this has minor implications for our testing results. Both because
+mutable files are not applicable for most use cases, since deleting an old
+version and uploading a new file gives the same functionality, and because
+immutable files uses less logic and therefore are more reliable and faster in
+some cases. One should bear in mind that Tahoe-\ac{LAFS} is not a revision
+control system, and mutable files are not intended for this purpose.
+
+To be able to extend the Tahoe-LAFS with new functionality to fully support new
+hash functions, one have to add a new capability (Zooko O'Whielacronx, personal
+communication, September 29, 2010). This ensures backwards compatibility and can
+be an optional feature for users to employ. However, we found that adding a new
+capability was out of scope for this assignment.
+
 % This chapter should contain (in listed and grouped order):
 % -----------------------------------------------------------
 % Describe inconsistencies in the numbers, and try to explain them.
@@ -992,15 +1019,8 @@ might be obtained from looking at the results from all computers measured by
 % Compare our results with general (SUPERCOP) results.
 % Optimized candidates - which gain could be expected from more optimized
 %   candidates?
-% Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 %
 % How much gain can Tahoe-LAFS get by switching to SHA-3?
-% Time gain of removing ``double'' SHA-256. Double only in digest().
-%
-% Implications of only testing immutable files? (mutable files also
-%   include directories)
-% Adding a capability to support new hash functions in tahoe. (Our
-%   current way breaks backwards compability)
 %
 % What if we had used another coding scheme? - does Cython lower the
 %   candidates performance?
@@ -1012,10 +1032,13 @@ might be obtained from looking at the results from all computers measured by
 \chapter{Conclusion and Future Work}
 %**************************************%
 
-A somewhat short conclusion summing up what has been done, and results and
-discussion
-
-New SHA-3 capability in Tahoe-LAFS (GSOC ref) to get our code to trunk
+% This chapter should contain (in listed and grouped order):
+% -----------------------------------------------------------
+% A somewhat short conclusion summing up what has been done, and results and
+% discussion
+%
+% We had hoped to have contributed more to the Open Source project that
+% Tahoe-LAFS is.
 
 
 % BibTeX bibliography lives in external file
