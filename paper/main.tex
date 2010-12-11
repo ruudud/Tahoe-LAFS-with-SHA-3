@@ -84,8 +84,38 @@ inputencoding=utf8
 \pagenumbering{Roman}
 \setcounter{page}{1}
 
+%  Writers should follow a checklist consisting of:
+% Motivation: Why do we care about the problem and results?
+% Problem Statement: What problem are we trying to solve? Scope/limits.
+% Approach: How did we go about solving or making progress on the problem?
+% Results: What is the answer? Numbers, not vague 'very', 'small' etc.
+% Conclusions: What are the implications of your answer? Further work.
+%
+%  Each section is typically a single sentence, although there is room for
+%  creativity.
+
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
+
+The work behind this project report was carried out during the autumn semester
+in 2010 at the Norwegian University of Science and Technology (NTNU), Department
+of Telematics (ITEM).
+\vspace{13pt}
+
+We would like to thank our fellow classmates for interesting discussions and a
+lot of fun as the time and semesters fly by.
+\vspace{13pt}
+
+Secondly, we would like to state our appreciation to our supervisor, Danilo
+Gligoroski, and his coworker on Blue Midnight Wish, Rune E. Jensen, for
+providing useful feedback and interesting stories from the cryptographic
+community.
+\vspace{13pt}
+
+Lastly, the Open Source community behind Tahoe-LAFS deserves credit for the
+immense amount of hours they put on an awesome project, and Thomas Pornin for
+providing a working copy of his library of implementations, which saved us a lot
+of work.
 
 \tableofcontents
 
@@ -1004,7 +1034,7 @@ might be obtained from looking at the results from all computers measured by
 % Implications of only testing immutable files? (mutable files also
 %   include directories)
 % Adding a capability to support new hash functions in tahoe. (Our
-%   current way breaks backwards compability)
+%   current way breaks backwards compatibility)
 
 Since our minor change in the Tahoe-\ac{LAFS} code broke internal checks, we
 were not able to test mutable files, and hence not directories.
