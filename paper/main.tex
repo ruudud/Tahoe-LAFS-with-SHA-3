@@ -550,13 +550,13 @@ candidates in \ac{SUPERCOP}, however there are some exceptions.
 
 \paragraph{JH} seems to be broken in every implementation with regard to
 Criterion 2. For both the optimized versions found in \ac{SUPERCOP} and the
-reference implementations in the \ac{NIST} submission package, Hash("foofoo")
-will not yield the same result as two consecutive calls to Update("foo").
-However the implementation in sphlib does fulfill this requirement. We have
-contacted the author, Thomas Pornin, which confirms this problem with the
-official JH candidate and that the author has been made aware of the problem
-but has not released any updated version yet (personal communication, October
-16, 2010).
+reference implementations in the \ac{NIST} submission package,
+{\verb Hash("foofoo") } will not yield the same result as two consecutive calls
+to {\verb Update("foo") }.  However the implementation in sphlib does fulfill
+this requirement. We have contacted the author, Thomas Pornin, which confirms
+this problem with the official JH candidate and that the author has been made
+aware of the problem but has not released any updated version yet
+\cite{s_pornin}.
 
 \paragraph{Cubehash} sadly does not have a version in \ac{SUPERCOP} with a 256-bit
 output, which is why we have only included a version from sphlib.
@@ -1006,10 +1006,10 @@ some cases. One should bear in mind that Tahoe-\ac{LAFS} is not a revision
 control system, and mutable files are not intended for this purpose.
 
 To be able to extend the Tahoe-LAFS with new functionality to fully support new
-hash functions, one have to add a new capability (Zooko O'Whielacronx, personal
-communication, September 29, 2010). This ensures backwards compatibility and can
-be an optional feature for users to employ. However, we found that adding a new
-capability was out of scope for this assignment.
+hash functions, one have to add a new capability \cite{t_zooko}. This ensures
+backwards compatibility and can be an optional feature for users to employ.
+However, we found that adding a new capability was out of scope for this
+assignment.
 
 % This chapter should contain (in listed and grouped order):
 % -----------------------------------------------------------
