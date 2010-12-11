@@ -944,24 +944,12 @@ We see in Tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
 \ref{tbl:supercop:8} that in general BLAKE, \ac{BMW}, Luffa, Shabal and Simd
 outperform \ac{SHA}-256. However, given that Tahoe-LAFS uses double
 \ac{SHA}-256, this means that it will also have to hash another 32 bytes for
-<<<<<<< HEAD
 every message it hashes. Since \ac{SUPERCOP} does not have benchmark for 32
 byte messages, we will have to estimate the amount of cycles required for this.
 If we assume a worst case scenario of hashing 32 bytes, where the cycles/byte
 count is exactly the same as for 8 bit median we get:
 
 $$\frac{median * size + 179.62*32}{size} = SHA256d estimate$$
-=======
-every message it returns the digest for. Since \ac{SUPERCOP} does not have
-benchmark for 32 byte messages, we will have to estimate the amount of cycles
-required for this.  If we assume that cycles/bytes is linear from 8 byte to 64
-byte, we get the following estimate for the speed of hashing 32 bytes:
-
-$$179.62 - \frac{179.62 - 38.12}{64 - 8} * (32-8)= 118.98 (Cycles/byte)$$
-
-We can then estimate the result of each message by the following formula:
-$$\frac{median * size + 118.98*32}{size} = SHA256d$$ \emph{estimate}
->>>>>>> 25c1088d0879e4425e18c546648e662cf2e1e940
 
 \input{tables/supercop_sha256d}
 
@@ -976,12 +964,6 @@ which would mean that all candidates would have a chance of outperforming
 double \ac{SHA}-256. However this estimate is worst case, which leads us to the
 belief that at least for larger input sizes (over 1536) only the five fastest
 candidates will have a change of outperforming double \ac{SHA}-256.
-=======
-will be larger than the file sizes estimated here. Even though not all
-hashing operations done in Tahoe are related to the file size, we expect that
-only BLAKE, \ac{BMW}, Luffa, Shabal and SIMD will be able to outperform double
-\ac{SHA}-256.
->>>>>>> 25c1088d0879e4425e18c546648e662cf2e1e940
 
 \section{Validity of \ac{SUPERCOP} results}
 % Mention that some SUPERCOP candidates are missing UPDATE-functionality.
@@ -1007,8 +989,6 @@ candidates one must look at different computers and architectures. This picture
 might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
-<<<<<<< HEAD
-=======
 \section{Exclusion of mutable file testing}
 % Implications of only testing immutable files? (mutable files also
 %   include directories)
@@ -1030,7 +1010,6 @@ hash functions, one have to add a new capability (Zooko O'Whielacronx, personal
 communication, September 29, 2010). This ensures backwards compatibility and can
 be an optional feature for users to employ. However, we found that adding a new
 capability was out of scope for this assignment.
->>>>>>> 25c1088d0879e4425e18c546648e662cf2e1e940
 
 % This chapter should contain (in listed and grouped order):
 % -----------------------------------------------------------
