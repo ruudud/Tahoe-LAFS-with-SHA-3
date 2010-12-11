@@ -22,7 +22,7 @@ ext_modules = [
 setup(
     name='SHA3lib',
     version='0.1',
-    description='Python bindings for SHA3-256 using Cython',
+    description='Python bindings for SHA3-256 in Cython',
     cmdclass = {'build_ext': build_ext},
     ext_modules = ext_modules,
     packages =
