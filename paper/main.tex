@@ -995,12 +995,11 @@ Estimates based on this calculation are shown in Table
 \ref{tbl:supercop:sha256d}. What we can see that for lower lengths of data,
 more of the candidates are faster than double \ac{SHA}-256. However, given the
 practical situation that Tahoe-\ac{LAFS} is a file system, most files processed
-<<<<<<< HEAD
 will be larger than the file sizes estimated here. Not all hashing
 operations in Tahoe-\ac{LAFS} are strictly dependant on the original file size,
 which would mean that all candidates would have a chance of outperforming
-double \ac{SHA}-256. However this estimate is worst case, which leads us to the
-belief that at least for larger input sizes (over 1536) only the five fastest
+double \ac{SHA}-256. However this estimate is worst case, which leads us to
+believe that at least for larger input sizes (over 1536) only the five fastest
 candidates will have a change of outperforming double \ac{SHA}-256.
 
 \section{Validity of \ac{SUPERCOP} results}
@@ -1052,22 +1051,28 @@ backwards compatibility and can be an optional feature for users to employ.
 However, we found that adding a new capability was out of scope for this
 assignment.
 
-% This chapter should contain (in listed and grouped order):
-% -----------------------------------------------------------
+\section{Thoughts on the measurements}
+
 % Describe inconsistencies in the numbers, and try to explain them.
 % Time spent not hashing varies because: Variable use of CPU regs?
 %
 % Compare our results with general (SUPERCOP) results.
+%
+% How much gain can Tahoe-LAFS get by switching to SHA-3?
+%
+% Drag in the five selected remaining candidates.
+
+\section{Improvement of methods}
+% More general stuff. What could have been done differently? Criticize
+% ourselves.
+%
 % Optimized candidates - which gain could be expected from more optimized
 %   candidates?
-% How much gain can Tahoe-LAFS get by switching to SHA-3?
 
-
-%
+\subsection{The use of Cython}
 % What if we had used another coding scheme? - does Cython lower the
 %   candidates performance?
-%
-\section{The use of Cython}
+
 The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read or change (from
 a C perspective). However we consider them to be good enough, and they are
@@ -1083,13 +1088,6 @@ good enough and common \ac{API} for the implementations in \ac{SUPERCOP}.
 Another fact important for this decision was that we did not know exactly which
 implementation of each candidate we would end up using, and we ended up trying
 several for most candidates.
-
-\section{Thoughts on the measurements}
-
-
-
-% More general stuff. What could have been done differently? Criticize
-% ourselves.
 
 %**************************************%
 \chapter{Conclusion and Future Work}
