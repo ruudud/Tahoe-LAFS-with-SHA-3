@@ -1019,7 +1019,6 @@ capability was out of scope for this assignment.
 % Compare our results with general (SUPERCOP) results.
 % Optimized candidates - which gain could be expected from more optimized
 %   candidates?
-%
 % How much gain can Tahoe-LAFS get by switching to SHA-3?
 %
 % What if we had used another coding scheme? - does Cython lower the
@@ -1032,13 +1031,22 @@ capability was out of scope for this assignment.
 \chapter{Conclusion and Future Work}
 %**************************************%
 
-% This chapter should contain (in listed and grouped order):
+% This chapter should contain:
 % -----------------------------------------------------------
 % A somewhat short conclusion summing up what has been done, and results and
 % discussion
-%
-% We had hoped to have contributed more to the Open Source project that
-% Tahoe-LAFS is.
+
+We had hoped to contribute more to the Open Source project Tahoe-LAFS, when
+starting on our assignment. It was early evident that implementing a new
+capability was out of scope, since creating Python bindings for and trying out
+new implementations was prioritized.
+
+Perhaps the most important finding in this project, is that the SUPERCOP
+benchmarking indeed drives the development of new and better implementations
+forward, but since the SUPERCOP \ac{API} does not conform to the \ac{NIST}
+\ac{API}, the developers leave important functionality out (i.e.
+{\verb update() }), and hence make it difficult for people who wish to try out
+and test the remaining \ac{SHA}-3 candidates.
 
 
 % BibTeX bibliography lives in external file
