@@ -984,6 +984,7 @@ candidates one must look at different computers and architectures. This picture
 might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
+
 % This chapter should contain (in listed and grouped order):
 % -----------------------------------------------------------
 % Describe inconsistencies in the numbers, and try to explain them.
@@ -1005,6 +1006,23 @@ might be obtained from looking at the results from all computers measured by
 % What if we had used another coding scheme? - does Cython lower the
 %   candidates performance?
 %
+\section{The use of Cython}
+The python-bindings generated for Cython in C are not necessarily the most
+optimized versions possible to write and they are ugly to read or change (from
+a C perspective). However we consider them to be good enough, and they are
+equal for all the \ac{SHA}-3 candidates which means they should give the same
+performance penalty. The \ac{SHA}-256 version will of course not suffer from
+the same penalty, however we believe the possible performance gain is small.
+This is due to the fact that no intensive operations take place in our
+Cython-code.
+
+The alternative would be creating manual Python-bindings for all the candidates
+which would require a lot more work on our side, especially given the lack of a
+good enough and common \ac{API} for the implementations in \ac{SUPERCOP}.
+Another fact important for this decision was that we did not know exactly which
+implementation of each candidate we would end up using, and we ended up trying
+several for most candidates.
+
 % More general stuff. What could have been done differently? Criticize
 % ourselves.
 
