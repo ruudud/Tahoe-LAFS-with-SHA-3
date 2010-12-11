@@ -2,21 +2,21 @@
   \centering
   \begin{tabular}{ | l | l | }
     \hline
-    \textbf{Candidate} & \textbf{Compiler flags}  \\ \hline
-     BLAKE       & mssse3 -m32 -march=native -mtune=native -O -fomit-frame-pointer  \\ \hline
-     \ac{BMW}    & -funroll-loops -m32 -march=pentium4 -O3 -fomit-frame-pointer     \\ \hline
-     Cubehash    & none                                                             \\ \hline
-     Echo        & -funroll-loops -m32 -march?prescott -O2 -fomit-frame-pointer     \\ \hline
-     Fugue       & -funroll-loops -O -fomit-frame-pointer                           \\ \hline
-     Grøstl     & -m32 -march=pentium3 -O -fomit-frame-pointer                     \\ \hline
-     Hamsi       & -msse2 -funroll-loops -m32 -march=pentium-m -O3 -fomit-frame-pointer\\ \hline
-     JH          & -m32 -march=core2 -msse4.1 -O -fomit-frame-pointer               \\ \hline
-     Keccak      & -msse2 -march=barcelona -O3 -fomit-frame-pointer                 \\ \hline
-     Luffa       & -msse2 -funroll-loops -march=k8 -O3 -fomit-frame-pointer         \\ \hline
-     Shabal      & -funroll-loops -m32 -march=pentium2 -O -fomit-frame-pointer      \\ \hline
-     Shavite3    & -funroll-loops -march=i486 -O -fomit-frame-pointer               \\ \hline
-     Simd        & -m32 -march=barcelona -O2 -fomit-frame-pointer                   \\ \hline
-     Skein       & -march=pentium2 -O2 -fomit-frame-pointer                         \\ \hline
+    \textbf{Candidate} & \textbf{Compiler flags}            \\ \hline
+     BLAKE       & -m32 -march=native -mtune=native -O      \\ \hline
+     \ac{BMW}    & -funroll-loops -m32 -march=pentium4 -O3  \\ \hline
+     Cubehash    & -O2                                      \\ \hline
+     Echo        & -funroll-loops -m32 -march=prescott -O2  \\ \hline
+     Fugue       & -funroll-loops -O                        \\ \hline
+     Grøstl      & -m32 -march=pentium3 -O                  \\ \hline
+     Hamsi       & -funroll-loops -m32 -march=pentium-m -O3 \\ \hline
+     JH          & -m32 -march=core2 -O                     \\ \hline
+     Keccak      & -march=barcelona -O3                     \\ \hline
+     Luffa       & -funroll-loops -march=k8 -O3             \\ \hline
+     Shabal      & -funroll-loops -m32 -march=pentium2      \\ \hline
+     Shavite3    & -funroll-loops -march=i486 -O            \\ \hline
+     Simd        & -m32 -march=barcelona -O2                \\ \hline
+     Skein       & -march=pentium2 -O2                      \\ \hline
   \end{tabular}
   \caption{GCC compiler flags used on the implementations}
   \label{tbl:sha3:compilerflags}

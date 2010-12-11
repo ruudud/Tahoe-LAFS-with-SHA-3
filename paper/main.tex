@@ -528,13 +528,21 @@ available at source.
 \input{tables/sha3_implementations}
 
 The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
-Their compiler flags used, which are extracted from the \ac{SUPERCOP}
-results, can be seen in Table \ref{tbl:sha3:compilerflags}.
+Their compiler flags used, which are extracted from the \ac{SUPERCOP} results,
+can be seen in Table \ref{tbl:sha3:compilerflags}. Compiler flags are described
+in the GCC manual\footnote{GCC Manual \url{http://gcc.gnu.org/onlinedocs/}}.
+Compiler flags used for every implementation which might affect performance are:
 
-It should be noted that \emph{32} in blake32 does not refer to the output length
-of the function, but the fact that the algorithm is optimized for 32-bit usage.
-Similarly, \emph{512} in keccakc512 does not mean 512-bit output, but 512 cycles in the
-internal function.
+\begin{itemize}
+    \item -fomit-frame-pointer
+    \item -mssse3
+    \item -pthread
+    \item -fPIC
+\end{itemize}
+
+It should be noted that \emph{32} in blake32 means the function works on 32-bit
+words, and output a 32-byte digest (256 bit). Similarly, \emph{512} in keccakc512 
+does not mean 512-bit output, but 512 bits in the internal capacity.
 
 The relative speeds of the implementations chosen compared to
 the best version in \ac{SUPERCOP}, and relative speed of the benchmark compared
@@ -989,6 +997,9 @@ candidates one must look at different computers and architectures. This picture
 might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
+
+%TODO: Vi har andre compiler argumenter - dette må diskuteres
+
 \section{Exclusion of mutable file testing}
 % Implications of only testing immutable files? (mutable files also
 %   include directories)
@@ -1020,6 +1031,8 @@ capability was out of scope for this assignment.
 % Optimized candidates - which gain could be expected from more optimized
 %   candidates?
 % How much gain can Tahoe-LAFS get by switching to SHA-3?
+
+
 %
 % What if we had used another coding scheme? - does Cython lower the
 %   candidates performance?
