@@ -42,11 +42,6 @@ cdef class bmw:
 
         if initial:
             self.update(initial)
-    
-    def write_file(self, data):
-        s = open('/tmp/debug.bmw.log','a')
-        s.write(str(data))
-        s.close()
 
     cpdef update(self, bytes in_data):
         cdef char* data = <char *> in_data
@@ -57,9 +52,7 @@ cdef class bmw:
             self.finished = 0
             self.state = self.previous_state
 
-        r = bmw_hash_h.Update(&self.state, <bmw_hash_h.BitSequence *> data,data_len)
-        if r:
-            self.write_file(str(r)+" "+str(data_len))
+        bmw_hash_h.Update(&self.state, <bmw_hash_h.BitSequence *> data, data_len)
 
     cpdef final(self):
         cdef bmw_hash_h.BitSequence *hashval = <bmw_hash_h.BitSequence *> malloc(self.hashbitlen*8)

@@ -15,8 +15,10 @@ hashpath = srcpath + 'hash_functions/'
 
 ext_modules = [
     Extension("sha3lib.hash_functions.bmw.bmw_hash",
-        [hashpath+"bmw/bmw_hash.pyx", hashpath+'bmw/BlueMidnightWish.c'],
-        extra_compile_args=['-mssse3','-m32','-march=i386','-O','-fomit-frame-pointer']),
+        [hashpath+"bmw/bmw_hash.pyx", hashpath+'bmw/sha3nist.c',
+            hashpath+"bmw/bmw.c"],
+        extra_compile_args=['-mssse3','-march=k6-3','-O3','-fomit-frame-pointer'],
+        ),
     Extension("sha3lib.hash_functions.groestl.groestl_hash",
         [hashpath+"groestl/groestl_hash.pyx", hashpath+'groestl/sha3nist.c',
             hashpath+"groestl/groestl.c"],
@@ -96,7 +98,7 @@ class RunTests(Command):
         
         # Skip the extremelylongtests
         #excluded_files.append('test_extremelylonkat.py']
-        
+        excluded_files.append('test_extremelylong_similar.py') 
         
         excluded_files_full_path = []
         for f in excluded_files:

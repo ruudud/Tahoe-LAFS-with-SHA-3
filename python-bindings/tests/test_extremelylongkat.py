@@ -40,9 +40,16 @@ class TestExtremelyLongKat(unittest.TestCase):
         for function in hash_functions.HASHES:
             t1 = time.time()
             props = self.parse_kat_file(k[function]['file'])
-            s = k[function]['function']() 
-            for l in xrange(int(props['Repeat'])):
-                s.update(props['Text'])
+            s = k[function]['function']()
+            repeat = xrange(int(props['Repeat'])/4)
+            text = 4*props['Text']
+            for l in repeat:
+                x = ((l/4)*4) % 64
+                 
+                r = text[:x]
+                t = text[x:]
+                s.update(r)
+                s.update(t)
             
             output = s.hexdigest()
             t2 = time.time()

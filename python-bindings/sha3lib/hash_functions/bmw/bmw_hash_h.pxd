@@ -1,4 +1,4 @@
-cdef extern from "BlueMidnightWish.h":
+cdef extern from "sha3nist.h":
     ctypedef unsigned char BitSequence
     ctypedef unsigned long long DataLength
 
