@@ -913,6 +913,20 @@ faster and better the algorithms performed in the test.
 \input{tables/supercop_64}
 \input{tables/supercop_8}
 
+\section{Measurements of Tahoe data}
+% TODO: Fiks denne tabellen så den ikke overflower
+% TODO: Sleng inn samme for download
+Table \ref{tbl:tahoe:datauploaded} and describes the distribution of the
+different input sizes of data that Tahoe-\ac{LAFS} sends to the hash function
+when uploading and downloading the test vectors. E.g. to upload the 100 1-byte
+files, 15700 hashes had to be calculated, and about 64\% of these were of size
+106 byte.
+
+For every upload Tahoe-\ac{LAFS} does, it hashes a size close to the original
+file size twice. This does not happen on downloading the file.   
+
+\input{tables/tahoe_byteshashed}
+
 \section{Measurements of Tahoe operations}
 %\vskip -1.5em % This is to fit in two graphs on one page including heading
 
@@ -1052,6 +1066,20 @@ However, we found that adding a new capability was out of scope for this
 assignment.
 
 \section{Thoughts on the measurements}
+
+
+
+\subsection{Small files}
+For small files, 1B and 1KB, we can clearly see that both \ac{SHA}-256 and
+double \ac{SHA}-256 greatly outperforms the \ac{SHA}-3 candidate
+implementations, which is unexpected if the time Tahoe-\ac{LAFS} do mainly
+realy on the filesize.
+
+\subsection{Large inputs}
+
+\subsection{The candidates}
+
+\subsection{Optimizing results}
 
 % Describe inconsistencies in the numbers, and try to explain them.
 % Time spent not hashing varies because: Variable use of CPU regs?
