@@ -11,6 +11,7 @@ ext_modules = [
          hashpath+'echo/sha3nist.c', 
          hashpath+"echo/echo.c"],
     extra_compile_args=[
+        '-mssse3',
         '-funroll-loops',
         '-m32',
         '-march=prescott',
