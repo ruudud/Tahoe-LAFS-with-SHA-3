@@ -1111,19 +1111,49 @@ assignment.
 
 \section{Thoughts on the measurements}
 
-
-
 \subsection{Small files}
-For small files, 1B and 1KB, we can clearly see that both \ac{SHA}-256 and
-double \ac{SHA}-256 greatly outperforms the \ac{SHA}-3 candidate
-implementations, which is unexpected if the time Tahoe-\ac{LAFS} do mainly
-realy on the filesize.
+For small files, 1B and 1KB, we can clearly see that both double \ac{SHA}-256 
+greatly outperforms the \ac{SHA}-3 candidate implementations. The data being 
+hashed for these files are dominated by lengths of 63 and 106 bytes. By 
+comparing with \ac{SUPERCOP} results, and especially the fact that we are 
+using double \ac{SHA}-256, which should result in large overhead this is
+unexpected.
 
-\subsection{Large inputs}
+\subsection{Large files}
+For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are 
+actually outperforming double \ac{SHA}-256, which is expected from the
+\ac{SUPERCOP} results. However if we compare this result with the result for
+small files, and expect that a hash algorithm should do better on a cycles/byte
+basis when hashing larger data values this is not expected. Data sizes which
+are hashed during 1GB and 100MB up/downloads are dominated by 101B, 65569B and
+131106B. 50\% of the hashes are done on 101B, which is a size which should be
+largely affected by having to do double SHA-256. However, since the small files
+had a similar percentage of operations being done on 106B chunks, blaming need
+to use double \ac{SHA}256 is not enough. It looks like indeed the large data
+chunks being hashed is what is making the difference. 
 
 \subsection{The candidates}
+If we look primarily at the large file up/download we see that the candidates
+that outperforms, or are close to outperforming \ac{SHA}-256 are BLAKE,
+\ac{BMW}, Shabal, Simd and Luffa. This is expected and corresponds with the
+results from \ac{SUPERCOP}.  
+
+\subsection{Final round candidates}
+BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
+the \ac{SHA}-3 competition. %TODO: some comments on theese
 
 \subsection{Optimizing results}
+We have not used the fastest possible implementations possible for various
+reasons mentioned previously. However, if we had actually used the fastest
+implementations in \ac{SUPERCOP}, achieved median speed for every hash
+calculated the results should look as in Table X. The table is calculated using
+the lengths of data actually hashed by Tahoe-\ac{LAFS}, the medians from
+\ac{SUPERCOP} results, and interpolation for sizes in between those mentioned in
+\ac{SUPERCOP}. The point of this result is to see the maximum performance gain
+possible for TAHOE-\ac{LAFS} by adopting one of the current \ac{SHA}-3
+candidate implementations.
+
+%TODO: Optimaliserte resultater tabell
 
 % Describe inconsistencies in the numbers, and try to explain them.
 % Time spent not hashing varies because: Variable use of CPU regs?
