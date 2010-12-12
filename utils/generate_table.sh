@@ -1,12 +1,12 @@
 #!/bin/bash
-tsh_file="1gb_tshg.txt"
-totaltime_file="1gb_totaltimeget.txt"
+tsh_file="1b_tshp.txt"
+totaltime_file="1b_totaltimeput.txt"
 for cand in `ls run-sha3-multi-4`; do
     time_sh=`cat run-sha3-multi-7/$cand/$tsh_file`
     numerator=0
     for r in `seq 4 7`; do
         cd run-sha3-multi-$r
-        new_num=`cat $cand/$totaltile_file`
+        new_num=`cat $cand/$totaltime_file`
         numerator=$(echo $numerator + $new_num | bc -q)
         cd ..
     done;

@@ -960,20 +960,31 @@ calculate the hash operations are exhibited in Figures \ref{fig:graph:10001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
 \ref{fig:graph:11gb}. We call this \emph{time spent hashing}.
 
-The numbers for uploading and downloading the 1GB file are summarized in
-Tables \ref{tbl:hashingtimes:put1gb} and \ref{tbl:hashingtimes:get1gb}.
+The numbers for uploading and downloading the different file vectors are
+summarized in Tables \ref{tbl:hashingtimes:put1gb},
+\ref{tbl:hashingtimes:get1gb}, \ref{tbl:hashingtimes:put100mb},
+\ref{tbl:hashingtimes:get100mb}, \ref{tbl:hashingtimes:put1mb},
+\ref{tbl:hashingtimes:get1mb}, \ref{tbl:hashingtimes:put1kb},
+\ref{tbl:hashingtimes:get1kb}, \ref{tbl:hashingtimes:put1b} and
+\ref{tbl:hashingtimes:get1b}.  The third column contains the time spent doing
+other operations than hashing, i.e. \emph{Time spent not hashing = Total time -
+Time spent hashing}. \emph{Fraction} displays the part of total time the calls
+to the hashing libraries take.
+
+As seen in Tables \ref{tbl:hashingtimes:put1gb} and
+\ref{tbl:hashingtimes:get1gb}, Time spent not hashing varies between 227.37s and
+252.66s during upload and 205.94s and 225.03s during download for a 1GB file.
+
 BLAKE, \ac{BMW}, Shabal and Simd outperforms \ac{SHA}-256 when both uploading
 and downloading a 1GB file. The difference between the slowest (JH) and the
 fastest (BLAKE) algorithm is 229.92s when uploading the one gigabyte file.
 
-The third column in Tables \ref{tbl:hashingtimes:put1gb} and
-\ref{tbl:hashingtimes:get1gb} contains the time spent doing other operations
-than hashing, i.e. $Total time - Time spent hashing$. This number varies
-between 227.37s and 252.66s during upload and 205.94s and 225.03s during
-download. \emph{Fraction} displays the part of total time the calls to the
-hashing libraries take.
 
-\input{tables/hashingtimes}
+\input{tables/hashingtimes_1gb}
+\input{tables/hashingtimes_100mb}
+\input{tables/hashingtimes_1mb}
+\input{tables/hashingtimes_1kb}
+\input{tables/hashingtimes_1b}
 
 \begin{figure}[h!]
     \centering
@@ -1171,7 +1182,6 @@ forward, but since the SUPERCOP \ac{API} does not conform to the \ac{NIST}
 \ac{API}, the developers leave important functionality out (i.e.
 {\verb update() }), and hence make it difficult for people who wish to try out
 and test the remaining \ac{SHA}-3 candidates.
-
 
 % BibTeX bibliography lives in external file
 \bibliographystyle{plainnat}
