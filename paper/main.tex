@@ -958,7 +958,7 @@ faster and better the algorithms performed in the test.
 The sum of the amount of time it took for the underlying hash library to
 calculate the hash operations are exhibited in Figures \ref{fig:graph:10001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
-\ref{fig:graph:11gb}. We call this \emph{time spent hashing}.
+\ref{fig:graph:11gb}. We call this \emph{Time spent hashing}.
 
 The numbers for uploading and downloading the different file vectors are
 summarized in Tables \ref{tbl:hashingtimes:put1gb},
@@ -976,9 +976,9 @@ As seen in Tables \ref{tbl:hashingtimes:put1gb} and
 252.66s during upload and 205.94s and 225.03s during download for a 1GB file.
 
 BLAKE, \ac{BMW}, Shabal and Simd outperforms \ac{SHA}-256 when both uploading
-and downloading a 1GB file. The difference between the slowest (JH) and the
-fastest (BLAKE) algorithm is 229.92s when uploading the one gigabyte file.
-
+and downloading a 1GB file, but on small files, SHA-256 is faster by a large
+margin. The difference between the slowest (JH) and the fastest (BLAKE)
+algorithm is 229.92s when uploading the one gigabyte file.
 
 \input{tables/hashingtimes_1gb}
 \input{tables/hashingtimes_100mb}
@@ -1169,7 +1169,9 @@ actually would want to use Tahoe-\ac{LAFS} for.
 We had hoped to contribute more to the Open Source project Tahoe-LAFS, when
 starting on our assignment. It was early evident that implementing a new
 capability was out of scope, since creating Python bindings and trying out
-new implementations was prioritized.
+new implementations was prioritized. Future work should implement the support
+for choosing hashing algorithm in a proper manner which ensures backwards
+compatibility.
 
 Four of the candidates has been shown to perform better than the currently used
 SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd. The time it takes for
@@ -1181,7 +1183,7 @@ benchmarking indeed drives the development of new and better implementations
 forward, but since the SUPERCOP \ac{API} does not conform to the \ac{NIST}
 \ac{API}, the developers leave important functionality out (i.e.
 {\verb update() }), and hence make it difficult for people who wish to try out
-and test the remaining \ac{SHA}-3 candidates.
+and test the \ac{SHA}-3 candidates in real world applications.
 
 % BibTeX bibliography lives in external file
 \bibliographystyle{plainnat}
