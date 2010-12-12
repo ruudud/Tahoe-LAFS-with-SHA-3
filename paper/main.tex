@@ -94,6 +94,32 @@ inputencoding=utf8
 %  Each section is typically a single sentence, although there is room for
 %  creativity.
 
+Most of the cloud applications today are highly dependant on the use of
+cryptographic hash functions. The distributed file system Tahoe-LAFS is no
+exception, and uses hashing algorithms extensively for verification of the
+integrity of its files.
+
+In light of the ongoing NIST competition for selecting the new, standard
+cryptographic hash function named SHA-3, we tried out the 14 second
+round candidates in the Tahoe-LAFS file system using automated tests to measure
+the performance differences. Only the immutable file support was tested.
+
+Since the Tahoe-LAFS is programmed in Python, we had to make bindings to the
+SHA-3 implementations written in C, before making the necessary changes to the
+Tahoe-LAFS code. Several tasks where automated using scripts, to avoid doing
+manual work of distributing changes to the test grid.
+
+In general, four of the candidates perform better than the currently used
+SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.
+By utilizing the performance improvements given by SHA-3, Tahoe-LAFS could
+save $5\%$ on upload operations by changing hashing function to the best
+performing candidate.
+
+The benchmarking tool SUPERCOP measures performance and drives the development
+forwards for the SHA-3 candidates, but we argue that since the SUPERCOP API does
+not conform with the NIST SHA-3 API, vital functionality are left out, making
+integration and testing with existing software hard.
+
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 
