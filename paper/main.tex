@@ -970,7 +970,8 @@ The third column in Tables \ref{tbl:hashingtimes:put1gb} and
 \ref{tbl:hashingtimes:get1gb} contains the time spent doing other operations
 than hashing, i.e. $Total time - Time spent hashing$. This number varies
 between 227.37s and 252.66s during upload and 205.94s and 225.03s during
-download.
+download. \emph{Fraction} displays the part of total time the calls to the
+hashing libraries take.
 
 \input{tables/hashingtimes}
 
@@ -1020,7 +1021,6 @@ download.
 \label{ch:discussion}
 
 \section{\ac{SUPERCOP} results}
-% Time gain of removing ``double'' SHA-256. Double only in digest().
 
 We see in Tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
 \ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
@@ -1048,7 +1048,6 @@ believe that at least for larger input sizes (over 1536) only the five fastest
 candidates will have a change of outperforming double \ac{SHA}-256.
 
 \section{Validity of \ac{SUPERCOP} results}
-% Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 
 Although we believe the \ac{SUPERCOP} toolkit and results give good indication
 of how fast the different candidate implementations are, we do have some
@@ -1075,10 +1074,6 @@ might be obtained from looking at the results from all computers measured by
 %TODO: Vi har andre compiler argumenter - dette må diskuteres
 
 \section{Exclusion of mutable file testing}
-% Implications of only testing immutable files? (mutable files also
-%   include directories)
-% Adding a capability to support new hash functions in tahoe. (Our
-%   current way breaks backwards compatibility)
 
 Since our minor change in the Tahoe-\ac{LAFS} code broke internal checks, we
 were not able to test mutable files, and hence not directories.
@@ -1115,8 +1110,6 @@ assignment.
 %   candidates?
 
 \subsection{The use of Cython}
-% What if we had used another coding scheme? - does Cython lower the
-%   candidates performance?
 
 The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read or change (from
@@ -1137,7 +1130,7 @@ several for most candidates.
 \subsection{Faster implementations}
 We do not claim to have tested the fastest possible nor existing version
 of most of the candidates. We are certain that someone of more skill and
-knolwedge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
+knowledge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
 Python could make significantly faster implementation.
 
 \subsection{Test with different Erasure Coding schemes}
@@ -1164,8 +1157,13 @@ actually would want to use Tahoe-\ac{LAFS} for.
 
 We had hoped to contribute more to the Open Source project Tahoe-LAFS, when
 starting on our assignment. It was early evident that implementing a new
-capability was out of scope, since creating Python bindings for and trying out
+capability was out of scope, since creating Python bindings and trying out
 new implementations was prioritized.
+
+Four of the candidates has been shown to perform better than the currently used
+SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd. The time it takes for
+Tahoe-LAFS to upload a one gigabyte file, could improve by $5\%$ if the best
+performing SHA-3 candidate, BLAKE, were to be used.
 
 Perhaps the most important finding in this project, is that the SUPERCOP
 benchmarking indeed drives the development of new and better implementations
