@@ -349,7 +349,6 @@ The benchmarking results for the \ac{SUPERCOP} toolkit of the \ac{SHA}-3
 candidates and \ac{SHA}-2 functions on a number of different plattforms and
 architectures are available at the webpage of eBACS
 \footnote{\url{http://bench.cr.yp.to/results-sha3.html}}.
-%FIXME: Reference appendix if tahoe04 results end up there.
 
 \subsubsection{\ac{SUPERCOP} \ac{API}}
 \ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
@@ -583,11 +582,10 @@ following criteria:
     \ac{NIST} submission package, or later updates by the author.
 
 \vspace{12pt}
-Based on these criteria, we choose the fastest possible implementation based
-on our benchmark in \ac{SUPERCOP}. The relative speed of each implementation, in
-relation to other implementation for the same and other candidates are
-available at source.
-% FIXME: Link to appendix with tahoe04 SUPERCOP results.
+Based on these criteria, we choose the fastest possible implementation based on
+our benchmark in \ac{SUPERCOP} \cite{s_tahoe_supercop}. The relative speed of
+each implementation, in relation to other implementation for the same and other
+candidates are available at source.
 
 \subsection{Chosen implementations}
 
@@ -892,13 +890,9 @@ Although it is probably unusual to upload one byte files, this enables us to see
 what happens when network delay is brought to a minimum. At the other extreme,
 the one gigabyte file will show another perspective of resource utilization.
 
-% FIXME: Maybe add some more reasoning here.
-
 %**************************************%
 \chapter{Measurements and Results}
 %**************************************%
-
-% FIXME: Decide whether Munin should be included?
 
 In this chapter, we will focus on the concrete results derived from our testing.
 The method of testing is described, along with the test scope.
@@ -934,7 +928,6 @@ Tahoe to put a file to the grid.
 {listings/test_runner.sh}
 
 \section{\ac{SUPERCOP} benchmarks}
-% TODO: more introduction text here?
 
 The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
 \ac{SUPERCOP} can be seen in tables \ref{tbl:supercop:long},
