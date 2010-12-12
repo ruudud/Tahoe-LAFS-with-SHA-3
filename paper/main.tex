@@ -204,10 +204,20 @@ Cryptographic Operations and Primitives}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-Thorough problem description. \\
-Stepwise, what will we actually do?
+The process of selecting what is to become the new standard for a secure hashing
+algorithm is carried out by the {NIST}, and is at its final stages at the time
+of writing. Fourteen candidates came through to the second round
+\cite{s_nistround2}.
 
-Scope and objectives
+The Tahoe-\ac{LAFS} is a distributed, secure file system perfectly suited to
+build file sharing services over the Internet. Currently it uses the
+\ac{SHA}-256 algorithm to verify the integrity of files and shares, in addition
+to creating keys, \ac{URI}s and more \cite{t_tahoe}.
+
+In this project assignment, we integrate the fourteen \ac{SHA}-3 candidates in
+the Tahoe-\ac{LAFS} and measure the performance impact. To be able to do this,
+we create Python bindings for the best suited C implementations of the SHA-3
+candidates, and alter the hash function calls in the source code of Tahoe.
 
 \section{Method}
 
@@ -987,11 +997,11 @@ and downloading a 1GB file, but on small files, SHA-256 is faster by a large
 margin. The difference between the slowest (JH) and the fastest (BLAKE)
 algorithm is 229.92s when uploading the one gigabyte file.
 
-\input{tables/hashingtimes_1gb}
-\input{tables/hashingtimes_100mb}
-\input{tables/hashingtimes_1mb}
-\input{tables/hashingtimes_1kb}
 \input{tables/hashingtimes_1b}
+\input{tables/hashingtimes_1kb}
+\input{tables/hashingtimes_1mb}
+\input{tables/hashingtimes_100mb}
+\input{tables/hashingtimes_1gb}
 
 \begin{figure}[h!]
     \centering
@@ -1227,8 +1237,11 @@ compatibility.
 Four of the candidates has been shown to perform better than the currently used
 SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd. The time it takes for
 Tahoe-LAFS to upload a one gigabyte file, could improve by $5\%$ if the best
-performing SHA-3 candidate, BLAKE, were to be used.
-% TODO: Bedre og bedre implementasjoner kommer til å komme for SHA-3
+performing SHA-3 candidate, BLAKE, were to be used. One has to bear in mind that
+SHA-256 has been optimized and tweaked for a number of years, and that these
+performance differences undoubtedly will continue to increase as new and better
+implementations will be developed for the final chosen \ac{SHA}-3 algorithm.
+
 Perhaps the most important finding in this project, is that the SUPERCOP
 benchmarking indeed drives the development of new and better implementations
 forward, but since the SUPERCOP \ac{API} does not conform to the \ac{NIST}
