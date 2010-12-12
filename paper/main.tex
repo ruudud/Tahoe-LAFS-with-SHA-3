@@ -919,13 +919,22 @@ faster and better the algorithms performed in the test.
 % How much time is spent on hashing versus total time of
 %   uploading/downloading
 
-The sum of the times it took for the underlying hash library to calculate the
-hash operations are exhibited in Figures \ref{fig:graph:10001b},
+The sum of the amount of time it took for the underlying hash library to
+calculate the hash operations are exhibited in Figures \ref{fig:graph:10001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
 \ref{fig:graph:11gb}. We call this \emph{time spent hashing}.
 
-The numbers for uploading and downloading of one 1GB file are summarized in
+The numbers for uploading and downloading the 1GB file are summarized in
 Tables \ref{tbl:hashingtimes:put1gb} and \ref{tbl:hashingtimes:get1gb}.
+BLAKE, \ac{BMW}, Shabal and Simd outperforms \ac{SHA}-256 when both uploading
+and downloading a 1GB file. The difference between the slowest (JH) and the
+fastest (BLAKE) algorithm is 229.92s when uploading the one gigabyte file.
+
+The third column in Tables \ref{tbl:hashingtimes:put1gb} and
+\ref{tbl:hashingtimes:get1gb} contains the time spent doing other operations
+than hashing, i.e. $Total time - Time spent hashing$. This number varies
+between 227.37s and 252.66s during upload and 205.94s and 225.03s during
+download.
 
 \input{tables/hashingtimes}
 
