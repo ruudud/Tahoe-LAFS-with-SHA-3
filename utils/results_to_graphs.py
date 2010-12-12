@@ -17,7 +17,7 @@ import sys
 from graph_matplotlib import graph_test_vector
 
 VECTORS = ('1b', '1kb', '1mb', '100mb', '1gb')
-VECTOR_COUNT = {'1b': 1000, '1kb': 100, '1mb': 50, '100mb': 5, '1gb': 1}
+VECTOR_COUNT = {'1b': 100, '1kb': 100, '1mb': 50, '100mb': 5, '1gb': 1}
 OPERATIONS = {'get': ('tshg', 'totaltimeget', 'nohashopsg'),
               'put': ('tshp', 'totaltimeput', 'nohashopsp'),}
 
