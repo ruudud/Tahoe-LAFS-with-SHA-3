@@ -3,7 +3,21 @@
   \begin{tabular}{ | l | c | c | c | }
     \hline
     Candidate & Total time & Time spent hashing & Difference \\ \hline
-    BLAKE     & 254.19s    & 23.56s             & 230.63     \\ \hline 
+    blake & 253.65s & 20.28s & 233.36s \\ \hline
+    bmw & 273.82s & 29.83s & 243.98s \\ \hline
+    cubehash & 388.56s & 151.6s & 236.89s \\ \hline
+    echo & 363.75s & 126.3s & 237.42s \\ \hline
+    fugue & 336.45s & 94.99s & 241.45s \\ \hline
+    groestl & 443.01s & 196.7s & 246.21s \\ \hline
+    hamsi & 309.01s & 75.13s & 233.87s \\ \hline
+    jh & 502.96s & 250.2s & 252.66s \\ \hline
+    keccak & 284.82s & 50.48s & 234.33s \\ \hline
+    luffa & 278.29s & 37.84s & 240.44s \\ \hline
+    sha256 & 274.11s & 36.50s & 237.60s \\ \hline
+    shabal & 268.31s & 23.85s & 244.45s \\ \hline
+    shavite3 & 291.17s & 63.79s & 227.37s \\ \hline
+    simd & 272.52s & 29.82s & 242.69s \\ \hline
+    skein & 342.74s & 101.3s & 241.43s \\ \hline
   \end{tabular}
   \caption{Timing figures for Tahoe operations: Upload of one 1GB file.}
   \label{tbl:hashingtimes:put1gb}
@@ -14,7 +28,21 @@
   \begin{tabular}{ | l | c | c | c | }
     \hline
     Candidate & Total time & Time spent hashing & Difference \\ \hline
-    BLAKE     & 237.12s    & 9.82               & 227.30     \\ \hline 
+    blake & 235.16s & 10.12s & 225.03s \\ \hline
+    bmw & 235.91s & 14.07s & 221.83s \\ \hline
+    cubehash & 285.81s & 75.16s & 210.64s \\ \hline
+    echo & 275.74s & 61.92s & 213.81s \\ \hline
+    fugue & 260.50s & 45.53s & 214.96s \\ \hline
+    groestl & 300.42s & 94.47s & 205.94s \\ \hline
+    hamsi & 252.66s & 34.99s & 217.66s \\ \hline
+    jh & 321.90s & 116.1s & 205.79s \\ \hline
+    keccak & 244.55s & 24.57s & 219.97s \\ \hline
+    luffa & 237.85s & 18.23s & 219.61s \\ \hline
+    sha256 & 237.59s & 17.27s & 220.31s \\ \hline
+    shabal & 233.26s & 11.48s & 221.77s \\ \hline
+    shavite3 & 252.47s & 32.20s & 220.26s \\ \hline
+    simd & 237.10s & 14.08s & 223.01s \\ \hline
+    skein & 264.67s & 48.74s & 215.92s \\ \hline
   \end{tabular}
   \caption{Timing figures for Tahoe operations: Download of one 1GB file.}
   \label{tbl:hashingtimes:get1gb}

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def graph_test_vector(candidates, data, directory, title, axis):
     if len(candidates) != len(data):
         raise AttributeError('Length of candidates and data does not match')
-
+    print 'Plotting %s' % title
     ind = np.arange(len(candidates))
     width = 0.8
 
