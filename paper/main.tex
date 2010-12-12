@@ -94,6 +94,32 @@ inputencoding=utf8
 %  Each section is typically a single sentence, although there is room for
 %  creativity.
 
+Most of the cloud applications today are highly dependant on the use of
+cryptographic hash functions. The distributed file system Tahoe-LAFS is no
+exception, and uses hashing algorithms extensively for verification of the
+integrity of its files.
+
+In light of the ongoing NIST competition for selecting the new, standard
+cryptographic hash function named SHA-3, we tried out the 14 second
+round candidates in the Tahoe-LAFS file system using automated tests to measure
+the performance differences. Only the immutable file support was tested.
+
+Since the Tahoe-LAFS is programmed in Python, we had to make bindings to the
+SHA-3 implementations written in C, before making the necessary changes to the
+Tahoe-LAFS code. Several tasks where automated using scripts, to avoid doing
+manual work of distributing changes to the test grid.
+
+In general, four of the candidates perform better than the currently used
+SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.
+By utilizing the performance improvements given by SHA-3, Tahoe-LAFS could
+save $5\%$ on upload operations by changing hashing function to the best
+performing candidate.
+
+The benchmarking tool SUPERCOP measures performance and drives the development
+forwards for the SHA-3 candidates, but we argue that since the SUPERCOP API does
+not conform with the NIST SHA-3 API, vital functionality are left out, making
+integration and testing with existing software hard.
+
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 
@@ -116,6 +142,16 @@ Lastly, the Open Source community behind Tahoe-LAFS deserves credit for the
 immense amount of hours they put on an awesome project, and Thomas Pornin for
 providing a working copy of his library of implementations, which saved us a lot
 of work.
+\vspace{13pt}
+
+Best regards,
+
+\begin{center}
+Eirik Haver and Pål Ruud
+\vspace{13pt}
+
+December 16, 2010
+\end{center}
 
 \tableofcontents
 
@@ -313,7 +349,6 @@ The benchmarking results for the \ac{SUPERCOP} toolkit of the \ac{SHA}-3
 candidates and \ac{SHA}-2 functions on a number of different plattforms and
 architectures are available at the webpage of eBACS
 \footnote{\url{http://bench.cr.yp.to/results-sha3.html}}.
-%FIXME: Reference appendix if tahoe04 results end up there.
 
 \subsubsection{\ac{SUPERCOP} \ac{API}}
 \ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
@@ -547,11 +582,10 @@ following criteria:
     \ac{NIST} submission package, or later updates by the author.
 
 \vspace{12pt}
-Based on these criteria, we choose the fastest possible implementation based
-on our benchmark in \ac{SUPERCOP}. The relative speed of each implementation, in
-relation to other implementation for the same and other candidates are
-available at source.
-% FIXME: Link to appendix with tahoe04 SUPERCOP results.
+Based on these criteria, we choose the fastest possible implementation based on
+our benchmark in \ac{SUPERCOP} \cite{s_tahoe_supercop}. The relative speed of
+each implementation, in relation to other implementation for the same and other
+candidates are available at source.
 
 \subsection{Chosen implementations}
 
@@ -856,13 +890,9 @@ Although it is probably unusual to upload one byte files, this enables us to see
 what happens when network delay is brought to a minimum. At the other extreme,
 the one gigabyte file will show another perspective of resource utilization.
 
-% FIXME: Maybe add some more reasoning here.
-
 %**************************************%
 \chapter{Measurements and Results}
 %**************************************%
-
-% FIXME: Decide whether Munin should be included?
 
 In this chapter, we will focus on the concrete results derived from our testing.
 The method of testing is described, along with the test scope.
@@ -898,7 +928,6 @@ Tahoe to put a file to the grid.
 {listings/test_runner.sh}
 
 \section{\ac{SUPERCOP} benchmarks}
-% TODO: more introduction text here?
 
 The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
 \ac{SUPERCOP} can be seen in tables \ref{tbl:supercop:long},
@@ -933,15 +962,36 @@ file size twice. This does not happen on downloading the file.
 % How much time is spent on hashing versus total time of
 %   uploading/downloading
 
-The sum of the times it took for the underlying hash library to calculate the
-hash operations are exhibited in Figures \ref{fig:graph:10001b},
+The sum of the amount of time it took for the underlying hash library to
+calculate the hash operations are exhibited in Figures \ref{fig:graph:10001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
-\ref{fig:graph:11gb}. We call this \emph{time spent hashing}.
+\ref{fig:graph:11gb}. We call this \emph{Time spent hashing}.
 
-The numbers for uploading and downloading of one 1GB file are summarized in
-Tables \ref{tbl:hashingtimes:put1gb} and \ref{tbl:hashingtimes:get1gb}.
+The numbers for uploading and downloading the different file vectors are
+summarized in Tables \ref{tbl:hashingtimes:put1gb},
+\ref{tbl:hashingtimes:get1gb}, \ref{tbl:hashingtimes:put100mb},
+\ref{tbl:hashingtimes:get100mb}, \ref{tbl:hashingtimes:put1mb},
+\ref{tbl:hashingtimes:get1mb}, \ref{tbl:hashingtimes:put1kb},
+\ref{tbl:hashingtimes:get1kb}, \ref{tbl:hashingtimes:put1b} and
+\ref{tbl:hashingtimes:get1b}.  The third column contains the time spent doing
+other operations than hashing, i.e. \emph{Time spent not hashing = Total time -
+Time spent hashing}. \emph{Fraction} displays the part of total time the calls
+to the hashing libraries take.
 
-\input{tables/hashingtimes}
+As seen in Tables \ref{tbl:hashingtimes:put1gb} and
+\ref{tbl:hashingtimes:get1gb}, Time spent not hashing varies between 227.37s and
+252.66s during upload and 205.94s and 225.03s during download for a 1GB file.
+
+BLAKE, \ac{BMW}, Shabal and Simd outperforms \ac{SHA}-256 when both uploading
+and downloading a 1GB file, but on small files, SHA-256 is faster by a large
+margin. The difference between the slowest (JH) and the fastest (BLAKE)
+algorithm is 229.92s when uploading the one gigabyte file.
+
+\input{tables/hashingtimes_1gb}
+\input{tables/hashingtimes_100mb}
+\input{tables/hashingtimes_1mb}
+\input{tables/hashingtimes_1kb}
+\input{tables/hashingtimes_1b}
 
 \begin{figure}[h!]
     \centering
@@ -989,7 +1039,6 @@ Tables \ref{tbl:hashingtimes:put1gb} and \ref{tbl:hashingtimes:get1gb}.
 \label{ch:discussion}
 
 \section{\ac{SUPERCOP} results}
-% Time gain of removing ``double'' SHA-256. Double only in digest().
 
 We see in Tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
 \ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
@@ -1017,7 +1066,6 @@ believe that at least for larger input sizes (over 1536) only the five fastest
 candidates will have a change of outperforming double \ac{SHA}-256.
 
 \section{Validity of \ac{SUPERCOP} results}
-% Mention that some SUPERCOP candidates are missing UPDATE-functionality.
 
 Although we believe the \ac{SUPERCOP} toolkit and results give good indication
 of how fast the different candidate implementations are, we do have some
@@ -1044,10 +1092,6 @@ might be obtained from looking at the results from all computers measured by
 %TODO: Vi har andre compiler argumenter - dette må diskuteres
 
 \section{Exclusion of mutable file testing}
-% Implications of only testing immutable files? (mutable files also
-%   include directories)
-% Adding a capability to support new hash functions in tahoe. (Our
-%   current way breaks backwards compatibility)
 
 Since our minor change in the Tahoe-\ac{LAFS} code broke internal checks, we
 were not able to test mutable files, and hence not directories.
@@ -1098,8 +1142,6 @@ realy on the filesize.
 %   candidates?
 
 \subsection{The use of Cython}
-% What if we had used another coding scheme? - does Cython lower the
-%   candidates performance?
 
 The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read or change (from
@@ -1120,7 +1162,7 @@ several for most candidates.
 \subsection{Faster implementations}
 We do not claim to have tested the fastest possible nor existing version
 of most of the candidates. We are certain that someone of more skill and
-knolwedge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
+knowledge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
 Python could make significantly faster implementation.
 
 \subsection{Test with different Erasure Coding schemes}
@@ -1147,16 +1189,22 @@ actually would want to use Tahoe-\ac{LAFS} for.
 
 We had hoped to contribute more to the Open Source project Tahoe-LAFS, when
 starting on our assignment. It was early evident that implementing a new
-capability was out of scope, since creating Python bindings for and trying out
-new implementations was prioritized.
+capability was out of scope, since creating Python bindings and trying out
+new implementations was prioritized. Future work should implement the support
+for choosing hashing algorithm in a proper manner which ensures backwards
+compatibility.
+
+Four of the candidates has been shown to perform better than the currently used
+SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd. The time it takes for
+Tahoe-LAFS to upload a one gigabyte file, could improve by $5\%$ if the best
+performing SHA-3 candidate, BLAKE, were to be used.
 
 Perhaps the most important finding in this project, is that the SUPERCOP
 benchmarking indeed drives the development of new and better implementations
 forward, but since the SUPERCOP \ac{API} does not conform to the \ac{NIST}
 \ac{API}, the developers leave important functionality out (i.e.
 {\verb update() }), and hence make it difficult for people who wish to try out
-and test the remaining \ac{SHA}-3 candidates.
-
+and test the \ac{SHA}-3 candidates in real world applications.
 
 % BibTeX bibliography lives in external file
 \bibliographystyle{plainnat}
