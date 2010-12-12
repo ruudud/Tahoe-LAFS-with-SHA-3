@@ -1089,6 +1089,25 @@ Another fact important for this decision was that we did not know exactly which
 implementation of each candidate we would end up using, and we ended up trying
 several for most candidates.
 
+\subsection{Faster implementations}
+We do not claim to have tested the fastest possible nor existing version
+of most of the candidates. We are certain that someone of more skill and
+knolwedge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
+Python could make significantly faster implementation.
+
+\subsection{Test with different Erasure Coding schemes}
+By default Tahoe-\ac{LAFS} comes with a coding scheme of 3-7-10 (shares needed,
+shares happy, shares total) while we test with a configuration of 2-3-3. It
+would have been interesting to see how this (and other schemes) would affect
+both the overall performance and the percentage of time spent hashing.
+
+\subsection{Measure with real use cases}
+Our test use random generated data of a certain length. In a real use case for
+Tahoe-\ac{LAFS} the data would probably be both of varying length, and of
+lengths not tested by us. In a real use case both a feasible erasure coding
+scheme would have to be decided, and the files would represent what you
+actually would want to use Tahoe-\ac{LAFS} for.
+
 %**************************************%
 \chapter{Conclusion and Future Work}
 %**************************************%
