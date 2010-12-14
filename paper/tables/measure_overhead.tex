@@ -1,0 +1,21 @@
+\begin{table}
+  \centering
+  \begin{tabular}{ | l | l | r | r | r |}
+    \hline
+    \textbf{Test vector} & \textbf{Operation} & \textbf{Modified} & \textbf{Unmodified} & \textbf{Overhead} \\ \hline
+    1B     &  upload    &  50.26s   &  41.29s   &  8.97s   \\  \hline
+    1B     &  download  &  49.63s   &  39.28s   &  10.35s  \\  \hline
+    1KB    &  upload    &  81.83s   &  58.19s   &  23.64s  \\  \hline
+    1KB    &  download  &  86.41s   &  56.92s   &  29.49s  \\  \hline
+    1MB    &  upload    &  67.71s   &  45.98s   &  21.73s  \\  \hline
+    1MB    &  download  &  61.73s   &  40.68s   &  21.05s  \\  \hline
+    100MB  &  upload    &  137.9s   &  101.43s  &  36.47s  \\  \hline
+    100MB  &  download  &  120.79s  &  99.75s   &  21.04s  \\  \hline
+    1GB    &  upload    &  273.66s  &  213.45s  &  60.21s  \\  \hline
+    1GB    &  download  &  239.45s  &  194.03s  &  45.42s  \\  \hline
+
+  \end{tabular}
+  \caption{Overhead caused by our measurements, based on double \ac{SHA}-256}
+  results
+  \label{tbl:measure:overhead}
+\end{table}
