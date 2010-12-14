@@ -3,21 +3,21 @@
   \begin{tabular}{ | l | c | c | c | c | }
     \hline
     Candidate & Total time & Time spent hashing & Difference & Fraction \\ \hline
-    blake & 67.47s & 1.960s & 65.509s & 2.90\% \\ \hline
-    bmw & 68.32s & 2.454s & 65.865s & 3.59\% \\ \hline
-    cubehash & 74.95s & 9.514s & 65.435s & 12.69\% \\ \hline
-    echo & 72.99s & 7.727s & 65.262s & 10.58\% \\ \hline
-    fugue & 71.44s & 6.069s & 65.370s & 8.49\% \\ \hline
-    groestl & 77.42s & 11.50s & 65.916s & 14.85\% \\ \hline
-    hamsi & 70.04s & 4.850s & 65.189s & 6.92\% \\ \hline
-    jh & 80.56s & 14.29s & 66.268s & 17.74\% \\ \hline
-    keccak & 69.26s & 3.672s & 65.587s & 5.30\% \\ \hline
-    luffa & 68.59s & 2.889s & 65.700s & 4.21\% \\ \hline
-    sha256d & 67.57s & 2.305s & 65.264s & 3.41\% \\ \hline
-    shabal & 67.79s & 2.165s & 65.624s & 3.19\% \\ \hline
-    shavite3 & 69.78s & 4.522s & 65.257s & 6.48\% \\ \hline
-    simd & 68.51s & 2.483s & 66.026s & 3.62\% \\ \hline
-    skein & 72.27s & 6.474s & 65.795s & 8.95\% \\ \hline
+    BLAKE     &  67.47s  &  1.960s  &  65.509s  &  2.90\%   \\  \hline
+    BMW       &  68.32s  &  2.454s  &  65.865s  &  3.59\%   \\  \hline
+    Cubehash  &  74.95s  &  9.514s  &  65.435s  &  12.69\%  \\  \hline
+    Echo      &  72.99s  &  7.727s  &  65.262s  &  10.58\%  \\  \hline
+    Fugue     &  71.44s  &  6.069s  &  65.370s  &  8.49\%   \\  \hline
+    Grøstl    &  77.42s  &  11.50s  &  65.916s  &  14.85\%  \\  \hline
+    Hamsi     &  70.04s  &  4.850s  &  65.189s  &  6.92\%   \\  \hline
+    JH        &  80.56s  &  14.29s  &  66.268s  &  17.74\%  \\  \hline
+    Keccak    &  69.26s  &  3.672s  &  65.587s  &  5.30\%   \\  \hline
+    Luffa     &  68.59s  &  2.889s  &  65.700s  &  4.21\%   \\  \hline
+    SHA256d   &  67.71s  &  2.305s  &  65.404s  &  3.40\%   \\  \hline
+    Shabal    &  67.79s  &  2.165s  &  65.624s  &  3.19\%   \\  \hline
+    Shavite3  &  69.78s  &  4.522s  &  65.257s  &  6.48\%   \\  \hline
+    Simd      &  68.51s  &  2.483s  &  66.026s  &  3.62\%   \\  \hline
+    Skein     &  72.27s  &  6.474s  &  65.795s  &  8.95\%   \\  \hline
   \end{tabular}
   \caption{Timing Tahoe operations: Upload of 50 1MB files.}
   \label{tbl:hashingtimes:put1mb}
@@ -28,21 +28,21 @@
   \begin{tabular}{ | l | c | c | c | c | }
     \hline
     Candidate & Total time & Time spent hashing & Difference & Fraction \\ \hline
-    blake & 62.03s & 1.445s & 60.584s & 2.33\% \\ \hline
-    bmw & 62.19s & 1.660s & 60.529s & 2.66\% \\ \hline
-    cubehash & 65.21s & 5.458s & 59.751s & 8.37\% \\ \hline
-    echo & 64.15s & 4.367s & 59.782s & 6.80\% \\ \hline
-    fugue & 63.50s & 3.520s & 59.979s & 5.54\% \\ \hline
-    groestl & 65.89s & 6.100s & 59.789s & 9.25\% \\ \hline
-    hamsi & 63.04s & 2.779s & 60.260s & 4.40\% \\ \hline
-    jh & 66.63s & 7.330s & 59.299s & 11.00\% \\ \hline
-    keccak & 62.69s & 2.229s & 60.460s & 3.55\% \\ \hline
-    luffa & 62.35s & 1.877s & 60.472s & 3.01\% \\ \hline
-    sha256d & 61.74s & 1.252s & 60.487s & 2.02\% \\ \hline
-    shabal & 62.30s & 1.569s & 60.730s & 2.52\% \\ \hline
-    shavite3 & 62.78s & 2.702s & 60.077s & 4.30\% \\ \hline
-    simd & 62.34s & 1.695s & 60.644s & 2.71\% \\ \hline
-    skein & 63.70s & 3.732s & 59.967s & 5.86\% \\ \hline
+    BLAKE     &  62.03s  &  1.445s  &  60.584s  &  2.33\%   \\  \hline
+    BMW       &  62.19s  &  1.660s  &  60.529s  &  2.66\%   \\  \hline
+    Cubehash  &  65.21s  &  5.458s  &  59.751s  &  8.37\%   \\  \hline
+    Echo      &  64.15s  &  4.367s  &  59.782s  &  6.80\%   \\  \hline
+    Fugue     &  63.50s  &  3.520s  &  59.979s  &  5.54\%   \\  \hline
+    Grøstl    &  65.89s  &  6.100s  &  59.789s  &  9.25\%   \\  \hline
+    Hamsi     &  63.04s  &  2.779s  &  60.260s  &  4.40\%   \\  \hline
+    JH        &  66.63s  &  7.330s  &  59.299s  &  11.00\%  \\  \hline
+    Keccak    &  62.69s  &  2.229s  &  60.460s  &  3.55\%   \\  \hline
+    Luffa     &  62.35s  &  1.877s  &  60.472s  &  3.01\%   \\  \hline
+    SHA256d   &  61.73s  &  1.251s  &  60.478s  &  2.02\%   \\  \hline
+    Shabal    &  62.30s  &  1.569s  &  60.730s  &  2.52\%   \\  \hline
+    Shavite3  &  62.78s  &  2.702s  &  60.077s  &  4.30\%   \\  \hline
+    Simd      &  62.34s  &  1.695s  &  60.644s  &  2.71\%   \\  \hline
+    Skein     &  63.70s  &  3.732s  &  59.967s  &  5.86\%   \\  \hline
   \end{tabular}
   \caption{Timing Tahoe operations: Download of 50 1MB files.}
   \label{tbl:hashingtimes:get1mb}
