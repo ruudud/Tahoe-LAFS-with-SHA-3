@@ -9,5 +9,5 @@ cd $1
 
 for fn in `ls *.svg`; do
     echo "Converting $fn to PDF."
-    inkscape -D -z --file=$fn --export-pdf=`echo $fn | sed s/svg//`pdf
+    inkscape -D -T -z --file=$fn --export-pdf=`echo $fn | sed s/svg//`pdf
 done
