@@ -100,20 +100,20 @@ exception, and uses hashing algorithms extensively for verification of the
 integrity of its files.
 
 In light of the ongoing NIST competition for selecting the new, standard
-cryptographic hash function named SHA-3, we tried out the 14 second
-round candidates in the Tahoe-LAFS file system using automated tests to measure
-the performance differences. Only the immutable file support was tested.
+cryptographic hash function named SHA-3, 14 of the second round candidates were
+tried out in the Tahoe-LAFS file system using automated tests to measure the
+performance differences. Only the immutable file support was tested.
 
-Since the Tahoe-LAFS is programmed in Python, we had to make bindings to the
-SHA-3 implementations written in C, before making the necessary changes to the
-Tahoe-LAFS code. Several tasks where automated using scripts, to avoid doing
-manual work of distributing changes to the test grid.
+Since the Tahoe-LAFS is programmed in Python, bindings to the SHA-3
+implementations written in C had to be made , before making the necessary
+changes to the Tahoe-LAFS code. Several tasks where automated using scripts, to
+avoid doing manual work of distributing changes to the test grid.
 
 In general, four of the candidates perform better than the currently used
-SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.
-By utilizing the performance improvements given by SHA-3, Tahoe-LAFS could
-save $5\%$ on upload operations by changing hashing function to the best
-performing candidate.
+SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.  By utilizing the
+performance improvements given by SHA-3, Tahoe-LAFS could currently save $5\%$
+on upload operations by changing hashing function to the best performing
+candidate.
 
 The benchmarking tool SUPERCOP measures performance and drives the development
 forwards for the SHA-3 candidates, but we argue that since the SUPERCOP API does
@@ -282,7 +282,7 @@ At the time of writing, the current status of the competition is officially
 called Round 2, with 14 of 64 candidates having ``survived'' Round 1
 \cite{s_fedreg}.
 
-\subsubsection{\ac{NIST} evaluation criteria for \ac{SHA}-3}
+\subsubsection{NIST evaluation criteria for SHA-3}
 
 \label{sec:lengthextension}
 \paragraph{Security.} The most important criterion for the SHA-3
@@ -309,7 +309,9 @@ and to use parallelism and instruction set extensions. Another key point of a
 flexible hash function is that it should have a simple and elegant design to
 encourage understanding, analysis and design confidence.
 
-\subsubsection{\ac{NIST} \ac{SHA}-3 \ac{API}} \ac{NIST} required that every
+\subsubsection{NIST SHA-3 API}
+
+\ac{NIST} required that every
 submission should conform to a specified \ac{API}\cite{s_fedreg}. The \ac{API}
 specification \cite{s_nistapi} states in shortness that it requires every
 candidate to implement four functions:
@@ -341,7 +343,7 @@ competition along with their principal submitters are listed in Table
 
 \input{tables/sha3_authors}
 
-\subsection{\ac{SUPERCOP}}
+\subsection{SUPERCOP}
 \ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
 of cryptographic software \cite{s_supercop}. In relation to hash functions,
 \ac{SUPERCOP} measures the following:
@@ -365,7 +367,7 @@ candidates and \ac{SHA}-2 functions on a number of different plattforms and
 architectures are available at the webpage of eBACS
 \footnote{\url{http://bench.cr.yp.to/results-sha3.html}}.
 
-\subsubsection{\ac{SUPERCOP} \ac{API}}
+\subsubsection{SUPERCOP API}
 \ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
 conform to \cite{s_supercopapi}. This \ac{API} specifies the naming and
 organization of files, and that a submission must include a function
@@ -738,7 +740,7 @@ candidates.
 \lstinputlisting[label=lst:cython_impl, caption=Cython class\, echo\_hash.pyx]
 {listings/echo_hash.pyx}
 
-\subsubsection{\ac{Distutils}}
+\subsubsection{Distutils}
 We use \ac{Distutils}\footnote{\url{http://docs.python.org/distutils/}} to
 build and install our code. The alternative to doing this would be to manually
 transform Cython files to C-files, build the shared library from this and other
@@ -779,7 +781,7 @@ then copy the state. The tests check if this is possible, and that altering the
 copied state does not affect the original.
 
 
-\section{Modifications to the Tahoe-\ac{LAFS} Code}
+\section{Modifications to the Tahoe-LAFS Code}
 \label{sec:modtahoe}
 
 The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
@@ -980,7 +982,7 @@ Interpolation gives a somewhat pessimistic result of the cycles/byte needed for
 hashing 32 byte, so the probable speed is somewhere in between the
 interpolation point and the best case time.
 
-\section{Measurements of Tahoe data}
+\section{Measurements of internal Tahoe hashing sizes}
 \label{sec:results:tahoedata}
 
 Tables \ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datadownloaded} and
@@ -994,7 +996,7 @@ file size twice. This does not happen when downloading the file.
 
 \input{tables/tahoe_byteshashed}
 
-\section{Measurements of Tahoe operations}
+\section{Measurements of Tahoe operations Using Test Vectors}
 The sum of the amount of time it took for the underlying hash library to
 calculate the hash operations are exhibited in Figures \ref{fig:graph:1001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
@@ -1112,7 +1114,7 @@ mean and why there are some inconsistencies. In addition, general
 thoughts on the testing procedure and the \ac{SUPERCOP} toolkit will be
 presented.
 
-\section{Validity of \ac{SUPERCOP} results}
+\section{Validity of SUPERCOP results}
 
 Although we believe the \ac{SUPERCOP} toolkit and results give good indication
 of how fast the different candidate implementations are, we do have some
@@ -1196,7 +1198,7 @@ small files, this makes sense. Larger amounts of data will take longer to
 process for the hash function, which again results in the fraction of time used
 by our bindings is decreased.
 
-\subsection{Impact of double \ac{SHA}-256}
+\subsection{Impact of double SHA-256}
 The impact of using double \ac{SHA}-256 compared to single is surprisingly
 small, even if you use the best-case estimate from Table
 \ref{tbl:supercop:sha256}. For 1B, 1KB and 1MB files the data hashed is almost
