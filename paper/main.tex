@@ -1140,7 +1140,11 @@ greatly outperforms the \ac{SHA}-3 candidate implementations. The data being
 hashed for these files are dominated by lengths of 63 and 106 bytes. By 
 comparing with \ac{SUPERCOP} results, and especially the fact that we are 
 using double \ac{SHA}-256, which should result in large overhead this is
-unexpected.
+unexpected. However, we believe that the results for small files may also
+reflect our use of Cython and our skill. Given large amounts of call to our
+bindings, while the data processed by the actual hash functions is small and
+therefore does not use a lot of time, the speed of the bindings will come in to
+play.
 
 \subsection{Large files}
 For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are 
@@ -1153,7 +1157,15 @@ are hashed during 1GB and 100MB up/downloads are dominated by 101B, 65569B and
 largely affected by having to do double SHA-256. However, since the small files
 had a similar percentage of operations being done on 106B chunks, blaming need
 to use double \ac{SHA}256 is not enough. It looks like indeed the large data
-chunks being hashed is what is making the difference. 
+chunks being hashed is what is making the difference. If we now consider that
+our bindings to the hash functions is what is causing the slow results for
+small files, this makes sense. Larger amounts of data will take longer to
+process for the hash function, which again results in the fraction of time used
+by our bindings is decreased.
+
+
+%FIXME: Nevn noe en plass om at vi kanskje burde timet kallene til HASH
+%funksjonen også.
 
 \subsection{The candidates}
 If we look primarily at the large file up/download we see that the candidates
