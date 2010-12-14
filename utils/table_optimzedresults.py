@@ -25,8 +25,14 @@ MEDIANS = {
                 64:23.78,
                 8:132.88,
             },
-        #'cubehash':{
-        #    },
+        'cubehash':{
+                'long':13.23,
+                4096:14.45,
+                1563:16.37,
+                576:21.21,
+                64:91.50,
+                8:633,
+            },
         'echo':{
                 'long':32.64,
                 4096:32.77,
@@ -116,6 +122,14 @@ MEDIANS = {
                 64:25.56,
                 8:218.88,
             },
+        'sha256':{
+                'long':15.14,
+                4096:15.83,
+                1563:16.45,
+                576:18.05,
+                64:38.12,
+                8:179.62,
+                }
         
         }
 
@@ -178,7 +192,8 @@ def write_latex_table(op):
     all_data +="    \\begin{tabular}{ | l | r | r | r | r | r | }\n"
     all_data +="      \\hline\n" 
     headers = ['function','1b','1kb','1mb','100mb','1gb']
-    func = ['blake','bmw','echo','fugue','groestl','hamsi','jh','keccak','luffa','simd','skein','shabal','shavite3']
+    func =['blake','bmw','echo','fugue','groestl','hamsi',
+           'jh','keccak','luffa','sha256','simd','skein','shabal','shavite3']
     func.sort(reverse=True)
     header = "      "
     body = ""
