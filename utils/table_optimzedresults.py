@@ -184,16 +184,16 @@ def write_latex_table(op):
     if op=='p':
         word = "upload"
     else:
-        word = "upload"
-    caption = "Fastest possible "+word+" using best SHA-3 candidate implementations"
+        word = "download"
+    caption = "Time spent hashing during "+word+" using best SHA-3 candidate implementations"
 
     all_data = "\\begin{table} \n"
     all_data +="  \\centering \n"
     all_data +="    \\begin{tabular}{ | l | r | r | r | r | r | }\n"
     all_data +="      \\hline\n" 
-    headers = ['function','1b','1kb','1mb','100mb','1gb']
-    func =['blake','bmw','echo','fugue','groestl','hamsi',
-           'jh','keccak','luffa','sha256','simd','skein','shabal','shavite3']
+    headers = ['Candidate','1B','1KB','1MB','100MB','1GB']
+    func =['BLAKE','BMW','Echo','Fugue','Groestl','Hamsi',
+           'JH','Keccak','Luffa','SHA256','Simd','Skein','Shabal','Shavite3']
     func.sort(reverse=True)
     header = "      "
     body = ""
@@ -202,9 +202,11 @@ def write_latex_table(op):
     header = header[:-2] + "\\\\ \\hline\n"
     
     for f in func:
+        if func=='Groestl':
+            k = "      Grøstl & "
         k = "      "+str(f) + " & "
         for tv in TEST_VECTORS:
-            k += str(MEDIANS[f][str(tv)+str(op)]) + " & "
+            k += str(MEDIANS[f.lower()][str(tv)+str(op)]) + " & "
         k = k[:-2] + "\\\\ \hline\n"
         body += k
     all_data += header

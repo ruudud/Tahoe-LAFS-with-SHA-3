@@ -938,7 +938,7 @@ Tahoe to put a file to the grid.
 {listings/test_runner.sh}
 
 \section{SUPERCOP benchmarks}
-
+\label{sec:results:supercop}
 The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
 \ac{SUPERCOP} can be seen in tables \ref{tbl:supercop:long},
 \ref{tbl:supercop:4096}, \ref{tbl:supercop:1536}, \ref{tbl:supercop:576},
@@ -977,6 +977,8 @@ hashing 32 byte, so the probable speed is somewhere in between the
 interpolation point and the best case time. 
 
 \section{Measurements of Tahoe data}
+\label{sec:results:tahoedata}
+
 % TODO: Fiks denne tabellen så den ikke overflower
 % TODO: Sleng inn samme for download
 Table \ref{tbl:tahoe:datauploaded} and describes the distribution of the
@@ -1075,6 +1077,17 @@ algorithm is 229.92s when uploading the 1GB file.
     \caption{Figures for hash operations of one 1GB file.}
     \label{fig:graph:11gb}
 \end{figure}
+
+\subsection{Theoretical optimized results}
+These results are calculated using the best \ac{SUPERCOP} results for each
+candidate from section \ref{sec:results:supercop}, the exact sizes for each
+call to the hash function from section \ref{sec:results:tahoedata}, and
+interpolation to estimate the time to hash a length not recorded by
+\ac{SUPERCOP}. For lengths above 4096 the results for long data lanegths are
+used. The results also assume only one core of the reference processor is used.
+
+\input{tables/tahoe_optimized_p}
+\input{tables/tahoe_optimized_g}
 
 %**************************************%
 \chapter{Discussion}
