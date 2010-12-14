@@ -1172,6 +1172,18 @@ by our bindings is decreased.
 
 %FIXME: Nevn noe en plass om at vi kanskje burde timet kallene til HASH
 %funksjonen også.
+\subsection{Impact of double \ac{SHA}-256}
+The impact of using double \ac{SHA}-256 compared to single is suprisingly
+small, even if you use the best-case estimate from Table
+\ref{tbl:supercop:sha256}. For 1B, 1KB and 1MB files the data hashed is almost
+exclusively 106B or less. If we assume data is hashed at the performance of 576
+bytes, single \ac{SHA}-256 should outperform double \ac{SHA}-256 by about 10\%.
+For 1B files this difference is eaten up by external factors (other
+processes), the same goes for 1KB files. For 1MB files, there seems to be a
+difference, however this difference is so small that we deem it unimportant.
+For the larger files the performance penalty is even smaller, so all in all we
+deem the performance penalty for Tahoe-\ac{LAFS} for using double \ac{SHA}-256
+as opposed to single unimportant.
 
 \subsection{The candidates}
 If we look primarily at the large file up/download we see that the candidates
