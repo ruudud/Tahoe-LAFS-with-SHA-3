@@ -26,6 +26,24 @@ def hash(int hashbitlen, bytes data, int in_length):
 
     return digest
 
+import os
+import time
+HASH_TIMING_FILE = '/tmp/time_spent_hashing' 
+def _write_increase(file_path, increment):
+    if not os.path.exists(file_path):
+        # Create the file if it does not exist.
+        fp = open(file_path, 'w')
+        fp.write('0')
+        fp.close()
+
+    fp = open(file_path, 'r')
+    current = float(fp.read())
+    fp.close()
+
+    fp = open(file_path, 'w')
+    fp.write(str(current + increment))
+    fp.close()
+
 cdef class blake:
     '''
     A class that tries to mimic the behaviour of hashlib, i.e. keeping state
@@ -40,12 +58,19 @@ cdef class blake:
     cdef int finished
     cdef int hashbitlen
     cdef list hashval
+    
+#    def float timehash
+
 
     def __init__(self, int in_hashbitlen, bytes initial=None):
         self.finished = 0
         self.hashbitlen = in_hashbitlen
         #blake_h.Init(&self.state, self.hashbitlen)
+        self.timehash = 0.0
+        t1 = time.time()
         blake_h.blake32_init( &self.state)
+        t2 = time.time()
+        self.timehash += t2 - t1
         if initial:
             self.update(initial)
 
@@ -59,7 +84,10 @@ cdef class blake:
             self.state = self.previous_state
 
         #blake_h.Update(&self.state, <blake_h.BitSequence *> data, data_len)
+        t1 = time.time()
         blake_h.blake32_update(&self.state, <blake_h.u8 *> data, <blake_h.u64> data_len)
+        t2 = time.time()
+        self.timehash += t2 - t1
 
     cpdef final(self):
         #cdef blake_h.BitSequence *hashval = <blake_h.BitSequence *> malloc(self.hashbitlen*8)
@@ -70,9 +98,13 @@ cdef class blake:
         self.previous_state = self.state
 
         #blake_h.Final(&self.state, hashval)
+        t1 = time.time()
         blake_h.blake32_final(&self.state, hashval)
-        self.finished = 1
+        t2 = time.time()
+        self.timehash += t2-t1
+        _write_increase(HASH_TIMING_FILE, float(self.timehash))
         
+        self.finished = 1
         self.hashval = [hashval[i] for i from 0 <= i < self.hashbitlen / 8]
         free(hashval)
 
