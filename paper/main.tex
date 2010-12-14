@@ -431,7 +431,6 @@ There are two kinds of files in the Tahoe-\ac{LAFS} -- \textbf{immutable} and
 cannot be modified, and can be read repeatedly. Mutable files can be modified,
 and everyone who has access to the signing key can make new versions of
 the mutable file.
-%More text here?
 
 \paragraph{Erasure coding.}
 
@@ -962,11 +961,11 @@ byte is the same as 8 byte), best-case (cycles/byte for 32 byte is the same as
 for 64 byte) and interpolation (assuming linear decrease) are shown in Table
 \ref{tbl:supercop:sha256d}. The calculation for this table are as follows:
 
-$$\frac{median * size + 179.62*32}{size} = SHA256d\ estimate (worst-case)$$ 
+$$\frac{median * size + 179.62*32}{size} = SHA256d\ estimate (worst-case)$$
 
-$$\frac{median * size + 38.12*32}{size} = SHA256d\ estimate (best-case)$$ 
+$$\frac{median * size + 38.12*32}{size} = SHA256d\ estimate (best-case)$$
 
-$$179.62 + \frac{38.12-179.62}{64-8}*(32-8) = 118.97 (cycles/byte for 32 byte)$$ 
+$$179.62 + \frac{38.12-179.62}{64-8}*(32-8) = 118.97 (cycles/byte for 32 byte)$$
 
 $$\frac{median * size + 118.97*32}{size} = SHA256d\ estimate (interpolation)$$
 
@@ -974,11 +973,10 @@ $$\frac{median * size + 118.97*32}{size} = SHA256d\ estimate (interpolation)$$
 
 Interpolation gives a somewhat pessimistic result of the cycles/byte needed for
 hashing 32 byte, so the probable speed is somewhere in between the
-interpolation point and the best case time. 
+interpolation point and the best case time.
 
 \section{Measurements of Tahoe data}
 \label{sec:results:tahoedata}
-% TODO: Update text and Captions to better describe what is going on.
 
 Tables \ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datadownloaded} and
 describes the distribution of the different input sizes of data that
@@ -987,7 +985,7 @@ test vectors. E.g. to upload the 100 1-byte files, 15700 hashes had to be
 calculated, and about 64\% of these were of size 106 byte.
 
 For every upload Tahoe-\ac{LAFS} does, it hashes a size close to the original
-file size twice. This does not happen on downloading the file.
+file size twice. This does not happen when downloading the file.
 
 \input{tables/tahoe_byteshashed}
 
