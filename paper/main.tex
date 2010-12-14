@@ -1126,17 +1126,16 @@ might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
 \paragraph{Extra compiler flags}
-%TODO: Vi har andre compiler argumenter - dette må diskuteres
+
 We do not compile the candidate implementation with the exact same arguments
 that is used in \ac{SUPERCOP}, most notably we append the -fPIC flag. This flag
-creates position-independant-code, in other words machine instruction code that
-can execute properly regardless of where in memory it resides. This will make
-one less register available on the x86 architecture. While we cannot directly
-prove that this will affect performance of the implementations. We do however
-suspect it. A person writing an optimization for \ac{SUPERCOP} will have to
-balance his use of resources, among them registers, to achieve maximum speed.
-The loss of one register will then give a performance penalty.  
-
+creates \emph{position independent code}, in other words machine instruction
+code that can execute properly regardless of where in memory it resides. This
+will make one less register available on the x86 architecture. While we cannot
+directly prove that this will affect performance of the implementations. We do
+however suspect it. A person writing an optimization for \ac{SUPERCOP} will have
+to balance his use of resources, among them registers, to achieve maximum speed.
+The loss of one register will then give a performance penalty.
 
 \section{Exclusion of mutable file testing}
 
@@ -1159,19 +1158,19 @@ assignment.
 \section{Thoughts on the measurements}
 
 \subsection{Small files}
-For small files, 1B and 1KB, we can clearly see that both double \ac{SHA}-256 
-greatly outperforms the \ac{SHA}-3 candidate implementations. The data being 
-hashed for these files are dominated by lengths of 63 and 106 bytes. By 
-comparing with \ac{SUPERCOP} results, and especially the fact that we are 
-using double \ac{SHA}-256, which should result in large overhead this is
-unexpected. However, we believe that the results for small files may also
-reflect our use of Cython and our skill. Given large amounts of call to our
-bindings, while the data processed by the actual hash functions is small and
-therefore does not use a lot of time, the speed of the bindings will come in to
-play.
+
+For small files, 1B and 1KB, we can clearly see that both double \ac{SHA}-256
+greatly outperforms the \ac{SHA}-3 candidate implementations. The data being
+hashed for these files are dominated by lengths of 63 and 106 bytes. By
+comparing with \ac{SUPERCOP} results, and especially the fact that we are using
+double \ac{SHA}-256, which should result in large overhead this is unexpected.
+However, we believe that the results for small files may also reflect our use of
+Cython and our skill. Given large amounts of call to our bindings, while the
+data processed by the actual hash functions is small and therefore does not use
+a lot of time, the speed of the bindings will come in to play.
 
 \subsection{Large files}
-For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are 
+For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are
 actually outperforming double \ac{SHA}-256, which is expected from the
 \ac{SUPERCOP} results. However if we compare this result with the result for
 small files, and expect that a hash algorithm should do better on a cycles/byte
@@ -1187,11 +1186,8 @@ small files, this makes sense. Larger amounts of data will take longer to
 process for the hash function, which again results in the fraction of time used
 by our bindings is decreased.
 
-
-%FIXME: Nevn noe en plass om at vi kanskje burde timet kallene til HASH
-%funksjonen også.
 \subsection{Impact of double \ac{SHA}-256}
-The impact of using double \ac{SHA}-256 compared to single is suprisingly
+The impact of using double \ac{SHA}-256 compared to single is surprisingly
 small, even if you use the best-case estimate from Table
 \ref{tbl:supercop:sha256}. For 1B, 1KB and 1MB files the data hashed is almost
 exclusively 106B or less. If we assume data is hashed at the performance of 576
@@ -1207,7 +1203,7 @@ as opposed to single unimportant.
 If we look primarily at the large file up/download we see that the candidates
 that outperforms, or are close to outperforming \ac{SHA}-256 are BLAKE,
 \ac{BMW}, Shabal, Simd and Luffa. This is expected and corresponds with the
-results from \ac{SUPERCOP}.  
+results from \ac{SUPERCOP}.
 
 \subsection{Final round candidates}
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
@@ -1230,13 +1226,10 @@ implementations in \ac{SUPERCOP}, achieved median speed for every hash
 % Drag in the five selected remaining candidates.
 
 \section{Improvement of methods}
-% More general stuff. What could have been done differently? Criticize
-% ourselves.
-%
-% Optimized candidates - which gain could be expected from more optimized
-%   candidates?
 
 \subsection{The use of Cython}
+
+% TODO: Discuss the BLAKE run in Results when timing was done within Cython.
 
 The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read or change (from
