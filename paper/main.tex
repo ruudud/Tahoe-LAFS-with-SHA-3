@@ -1212,12 +1212,6 @@ the \ac{SHA}-3 competition. %TODO: some comments on theese
 We have not used the fastest possible implementations possible for various
 reasons mentioned previously. However, if we had actually used the fastest
 implementations in \ac{SUPERCOP}, achieved median speed for every hash
-calculated the results should look as in Table X. The table is calculated using
-the lengths of data actually hashed by Tahoe-\ac{LAFS}, the medians from
-\ac{SUPERCOP} results, and interpolation for sizes in between those mentioned in
-\ac{SUPERCOP}. The point of this result is to see the maximum performance gain
-possible for TAHOE-\ac{LAFS} by adopting one of the current \ac{SHA}-3
-candidate implementations.
 
 %TODO: Optimaliserte resultater tabell
 
@@ -1246,7 +1240,7 @@ equal for all the \ac{SHA}-3 candidates which means they should give the same
 performance penalty. The \ac{SHA}-256 version will of course not suffer from
 the same penalty, however we believe the possible performance gain is small.
 This is due to the fact that no intensive operations take place in our
-Cython-code.
+Cython-code. However we do believe that our bindings are affected by the 
 
 The alternative would be creating manual Python-bindings for all the candidates
 which would require a lot more work on our side, especially given the lack of a
