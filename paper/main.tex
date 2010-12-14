@@ -1098,8 +1098,18 @@ candidates one must look at different computers and architectures. This picture
 might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
-
+\paragraph{Extra compiler flags}
 %TODO: Vi har andre compiler argumenter - dette må diskuteres
+We do not compile the candidate implementation with the exact same arguments
+that is used in \ac{SUPERCOP}, most notably we append the -fPIC flag. This flag
+creates position-independant-code, in other words machine instruction code that
+can execute properly regardless of where in memory it resides. This will make
+one less register available on the x86 architecture. While we cannot directly
+prove that this will affect performance of the implementations. We do however
+suspect it. A person writing an optimization for \ac{SUPERCOP} will have to
+balance his use of resources, among them registers, to achieve maximum speed.
+The loss of one register will then give a performance penalty.  
+
 
 \section{Exclusion of mutable file testing}
 
