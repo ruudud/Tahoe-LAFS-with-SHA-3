@@ -1079,18 +1079,6 @@ algorithm is 229.92s when uploading the 1GB file.
     \label{fig:graph:11gb}
 \end{figure}
 
-\subsection{Theoretical optimized results}
-
-Tables \ref{tbl:tahoe:optimized_g} and \ref{tbl:tahoe:optimized_p} exhibit
-the results calculated using the best \ac{SUPERCOP} implementation for each
-candidate from Section \ref{sec:results:supercop}, the exact sizes for each
-call to the hash function from Section \ref{sec:results:tahoedata}, and
-interpolation to estimate the time to hash a length not recorded by
-\ac{SUPERCOP}. For lengths above 4096B, the numbers for long data lengths are
-used. The results also assume only one core of the reference processor is used.
-
-\input{tables/tahoe_optimized_p}
-\input{tables/tahoe_optimized_g}
 
 %**************************************%
 \chapter{Discussion}
@@ -1213,6 +1201,26 @@ the \ac{SHA}-3 competition. %TODO: some comments on theese
 We have not used the fastest possible implementations possible for various
 reasons mentioned previously. However, if we had actually used the fastest
 implementations in \ac{SUPERCOP}, achieved median speed for every hash
+
+\subsection{Theoretical optimized results}
+We have not use the fastest available implementations for all of the
+candidates, we also know that our bindings creates an overhead for all calls.
+Therefore we have tried to calculate the results that could have been achieved
+in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
+implementations in \{SUPERCOP}. The results can be seen in appendix XX.
+%TODO: Fik appendix og referanse
+
+%Tables \ref{tbl:tahoe:optimized_g} and \ref{tbl:tahoe:optimized_p} exhibit
+%the results calculated using the best \ac{SUPERCOP} implementation for each
+%candidate from Section \ref{sec:results:supercop}, the exact sizes for each
+%call to the hash function from Section \ref{sec:results:tahoedata}, and
+%interpolation to estimate the time to hash a length not recorded by
+%\ac{SUPERCOP}. For lengths above 4096B, the numbers for long data lengths are
+%used. The results also assume only one core of the reference processor is used.
+
+%\input{tables/tahoe_optimized_p}
+%\input{tables/tahoe_optimized_g}
+
 
 %TODO: Optimaliserte resultater tabell
 
