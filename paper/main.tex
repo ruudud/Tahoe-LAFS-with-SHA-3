@@ -1087,7 +1087,8 @@ our work.
 To eliminate as much as possible of overhead introduced by our bindings, we
 timed the calls from our bindings to the underlying C-function. The overhead
 should be the same for all bindings, since the Cython code is the same. The
-measured overhead, calculated from BLAKE can be seen in Table XX.
+measured overhead, calculated from BLAKE can be seen in Table
+\ref{tbl:cython:overhead}.
 
 \input{tables/cython_overhead}
 
@@ -1097,8 +1098,9 @@ Because we write to two files after each hash calculation, this will create an
 overhead in the measurements that would not normaly exist in Tahoe-\ac{LAFS}.
 This overhead should be about the same for all candidates, since the number of
 writes are equal. The results and calculations for this overhead, based on runs
-with double \ac{SHA}-256 can be seen in Table XX.
+with double \ac{SHA}-256 can be seen in Table \ref{tbl:measure:overhead}.
 
+\input{tables/measure_overhead}
 
 %**************************************%
 \chapter{Discussion}

@@ -1,38 +1,38 @@
 VECTORS = ['1b','1kb','1mb','100mb','1gb']
 OPS = ('p','g')
 
-blake_o = {
-        '1bp':0.374,
-        '1bg':0.519,
-        '1kbp':1.133,
-        '1kbg':1.448,
-        '1mbp':1.96,
-        '1mbg':1.445,
-        '100mbp':10.09,
-        '100mbg':5.03,
-        '1gbp':20.28,
-        '1gbg':10.12,
+sha256_o = {
+        '1bp':50.26,
+        '1bg':49.63,
+        '1kbp':81.83,
+        '1kbg':86.41,
+        '1mbp':67.71,
+        '1mbg':61.73,
+        '100mbp':137.90,
+        '100mbg':120.79,
+        '1gbp':273.66,
+        '1gbg':239.45,
 }
 
-blake_c = {
-        '1bp':0.16,
-        '1bg':0.15,
-        '1kbp':0.39,
-        '1kbg':0.40,
-        '1mbp':1.30,
-        '1mbg':0.72,
-        '100mbp':9.33,
-        '100mbg':4.56,
-        '1gbp':19.21,
-        '1gbg':9.27,
+sha256_c = {
+        '1bp':41.29,
+        '1bg':39.28,
+        '1kbp':58.19,
+        '1kbg':56.92,
+        '1mbp':45.98,
+        '1mbg':40.68,
+        '100mbp':101.43,
+        '100mbg':99.75,
+        '1gbp':213.45,
+        '1gbg':194.03,
 }
 
 def calculate_overhead():
     results = {}
     for op in OPS:
         for tv in VECTORS:
-            high = blake_o[tv+op]
-            low = blake_c[tv+op]
+            high = sha256_o[tv+op]
+            low = sha256_c[tv+op]
             overhead = high - low
             k = [high, low, overhead]
             results[tv+op] = k
