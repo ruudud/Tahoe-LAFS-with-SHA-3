@@ -214,7 +214,7 @@ build file sharing services over the Internet. Currently it uses the
 \ac{SHA}-256 algorithm to verify the integrity of files and shares, in addition
 to creating keys, \ac{URI}s and more \cite{t_tahoe}.
 
-In this project assignment, we integrate the fourteen \ac{SHA}-3 candidates in
+In this project assignment, we integrate the 14 \ac{SHA}-3 candidates in
 the Tahoe-\ac{LAFS} and measure the performance impact. To be able to do this,
 we create Python bindings for the best suited C implementations of the SHA-3
 candidates, and alter the hash function calls in the source code of Tahoe.
@@ -256,6 +256,11 @@ future work.
 %**************************************%
 \chapter{Background technologies}
 %**************************************%
+
+This chapter provides background knowledge for the most important software and
+technologies used in this project assignment, comprising of cryptographic hash
+functions (in light of the \ac{NIST} competition), the \ac{SUPERCOP} toolkit,
+Tahoe-\ac{LAFS}, and lastly Python and Cython.
 
 \section{Cryptographic Hash Functions}
 
@@ -1075,11 +1080,13 @@ algorithm is 229.92s when uploading the 1GB file.
 \end{figure}
 
 \subsection{Theoretical optimized results}
-These results are calculated using the best \ac{SUPERCOP} results for each
-candidate from section \ref{sec:results:supercop}, the exact sizes for each
-call to the hash function from section \ref{sec:results:tahoedata}, and
+
+Tables \ref{tbl:tahoe:optimized_g} and \ref{tbl:tahoe:optimized_p} exhibit
+the results calculated using the best \ac{SUPERCOP} implementation for each
+candidate from Section \ref{sec:results:supercop}, the exact sizes for each
+call to the hash function from Section \ref{sec:results:tahoedata}, and
 interpolation to estimate the time to hash a length not recorded by
-\ac{SUPERCOP}. For lengths above 4096 the results for long data lanegths are
+\ac{SUPERCOP}. For lengths above 4096B, the numbers for long data lengths are
 used. The results also assume only one core of the reference processor is used.
 
 \input{tables/tahoe_optimized_p}
@@ -1090,8 +1097,10 @@ used. The results also assume only one core of the reference processor is used.
 %**************************************%
 \label{ch:discussion}
 
-% TODO: Intro
-
+This chapter will provide comments on the results made, what the numbers
+mean and why there are some inconsistencies. In addition, general
+thoughts on the testing procedure and the \ac{SUPERCOP} toolkit will be
+presented.
 
 \section{Validity of \ac{SUPERCOP} results}
 
