@@ -1,14 +1,14 @@
 \begin{table}
   \centering
-  \begin{tabular}{ | c | c | }
+  \begin{tabular}{ | c | c | c | c |}
     \hline
-    \textbf{Size} & \textbf{Median} \\ \hline
-    8    & 898.1 \\ \hline
-    64   & 127.93 \\ \hline
-    576  & 53.85 \\ \hline
-    1536 & 20.19 \\ \hline
-    4096 & 17.23 \\ \hline
+    \textbf{Size} & \textbf{Worst case} & \textbf{Interpolation} & \textbf{Best case} \\ \hline
+    8    & 898.1  & 655.53  & 332.10 \\ \hline
+    64   & 127.93 & 97.61  & 57.18 \\ \hline
+    576  & 53.85  & 24.66  & 20.17 \\ \hline
+    1536 & 20.19  & 18.89  & 17.23 \\ \hline
+    4096 & 17.23  & 16.76  & 16.13 \\ \hline
   \end{tabular}
-  \caption{Estimates for double SHA-256}
+  \caption{Estimates for medians using double \ac{SHA}-256}
   \label{tbl:supercop:sha256d}
 \end{table}
