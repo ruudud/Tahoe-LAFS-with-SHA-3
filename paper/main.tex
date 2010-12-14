@@ -989,18 +989,14 @@ files, 15700 hashes had to be calculated, and about 64\% of these were of size
 106 byte.
 
 For every upload Tahoe-\ac{LAFS} does, it hashes a size close to the original
-file size twice. This does not happen on downloading the file.   
+file size twice. This does not happen on downloading the file.
 
 \input{tables/tahoe_byteshashed}
 
 \section{Measurements of Tahoe operations}
-%\vskip -1.5em % This is to fit in two graphs on one page including heading
-
-% How much time is spent on hashing versus total time of
-%   uploading/downloading
 
 The sum of the amount of time it took for the underlying hash library to
-calculate the hash operations are exhibited in Figures \ref{fig:graph:10001b},
+calculate the hash operations are exhibited in Figures \ref{fig:graph:1001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
 \ref{fig:graph:11gb}. We call this \emph{Time spent hashing}.
 
@@ -1015,14 +1011,17 @@ other operations than hashing, i.e. \emph{Time spent not hashing = Total time -
 Time spent hashing}. \emph{Fraction} displays the part of total time the calls
 to the hashing libraries take.
 
+\ac{SHA}-256 (single) is not included in the graphs, because the results were
+exactly the same as for the \ac{SHA}-256d used in Tahoe-\ac{LAFS}.
+
 As seen in Tables \ref{tbl:hashingtimes:put1gb} and
 \ref{tbl:hashingtimes:get1gb}, Time spent not hashing varies between 227.37s and
 252.66s during upload and 205.94s and 225.03s during download for a 1GB file.
 
-BLAKE, \ac{BMW}, Shabal and Simd outperforms \ac{SHA}-256 when both uploading
-and downloading a 1GB file, but on small files, SHA-256 is faster by a large
-margin. The difference between the slowest (JH) and the fastest (BLAKE)
-algorithm is 229.92s when uploading the one gigabyte file.
+BLAKE, \ac{BMW}, Shabal and Simd outperform \ac{SHA}-256d when both uploading
+and downloading a 1GB file, but on small files, \ac{SHA}-256d is faster by a
+large margin. The difference between the slowest (JH) and the fastest (BLAKE)
+algorithm is 229.92s when uploading the 1GB file.
 
 \input{tables/hashingtimes_1b}
 \input{tables/hashingtimes_1kb}
@@ -1032,40 +1031,50 @@ algorithm is 229.92s when uploading the one gigabyte file.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashinguploading10001Bfiles.pdf}
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashingdownloading10001Bfiles.pdf}
-    \caption{Figures for hash operations of 1000 1B files.}
-    \label{fig:graph:10001b}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhileuploading1001Bfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhiledownloading1001Bfiles.pdf}
+    \caption{Figures for hash operations of 100 1B files.}
+    \label{fig:graph:1001b}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashinguploading1001KBfiles.pdf}
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashingdownloading1001KBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhileuploading1001KBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhiledownloading1001KBfiles.pdf}
     \caption{Figures for hash operations of 100 1KB files.}
     \label{fig:graph:1001kb}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashinguploading501MBfiles.pdf}
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashingdownloading501MBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhileuploading501MBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhiledownloading501MBfiles.pdf}
     \caption{Figures for hash operations of 50 1MB files.}
     \label{fig:graph:501mb}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashinguploading5100MBfiles.pdf}
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashingdownloading5100MBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhileuploading5100MBfiles.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhiledownloading5100MBfiles.pdf}
     \caption{Figures for hash operations of five 100MB files.}
     \label{fig:graph:5100mb}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashinguploading11GBfile.pdf}
-    \includegraphics[width=0.9\columnwidth]{graphs/Timespenthashingdownloading11GBfile.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhileuploading11GBfile.pdf}
+    \includegraphics[width=0.9\columnwidth]
+        {graphs/Timespenthashingwhiledownloading11GBfile.pdf}
     \caption{Figures for hash operations of one 1GB file.}
     \label{fig:graph:11gb}
 \end{figure}
