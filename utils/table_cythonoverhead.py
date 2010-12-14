@@ -4,10 +4,10 @@ OPS = ('p','g')
 blake_o = {
         '1bp':0.374,
         '1bg':0.519,
-        '1kbp':1.13,
-        '1kbg':1.45,
+        '1kbp':1.133,
+        '1kbg':1.448,
         '1mbp':1.96,
-        '1mbg':1.45,
+        '1mbg':1.445,
         '100mbp':10.09,
         '100mbg':5.03,
         '1gbp':20.28,
@@ -39,12 +39,12 @@ def calculate_overhead():
     return results
 
 def print_results(results):
-    for op in OPS:
-        word = 'upload'
-        if op=='g':
-            word = 'download'
         for tv in VECTORS:
-            print "%s & %s & %s & %s & %s" % (tv.upper(),
+            for op in OPS:
+                word = 'upload'
+                if op=='g':
+                    word = 'download'
+                print "%s & %s & %s & %s & %s \\\ \hline" % (tv.upper(),
                     word,
                     results[tv+op][0],
                     results[tv+op][1],

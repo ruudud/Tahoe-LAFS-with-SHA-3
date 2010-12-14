@@ -3,16 +3,17 @@
   \begin{tabular}{ | l | l | r | r | r |}
     \hline
     \textbf{Test vector} & \textbf{Operation} & \textbf{Total time} & \textbf{C Hash time} & \textbf{Overhead} \\ \hline
-    1B     &  upload    &  0.374  &  0.16   &  0.214   \\ \hline   
-    1KB    &  upload    &  1.13   &  0.39   &  0.74    \\ \hline 
-    1MB    &  upload    &  1.96   &  1.3    &  0.66    \\ \hline 
-    100MB  &  upload    &  10.09  &  9.33   &  0.76    \\ \hline 
-    1GB    &  upload    &  20.28  &  19.21  &  1.07    \\ \hline 
-    1B     &  download  &  0.519  &  0.15   &  0.369   \\ \hline 
-    1KB    &  download  &  1.45   &  0.4    &  1.05    \\ \hline 
-    1MB    &  download  &  1.45   &  0.72   &  0.73    \\ \hline 
-    100MB  &  download  &  5.03   &  4.56   &  0.47    \\ \hline 
-    1GB    &  download  &  10.12  &  9.27   &  0.85    \\ \hline 
+    1B     &  upload    &  0.374  &  0.16   &  0.214  \\  \hline
+    1B     &  download  &  0.519  &  0.15   &  0.369  \\  \hline
+    1KB    &  upload    &  1.133  &  0.39   &  0.743  \\  \hline
+    1KB    &  download  &  1.448  &  0.4    &  1.048  \\  \hline
+    1MB    &  upload    &  1.96   &  1.3    &  0.66   \\  \hline
+    1MB    &  download  &  1.445  &  0.72   &  0.725  \\  \hline
+    100MB  &  upload    &  10.09  &  9.33   &  0.76   \\  \hline
+    100MB  &  download  &  5.03   &  4.56   &  0.47   \\  \hline
+    1GB    &  upload    &  20.28  &  19.21  &  1.07   \\  \hline
+    1GB    &  download  &  10.12  &  9.27   &  0.85   \\  \hline
+
   \end{tabular}
   \caption{Overhead of Cython bindings, based on BLAKE results}
   \label{tbl:cython:overhead}
