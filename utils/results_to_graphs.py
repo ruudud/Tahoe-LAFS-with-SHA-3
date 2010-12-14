@@ -22,7 +22,7 @@ OPERATIONS = {'get': ('tshg', 'totaltimeget', 'nohashopsg'),
               'put': ('tshp', 'totaltimeput', 'nohashopsp'),}
 
 def get_candidates(directory=None):
-    sub_directories = [f for f in os.listdir(directory) if os.path.isdir(
+    sub_directories = [unicode(f, 'utf-8') for f in os.listdir(directory) if os.path.isdir(
         os.path.join(directory, f))]
     sub_directories.sort()
     return sub_directories
