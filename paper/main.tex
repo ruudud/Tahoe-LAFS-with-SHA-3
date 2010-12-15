@@ -281,16 +281,16 @@ The \ac{SHA} version 3 is a coming standard set to supersede the current
 standards that the \ac{SHA}-1 and the \ac{SHA}-2 family has become. The hash
 function that will be known as \ac{SHA}-3 will be decided by the \ac{NIST} and
 chosen between the submitted contestants to the \ac{NIST} hash competition.  At
-the of writing, the current status of the competition is in it's final round
-(or round 3), with only five remaining candidates. This result was not revealed
-until a week before the submission of this paper, so we are focusing on all
-round 2 candidates, which there are 14 of.  \cite{s_fedreg}.
+the  time of writing, the competition is in its final round (round 3), with
+only five remaining candidates. This result was not revealed until a week
+before the submission of this paper, so we are focusing on all round 2
+candidates, which there are 14 of \cite{s_fedreg}.
 
 \subsubsection{NIST evaluation criteria for SHA-3}
 
 \label{sec:lengthextension}
 \paragraph{Security.} The most important criterion for the SHA-3
-candidates\cite{s_nistround2} is security. \citet{s_fedreg} lays out the full
+candidates is security\cite{s_nistround2}. \citet{s_fedreg} lays out the full
 description of security criteria, however the most noteworthy criterion
 in regards to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
 resistance against length-extension attacks. Both \ac{SHA}-1 and the \ac{SHA}-2
@@ -298,12 +298,12 @@ family are vulnerable to this kind of attack, and thus requires
 Tahoe to run the algorithm twice, as described by \citet{schneier}.
 
 \paragraph{Cost and Performance.} Cost and Performance are considered to be the
-second most important criterion. The absolute minimum for performance is that the
-SHA-3 candidate should be faster than the functions in the \ac{SHA}-2 family.
-Cost is a measure of how much memory an implementation requires in software,
-both the implementation itself and the use of \ac{RAM} during runtime. Another
-measure of cost is how many logic gates it takes to implement the function in
-hardware.
+second most important criterion. The absolute minimum for performance is that
+the SHA-3 candidate should be faster than the functions in the \ac{SHA}-2
+family\cite{s_nistround2}.  Cost is a measure of how much memory an
+implementation requires in software, both the implementation itself and the use
+of \ac{RAM} during runtime. Another measure of cost is how many logic gates it
+takes to implement the function in hardware.
 
 \paragraph{Algorithm and implementation characteristics.} By this third criterion,
 \ac{NIST} emphasizes that algorithms with greater flexibility will be given
@@ -331,9 +331,9 @@ HashReturn Hash(int hashbitlen, const BitSequence *data,
 
 The {\verb Init() } function basically sets up the internal state of the function, to
 make it ready to start processing real data. The {\verb Update() } function is used to
-provide the actual data to the hash function. The {\verb Final() } function should be
+provide the actual data that will be hashed. The {\verb Final() } function should be
 called when all necessary data has been given through {\verb Update() }, it will then
-finish the hash function and provide the digest. The {\verb Hash() } function
+finish the processing and provide the digest. The {\verb Hash() } function
 can be described as a wrapper for doing a call to the three other functions.
 
 {\verb HashReturn } is an \emph{enum} representing that an operation either succeeded or
@@ -344,6 +344,8 @@ went wrong. The {\verb BitSequence } is a representation of an array of byte fie
 The names of the second round candidates for the \ac{SHA}-3 \ac{NIST}
 competition along with their principal submitters are listed in Table
 \ref{tbl:sha3:candidates} \cite{s_nistround2}.
+
+
 
 \input{tables/sha3_authors}
 
@@ -364,7 +366,7 @@ of different optimizations for each candidate. Optimizations range from
 32-/64-bit specific implementations, the use of extended instruction sets such
 as \ac{SSE2} and \ac{SSSE3}, optimizations for different number of cores and
 others. The toolkit will also try different compiler optimizations to get the
-best results possible for each function.
+best results possible for each implementation.
 
 The benchmarking results for the \ac{SUPERCOP} toolkit of the \ac{SHA}-3
 candidates and \ac{SHA}-2 functions on a number of different plattforms and
@@ -378,8 +380,7 @@ organization of files, and that a submission must include a function
 {\verb crypto_hash() } which is similar to the function {\verb Hash() } in the
 \ac{NIST} \ac{SHA}-3 \ac{API}. The only difference being the naming of
 data types and that the {\verb crypto_hash() } function does not need an input
-of how long the output of the hash function should be. Instead double or
-different submissions are used for different output lengths.
+of how long the output of the hash function should be.
 
 \begin{verbatim}
 int crypto_hash(unsigned char *out, const unsigned char *in,
@@ -407,7 +408,8 @@ Tahoe was originally developed with funding from the former commercial web
 backup service provider Allmydata, but is now a stand-alone Open
 Source\footnote{GNU General Public License (GPL) version 2} project
 \cite{t_ars}.  It is written in the Python programming language with the Twisted
-framework, and can run on Windows, Mac OSX, Linux, Solaris and more.
+framework, and can run on Windows, Mac OSX, Linux, Solaris and other operating
+systems.
 
 \subsection{Architecture}
 
@@ -426,8 +428,8 @@ roughly relates to a tracker in the BitTorrent\footnote{See
 The \textbf{filesystem} layer is responsible for mapping human-meaningful
 pathnames to pieces of data. Each directory contains a table of capabilities
 for its children, i.e. subdirectories or files. Two forms of capabilities is
-available for each file, read-only and read-write, and these can be shared to
-provide shared/published directory structures with friends.
+available for each file, read-only and read-write, and these can be distributed
+to e.g. share a file with friends.
 
 Since it is not practical for users to remember strings containing random
 characters, the \textbf{application} layer is used for providing a user-friendly
@@ -495,10 +497,10 @@ data structure named the \emph{\ac{CEB}}.
 
 \paragraph{Capabilities.}
 
-A \textbf{capability} (or an URI) contains the encryption key, and a hash of the
-\emph{\ac{UEB}}. The \ac{UEB} for each file is a data structure containing the
-hash of the \ac{CEB}, the size of the file, any encoding parameters necessary to
-perform the erasure decoding, and a hash of the plaintext and the encrypted
+A \textbf{capability} (or an URI) contains the encryption key, and a hash of
+the \ac{UEB}. The \ac{UEB} for each file is a data structure containing the
+hash of the \ac{CEB}, the size of the file, any encoding parameters necessary
+to perform the erasure decoding, and a hash of the plaintext and the encrypted
 text. This is illustrated in Figure \ref{fig:tahoeueb}.
 
 \begin{figure}[!h]
@@ -516,7 +518,7 @@ used for both server selection and to index shares within each storage node.
 \section{Python and Cython}
 
 Python\footnote{\url{http://www.python.org/}} is a high-level general-purpose
-programming language. Python is also an interpreted language, which means that
+programming language. Python is also an just-in-time language, which means that
 Python programs are compiled at runtime. There exists multiple implementations
 of Python, however the most common, CPython, is implemented in C. The fact that
 Python is a high-level language usually means that there are performance
