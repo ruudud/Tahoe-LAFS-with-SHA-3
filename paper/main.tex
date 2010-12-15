@@ -614,6 +614,7 @@ candidates are available at source.
 
 \subsection{Chosen implementations}
 \label{sec:chosen_implementations}
+
 \input{tables/sha3_implementations}
 
 The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
@@ -1123,33 +1124,35 @@ presented.
 
 \section{Reliability of SUPERCOP results}
 
-Although we believe the \ac{SUPERCOP} toolkit and results give good indication
-of how fast the different candidate implementations are, we do have some
+Although we believe the \ac{SUPERCOP} toolkit results give good indication of
+how fast the different implementations of the candidates are, we do have some
 general comments on the way it works and how it relates to our results.
 
-\paragraph{Implementations does not conform to \ac{NIST} specification} for
-many of the candidates. By this we mean that there is no {\verb Update() }
+\paragraph{Implementations do not conform to \ac{NIST} specification} for
+many of the candidates. By this we mean that there is no {\verb update() }
 function available for all implementations, and that \ac{SUPERCOP} only
 measures speed of hashing full byte strings. We are questioning if this
 discriminates implementations which actually can do more of their processing on
-a call to {\verb Update() }. This is also a hassle for a programmer who wants
-to use the implementations found in \ac{SUPERCOP}
+a call to {\verb update() }. This issue is also a hassle for a programmer who
+wants to use the implementations found in \ac{SUPERCOP}.
 
 \paragraph{Incorrect implementations} are present in \ac{SUPERCOP}. By this we
 mean implementations that does not conform to the \acp{KAT} supplied or
-implementations which fail completely as hash functions, see section
-\ref{sec:choosen_implementations} for details on the JH implementation.
+implementations which fail completely as hash functions, see
+\autoref{sec:chosen_implementations} for details on the JH implementation.
 
-\paragraph{Extra compiler flags}
+\paragraph{Extra compiler flags.}
+
 We do not compile the candidate implementation with the exact same arguments
-that is used in \ac{SUPERCOP}, most notably we append the -fPIC flag. This flag
-creates \emph{position independent code}, in other words machine instruction
-code that can execute properly regardless of where in memory it resides. This
-will make one less register available on the x86 architecture. While we cannot
-directly prove that this will affect performance of the implementations. We do
-however suspect it. A person writing an optimization for \ac{SUPERCOP} will have
-to balance his use of resources, among them registers, to achieve maximum speed.
-The loss of one register will then give a performance penalty.
+that is used in \ac{SUPERCOP}, most notably we append the {\verb -fPIC } flag.
+This flag creates \emph{position independent code}, in other words machine
+instruction code that can execute properly regardless of where in memory it
+resides. This will make one less register available on the x86 architecture.
+While we cannot directly prove that this will affect performance of the
+implementations, we do however suspect it. A person writing an optimization for
+\ac{SUPERCOP} will have to balance his use of resources, among them registers,
+to achieve maximum speed.  The loss of one register will therefore give a
+performance penalty.
 
 \section{Exclusion of mutable file testing}
 
@@ -1172,37 +1175,41 @@ assignment.
 \section{Thoughts on the measurements}
 
 \subsection{Small files}
-The results for small files, 1KB and 1KB, are presented in Figure
+
+The results for small files, 1B and 1KB, are presented in Figures
 \ref{fig:graph:1001b} and \ref{fig:graph:1001kb}. We can clearly see that in
-this case the \ac{SHA}-256 implementation used by Tahoe-\ac{LAFS} outperforms
+this case, the \ac{SHA}-256 implementation used by Tahoe-\ac{LAFS} outperforms
 our implementations, which is somewhat unexpected given the \ac{SUPERCOP}
 results. However, if we take into account the overhead created by our bindings
 to the underlying implementations (Table \ref{tbl:cython:overhead}), some of the
 \ac{SHA}-3 candidate implementations actually outperform double \ac{SHA}-256,
 which is expected. We do not know how much overhead the bindings for
-\ac{SHA}-256 are causing, but we can safely assume that the overhead is less
-than for our bindings. If we can eliminate all time spent in our bindings both
-BLAKE and \ac{BMW} outperform double \ac{SHA}-256 in every measurement, with
-Luffa, Shabal and Simd outperforming double \ac{SHA}-256 in most of them.
+\ac{SHA}-256 are causing, but we can safely assume that the overhead is far less
+than for our bindings. If we can eliminate all extra time spent in our bindings
+both BLAKE and \ac{BMW} outperform double \ac{SHA}-256 in every measurement,
+with Luffa, Shabal and Simd outperforming double \ac{SHA}-256 in most of them.
 
 We also measured single \ac{SHA}-256 for these files, which we believe should
-show a difference. The lengths of processed by the hash function are dominated
-by sized of 106B for the 1B files, and also by 63B for the 1KB files (Table
-\ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datadownloaded}. Even by the
-best-case performance scenario from Table \ref{tbl:supercop:sha256d} we would
-expect to see a performance penalty. However this performance penalty is so
-small that it is typically hidden due to system noise.   
+show a difference. The lengths of inputs processed by the hash function are
+dominated by sized of 106B for the 1B files, and also by 63B for the 1KB files,
+as shown in Tables \ref{tbl:tahoe:datauploaded} and
+\ref{tbl:tahoe:datadownloaded}. Even by the best-case performance scenario from
+Table \ref{tbl:supercop:sha256d} we would expect to see a performance penalty.
+However, this performance penalty is so small that it is typically hidden due to
+system ``noise''.
 
 \subsection{Large files}
-For large files, 1MB, 100MB and 1GB, we can see that our implementations are
-outperforming double \ac{SHA}-256. Also for the large files we can see there is
-a performance penalty by our bindings (Table \ref{tbl:cython:overhead}),
-however the relative overhead cause are small compared to the time spent in the
-underlying implementations. The reason for this is that we are hashing larger
-sizes of data, especially for the 100MB and 1GB files (Tables
-\ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datauploaded}). For these
-larger sizes the overhead caused by using double \ac{SHA}-256 opposed to single
-is also relatively small and does not cause a noteworthy performance penalty.
+
+For large files, 1MB, 100MB and 1GB, we can see that the \ac{SHA}-3
+implementations are outperforming double \ac{SHA}-256. Also for the large files
+we can see that there is a performance penalty introduced by our bindings (Table
+\ref{tbl:cython:overhead}), however the relative overhead are small
+compared to the time spent in the underlying libraries. The reason for
+this is that we are hashing larger sizes of data, especially for the 100MB and
+1GB files (Tables \ref{tbl:tahoe:datauploaded} and
+\ref{tbl:tahoe:datauploaded}). For these larger sizes the overhead caused by
+using double \ac{SHA}-256 opposed to single is also relatively small and does
+not cause a noteworthy performance penalty.
 
 \subsection{The candidates}
 
