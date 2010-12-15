@@ -1282,51 +1282,60 @@ implementations in \ac{SUPERCOP}. The results can be found in
 
 % TODO: Discuss the BLAKE run in Results when timing was done within Cython.
 
-The generated C files from Cython used as Python bindings are not necessarily the most
-optimized versions possible to write and they are ugly to read and change (from
-a C perspective). However they are equal for all the \ac{SHA}-3 candidates
-which means they should give the same performance penalty. The \ac{SHA}-256
-version will of course not suffer from the same penalty. From
-\autoref{tbl:cython:overhead} we can see the performance penalty of our
-bindings, and we do believe better bindings can be made, also with the use of
-Cython, but by someone with more skill and knowledge than us.
+The generated C files from Cython used as Python bindings are not necessarily
+the most optimized versions possible to write and they are difficult to read and
+change from a C perspective. However, they are equal for all the \ac{SHA}-3
+candidates, which means they should give the same performance penalty. The
+\ac{SHA}-256 version will of course not suffer from this, as it is not written
+using Cython. From \autoref{tbl:cython:overhead} we can see the performance
+penalty of our bindings, and we do believe better bindings can be made, also
+with the use of Cython, but by someone with more skill and knowledge than us.
 
-The alternative would be creating manual Python-bindings for all the candidates
-which would require a lot more work on our side, especially given the lack of a
-good enough and common \ac{API} for the implementations in \ac{SUPERCOP}.
-Another fact important for this decision was that we did not know exactly which
-implementation of each candidate we would end up using, and we ended up trying
-several for most candidates.
+The alternative would be to create manual Python bindings for all the
+candidates, which would require a lot more work on our side, especially given
+the lack of a good enough and common \ac{API} for the implementations in
+\ac{SUPERCOP}
+
+Another fact important for the decision on using Cython, was that we did not
+know exactly which implementation of each candidate we would end up using.
+Several implementations were tried out during testing, and this could only be
+accomplished since we only had to do a minimal amount of work for each new
+implementation test.
 
 \subsection{Faster implementations}
-We do not claim to have tested the fastest possible nor existing version
+
+We do not claim to have tested the fastest possible existing version
 of most of the candidates. We are certain that someone of more skill and
 knowledge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
-Python could make significantly faster implementation.
+Python could make significantly faster implementations.
 
 \subsection{Test with different Erasure Coding schemes}
-By default Tahoe-\ac{LAFS} comes with a coding scheme of 3-7-10 (shares needed,
+
+By default, Tahoe-\ac{LAFS} comes with a coding scheme of 3-7-10 (shares needed,
 shares happy, shares total) while we test with a configuration of 2-3-3. It
 would have been interesting to see how this (and other schemes) would affect
 both the overall performance and the percentage of time spent hashing.
 
 \subsection{Measure with real use cases}
-Our test use random generated data of a certain length. In a real use case for
-Tahoe-\ac{LAFS} the data would probably be both of varying length, and of
-lengths not tested by us. In a real use case both a feasible erasure coding
-scheme would have to be decided, and the files would represent what you
-actually would want to use Tahoe-\ac{LAFS} for.
+
+Our test use randomly generated data of a certain length. In a real use case for
+Tahoe-\ac{LAFS}, the data would probably be both of varying length, and of
+lengths not tested by us. Additionally, both a feasible erasure coding
+scheme would have to be decided, and the files would represent what you actually
+would want to use Tahoe-\ac{LAFS} for.
 
 \subsection{Truncate output from 512-bit implementations}
-In our measurements and Python library we only consider 256-bit version of each
+
+In our measurements and in the created Python library, we only consider 256-bit version of each
 candidate. Some candidates does however have a faster implementation with
 512-bit output. We could have used these implementations and truncated the
 output to 256-bit, and possible achieved better results.
 
 \subsection{Testing on difference architectures}
+
 Our measurements are only done on a single computer with an 32-bit (x86)
 system. It would have been possible to extend the survey to other
-architectures, to see how this would affect the results. 
+architectures, to see how this would affect the results.
 
 %**************************************%
 \chapter{Conclusion and Future Work}
