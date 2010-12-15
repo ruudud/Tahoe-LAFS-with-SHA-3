@@ -604,7 +604,7 @@ each implementation, in relation to other implementation for the same and other
 candidates are available at source.
 
 \subsection{Chosen implementations}
-
+\label{sec:chosen_implementations}
 \input{tables/sha3_implementations}
 
 The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
@@ -1114,7 +1114,7 @@ mean and why there are some inconsistencies. In addition, general
 thoughts on the testing procedure and the \ac{SUPERCOP} toolkit will be
 presented.
 
-\section{Reliability of \ac{SUPERCOP} results}
+\section{Reliability of SUPERCOP results}
 
 Although we believe the \ac{SUPERCOP} toolkit and results give good indication
 of how fast the different candidate implementations are, we do have some
@@ -1123,19 +1123,15 @@ comments on it.
 \paragraph{Implementations does not conform to \ac{NIST} specification} for
 many of the candidates. By this we mean that there is no {\verb Update() }
 function available for all implementations, and that \ac{SUPERCOP} only
-measures speed of hashing full byte strings. This is also a hassle for a
-programmer who wants to use the implementations in \ac{SUPERCOP}
+measures speed of hashing full byte strings. We are questioning if this
+discriminates implementations which actually can do more of their processing on
+a call to {\verb Update() }. This is also a hassle for a programmer who wants
+to use the implementations found in \ac{SUPERCOP}
 
 \paragraph{Incorrect implementations} are present in \ac{SUPERCOP}. By this we
-mean implementations that does not conform to the \ac{KAT}s supplied.
-
-\paragraph{Results are only valid for one specific computer}. The results we
-used from \ac{SUPERCOP} are only valid for our specific computer, although it
-gives an indication of which speeds can be achieved on similar computers, i.e.
-32-bit. However to get a complete picture of the performance of the different
-candidates one must look at different computers and architectures. This picture
-might be obtained from looking at the results from all computers measured by
-\ac{SUPERCOP}.
+mean implementations that does not conform to the \ac{KAT}s supplied or
+implementations which fail completely as hash functions, see section
+\ref{sec:choosen_implementations} for details on the JH implementation.
 
 \paragraph{Extra compiler flags}
 
