@@ -275,7 +275,7 @@ function. In other words it should be infeasible to find the reverse of a
 cryptographic hash function \cite[p. 335]{stallings}. It should also be infeasible to
 find two blocks of data which produce the same hash value (a \emph{collision}).
 
-\subsection{NIST SHA-3 Competition} 
+\subsection{NIST SHA-3 Competition}
 
 The \ac{SHA} version 3 is a coming standard set to supersede the current
 standards that the \ac{SHA}-1 and the \ac{SHA}-2 family has become. The hash
@@ -287,10 +287,10 @@ before the submission of this paper, so we are focusing on all round 2
 candidates, which there are 14 of \cite{s_fedreg}.
 
 \subsubsection{NIST evaluation criteria for SHA-3}
-
 \label{sec:lengthextension}
+
 \paragraph{Security.} The most important criterion for the SHA-3
-candidates is security\cite{s_nistround2}. \citet{s_fedreg} lays out the full
+candidates is security \cite{s_nistround2}. \citet{s_fedreg} lays out the full
 description of security criteria, however the most noteworthy criterion
 in regards to Tahoe-\ac{LAFS} is that \ac{SHA}-3 candidates are required to have
 resistance against length-extension attacks. Both \ac{SHA}-1 and the \ac{SHA}-2
@@ -300,7 +300,7 @@ Tahoe to run the algorithm twice, as described by \citet{schneier}.
 \paragraph{Cost and Performance.} Cost and Performance are considered to be the
 second most important criterion. The absolute minimum for performance is that
 the SHA-3 candidate should be faster than the functions in the \ac{SHA}-2
-family\cite{s_nistround2}.  Cost is a measure of how much memory an
+family \cite{s_nistround2}.  Cost is a measure of how much memory an
 implementation requires in software, both the implementation itself and the use
 of \ac{RAM} during runtime. Another measure of cost is how many logic gates it
 takes to implement the function in hardware.
@@ -606,7 +606,7 @@ following criteria:
 Based on these criteria, we choose the fastest possible implementation based on
 our benchmark in \ac{SUPERCOP} \cite{s_tahoe_supercop}. The relative speed of
 each implementation, in relation to other implementation for the same and other
-candidates can be found at eBASH\cite{s_tahoe_supercop}.
+candidates can be found at eBASH \cite{s_tahoe_supercop}.
 
 \subsection{Chosen implementations}
 \label{sec:chosen_implementations}
