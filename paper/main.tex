@@ -1228,7 +1228,7 @@ the \ac{SHA}-256 version found in Tahoe-\ac{LAFS} is also somewhat slower than
 you would expect. We blame this mainly on our Cython-bindings and our skill. We
 believe a developer with more knowledge of the inner workings of the
 implementations, the Python C-\ac{API} and \ac{GCC} could have produced better
-results.
+results. 
 
 \subsection{Final round candidates}
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
@@ -1255,6 +1255,39 @@ speculate in what they are changing and doing differently, but we suspect the
 amount of registers and how much memory and cache the implementation uses as
 probable causes.
 
+\subsection{Possible gain for Tahoe-LAFS} 
+
+Even though not many of the
+\ac{SHA}-3 implementation used by us managed to outperform the implementation
+of double \ac{SHA}-256 in Tahoe-\ac{LAFS}, some did for large files, which
+tells us there is a performance gain by switching which hash function is used
+in Tahoe-LAFS. \autoref{tbl:tahoe:gain} compares the performance gains for
+BLAKE, which did best in our measurements, versus \ac{SHA}-256, with overhead
+caused by our measurements removed. We achieved as much as a 12,35\% gain when
+uploading the 100MB files. We can see that the gain is smaller on downloads
+than uploads, this is mostly caused by our Tahoe-\ac{LAFS} configuration, where
+we need to upload shares to three servers, while we only need to download two
+of them to get the original file.
+
+\input{tables/tahoe_gain}
+
+On another note it should be noted that most individuals will not have access
+to the same high bandwidth network that our Tahoe-\ac{LAFS} servers ran on,
+1Gbps or even 100Mbps. For an individual with a normal internet connection the
+network is the bottleneck, and therefore the performance increase with a faster
+hash algorithm implementation would not decrease the transfer time for large
+files. If we consider Tahoe-\ac{LAFS} for organisations and enterprises which
+typically empovers high bandwidth networks the change could indeed be
+noticable. 
+
+\subsection{Faster \ac{SHA}-3 implementations will appear}
+
+The obervation should also be made that \ac{SHA}-256 has probably been
+optimized for the better part of a decade, while the \ac{SHA}-3 candidates are
+relatively new. This will probably mean that in the future we will se even
+faster versions of the \ac{SHA}-3 candidates, while it is more probable that
+\ac{SHA}-2 is nearing the limit of its performance.
+
 \subsection{Theoretical optimized results}
 
 We have not use the fastest available implementations for all of the
@@ -1264,19 +1297,11 @@ in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
 implementations in \ac{SUPERCOP}. The results can be seen in
 \autoref{appendix:optimized_sha3}.
 
-% Describe inconsistencies in the numbers, and try to explain them.
-% Time spent not hashing varies because: Variable use of CPU regs?
-%
-% Compare our results with general (SUPERCOP) results.
-%
 % How much gain can Tahoe-LAFS get by switching to SHA-3?
 
 \section{Improvement of methods}
 
 \subsection{The use of Cython}
-
-% TODO: Discuss the BLAKE run in Results when timing was done within Cython.
-
 The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read and change (from
 a C perspective). However they are equal for all the \ac{SHA}-3 candidates
