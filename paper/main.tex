@@ -1118,7 +1118,7 @@ presented.
 
 Although we believe the \ac{SUPERCOP} toolkit and results give good indication
 of how fast the different candidate implementations are, we do have some
-comments on it.
+general comments on the way it works and how it relates to our results.
 
 \paragraph{Implementations does not conform to \ac{NIST} specification} for
 many of the candidates. By this we mean that there is no {\verb Update() }
@@ -1134,7 +1134,6 @@ implementations which fail completely as hash functions, see section
 \ref{sec:choosen_implementations} for details on the JH implementation.
 
 \paragraph{Extra compiler flags}
-
 We do not compile the candidate implementation with the exact same arguments
 that is used in \ac{SUPERCOP}, most notably we append the -fPIC flag. This flag
 creates \emph{position independent code}, in other words machine instruction
@@ -1166,52 +1165,42 @@ assignment.
 \section{Thoughts on the measurements}
 
 \subsection{Small files}
+The results for small files, 1KB and 1KB, are presented in Figure
+\ref{fig:graph:1001b} and \ref{fig:graph:1001kb}. We can clearly see that in
+this case the \ac{SHA}-256 implementation used by Tahoe-\ac{LAFS} outperforms
+our implementations, which is somewhat unexpected given the \ac{SUPERCOP}
+results. However, if we take into account the overhead created by our bindings
+to the underlying implementations (Table \ref{tbl:cython:overhead}), some of the
+\ac{SHA}-3 candidate implementations actually outperform double \ac{SHA}-256,
+which is expected. We do not know how much overhead the bindings for
+\ac{SHA}-256 are causing, but we can safely assume that the overhead is less
+than for our bindings. If we can eliminate all time spent in our bindings both
+BLAKE and \ac{BMW} outperform double \ac{SHA}-256 in every measurement, with
+Luffa, Shabal and Simd outperforming double \ac{SHA}-256 in most of them.
 
-For small files, 1B and 1KB, we can clearly see that both double \ac{SHA}-256
-greatly outperforms the \ac{SHA}-3 candidate implementations. The data being
-hashed for these files are dominated by lengths of 63 and 106 bytes. By
-comparing with \ac{SUPERCOP} results, and especially the fact that we are using
-double \ac{SHA}-256, which should result in large overhead this is unexpected.
-However, we believe that the results for small files may also reflect our use of
-Cython and our skill. Given large amounts of call to our bindings, while the
-data processed by the actual hash functions is small and therefore does not use
-a lot of time, the speed of the bindings will come in to play.
+We also measured single \ac{SHA}-256 for these files, which we believe should
+show a difference. The lengths of processed by the hash function are dominated
+by sized of 106B for the 1B files, and also by 63B for the 1KB files (Table
+\ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datadownloaded}. Even by the
+best-case performance scenario from Table \ref{tbl:supercop:sha256d} we would
+expect to see a performance penalty. However this performance penalty is so
+small that it is typically hidden due to system noise.   
 
 \subsection{Large files}
-For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are
-actually outperforming double \ac{SHA}-256, which is expected from the
-\ac{SUPERCOP} results. However if we compare this result with the result for
-small files, and expect that a hash algorithm should do better on a cycles/byte
-basis when hashing larger data values this is not expected. Data sizes which
-are hashed during 1GB and 100MB up/downloads are dominated by 101B, 65569B and
-131106B. 50\% of the hashes are done on 101B, which is a size which should be
-largely affected by having to do double SHA-256. However, since the small files
-had a similar percentage of operations being done on 106B chunks, blaming need
-to use double \ac{SHA}256 is not enough. It looks like indeed the large data
-chunks being hashed is what is making the difference. If we now consider that
-our bindings to the hash functions is what is causing the slow results for
-small files, this makes sense. Larger amounts of data will take longer to
-process for the hash function, which again results in the fraction of time used
-by our bindings is decreased.
-
-\subsection{Impact of double SHA-256}
-The impact of using double \ac{SHA}-256 compared to single is surprisingly
-small, even if you use the best-case estimate from Table
-\ref{tbl:supercop:sha256}. For 1B, 1KB and 1MB files the data hashed is almost
-exclusively 106B or less. If we assume data is hashed at the performance of 576
-bytes, single \ac{SHA}-256 should outperform double \ac{SHA}-256 by about 10\%.
-For 1B files this difference is eaten up by external factors (other
-processes), the same goes for 1KB files. For 1MB files, there seems to be a
-difference, however this difference is so small that we deem it unimportant.
-For the larger files the performance penalty is even smaller, so all in all we
-deem the performance penalty for Tahoe-\ac{LAFS} for using double \ac{SHA}-256
-as opposed to single unimportant.
+For large files, 1MB, 100MB and 1GB, we can see that our implementations are
+outperforming double \ac{SHA}-256. Also for the large files we can see there is
+a performance penalty by our bindings (Table \ref{tbl:cython:overhead}),
+however the relative overhead cause are small compared to the time spent in the
+underlying implementations. The reason for this is that we are hashing larger
+sizes of data, especially for the 100MB and 1GB files (Tables
+\ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datauploaded}). For these
+larger sizes the overhead caused by using double \ac{SHA}-256 opposed to single
+is also relatively small and does not cause a noteworthy performance penalty.
 
 \subsection{The candidates}
 If we look primarily at the large file up/download we see that the candidates
 that outperforms, or are close to outperforming \ac{SHA}-256 are BLAKE,
-\ac{BMW}, Shabal, Simd and Luffa. This is expected and corresponds with the
-results from \ac{SUPERCOP}.
+\ac{BMW}, Shabal, Simd and Luffa. 
 
 \subsection{Final round candidates}
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
