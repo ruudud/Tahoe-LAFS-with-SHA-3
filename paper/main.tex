@@ -295,14 +295,14 @@ family are vulnerable to this kind of attack, and thus requires
 Tahoe to run the algorithm twice, as described by \citet{schneier}.
 
 \paragraph{Cost and Performance.} Cost and Performance are considered to be the
-2nd most important criterion. The absolute minimum for performance is that the
+second most important criterion. The absolute minimum for performance is that the
 SHA-3 candidate should be faster than the functions in the \ac{SHA}-2 family.
 Cost is a measure of how much memory an implementation requires in software,
 both the implementation itself and the use of \ac{RAM} during runtime. Another
 measure of cost is how many logic gates it takes to implement the function in
 hardware.
 
-\paragraph{Algorithm and implementation characteristics.} By this 3rd criterion,
+\paragraph{Algorithm and implementation characteristics.} By this third criterion,
 \ac{NIST} emphasizes that algorithms with greater flexibility will be given
 preference over other algorithms \cite{s_nistround2}. By flexible, they imply
 the possibility of the function to run efficiently on a variety of platforms,
@@ -1033,7 +1033,7 @@ algorithm is 229.92s when uploading the 1GB file.
         {graphs/Timespenthashingwhileuploading1001Bfiles.pdf}
     \includegraphics[width=0.9\columnwidth]
         {graphs/Timespenthashingwhiledownloading1001Bfiles.pdf}
-    \caption{Figures for hash operations of 100 1B files.}
+    \caption{Graph of timing of hash operations for 100 1B files.}
     \label{fig:graph:1001b}
 \end{figure}
 
@@ -1043,7 +1043,7 @@ algorithm is 229.92s when uploading the 1GB file.
         {graphs/Timespenthashingwhileuploading1001KBfiles.pdf}
     \includegraphics[width=0.9\columnwidth]
         {graphs/Timespenthashingwhiledownloading1001KBfiles.pdf}
-    \caption{Figures for hash operations of 100 1KB files.}
+    \caption{Graph of timing of hash operations for 100 1KB files.}
     \label{fig:graph:1001kb}
 \end{figure}
 
@@ -1053,7 +1053,7 @@ algorithm is 229.92s when uploading the 1GB file.
         {graphs/Timespenthashingwhileuploading501MBfiles.pdf}
     \includegraphics[width=0.9\columnwidth]
         {graphs/Timespenthashingwhiledownloading501MBfiles.pdf}
-    \caption{Figures for hash operations of 50 1MB files.}
+    \caption{Graph of timing of hash operations for 50 1MB files.}
     \label{fig:graph:501mb}
 \end{figure}
 
@@ -1063,7 +1063,7 @@ algorithm is 229.92s when uploading the 1GB file.
         {graphs/Timespenthashingwhileuploading5100MBfiles.pdf}
     \includegraphics[width=0.9\columnwidth]
         {graphs/Timespenthashingwhiledownloading5100MBfiles.pdf}
-    \caption{Figures for hash operations of five 100MB files.}
+    \caption{Graph of timing of hash operations for five 100MB files.}
     \label{fig:graph:5100mb}
 \end{figure}
 
@@ -1073,7 +1073,7 @@ algorithm is 229.92s when uploading the 1GB file.
         {graphs/Timespenthashingwhileuploading11GBfile.pdf}
     \includegraphics[width=0.9\columnwidth]
         {graphs/Timespenthashingwhiledownloading11GBfile.pdf}
-    \caption{Figures for hash operations of one 1GB file.}
+    \caption{Graph of timing of hash operations for one 1GB file.}
     \label{fig:graph:11gb}
 \end{figure}
 
@@ -1143,7 +1143,7 @@ implementations, we do however suspect it. A person writing an optimization for
 to achieve maximum speed.  The loss of one register will therefore give a
 performance penalty.
 
-\section{Exclusion of mutable file testing}
+\section{Exclusion of mutable files}
 
 Since our minor change in the Tahoe-\ac{LAFS} code broke internal checks, we
 were not able to test mutable files, and hence not directories.
@@ -1249,36 +1249,35 @@ speculate in what they are changing and doing differently, but we suspect the
 amount of registers and how much memory and cache the implementation uses as
 probable causes.
 
-\subsection{Possible gain for Tahoe-LAFS} 
+\subsection{Possible gain for Tahoe-LAFS}
 
-Even though not many of the
-\ac{SHA}-3 implementation used by us managed to outperform the implementation
-of double \ac{SHA}-256 in Tahoe-\ac{LAFS}, some did for large files, which
-tells us there is a performance gain by switching which hash function is used
-in Tahoe-LAFS. \autoref{tbl:tahoe:gain} compares the performance gains for
-BLAKE, which did best in our measurements, versus \ac{SHA}-256, with overhead
-caused by our measurements removed. We achieved as much as a 12,35\% gain when
-uploading the 100MB files. We can see that the gain is smaller on downloads
-than uploads, this is mostly caused by our Tahoe-\ac{LAFS} configuration, where
-we need to upload shares to three servers, while we only need to download two
-of them to get the original file.
+Even though few of the \ac{SHA}-3 implementations used by us managed to
+outperform the implementation of double \ac{SHA}-256 in Tahoe-\ac{LAFS}, some
+did for large files, which tells us there is a performance gain by switching
+cryptographic hash function in Tahoe-\ac{LAFS}. \autoref{tbl:tahoe:gain}
+compares the performance gains for BLAKE, which performed the best in our
+measurements, versus \ac{SHA}-256, with the removal of overhead caused by our
+measurements. We achieved as much as a 12.35\% gain when uploading the 100MB
+files. The gain is smaller on downloads than uploads, this is
+mostly caused by our Tahoe-\ac{LAFS} configuration, where we need to upload
+shares to three servers, while we only need to download two of them to get the
+original file.
 
 \input{tables/tahoe_gain}
 
-On another note it should be noted that most individuals will not have access
-to the same high bandwidth network that our Tahoe-\ac{LAFS} servers ran on,
-1Gbps or even 100Mbps. For an individual with a normal internet connection the
-network is the bottleneck, and therefore the performance increase with a faster
-hash algorithm implementation would not decrease the transfer time for large
-files. If we consider Tahoe-\ac{LAFS} for organisations and enterprises which
-typically empovers high bandwidth networks the change could indeed be
-noticable. 
+On another note, most individuals will not have access to the same high
+bandwidth network that our Tahoe-\ac{LAFS} servers ran on, 1Gbps, or even
+100Mbps. For an individual with a normal Internet connection, the network is the
+bottleneck, and therefore the performance increase with a faster hash algorithm
+implementation would not decrease the transfer time for large files. If we
+consider Tahoe-\ac{LAFS} for organisations and enterprises which typically
+empowers high bandwidth networks, the change could indeed be noticeable.
 
-\subsection{Faster \ac{SHA}-3 implementations will appear}
+\subsection{Faster SHA-3 implementations will appear}
 
-The obervation should also be made that \ac{SHA}-256 has probably been
+The observation should also be made that \ac{SHA}-256 has probably been
 optimized for the better part of a decade, while the \ac{SHA}-3 candidates are
-relatively new. This will probably mean that in the future we will se even
+relatively new. This will probably mean that in the future we will see even
 faster versions of the \ac{SHA}-3 candidates, while it is more probable that
 \ac{SHA}-2 is nearing the limit of its performance.
 

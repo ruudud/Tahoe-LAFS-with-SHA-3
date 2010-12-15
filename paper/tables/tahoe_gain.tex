@@ -1,5 +1,6 @@
 \begin{table}
   \centering
+  \caption{Gain for Tahoe-LAFS by switching to BLAKE}
   \begin{tabular}{ | l | l | r | r | r |}
     \hline
     \textbf{Test vector} & \textbf{Operation} & \textbf{BLAKE time} & \textbf{SHA-256d time} & \textbf{Gain} \\ \hline
@@ -8,6 +9,5 @@
     1GB    &  upload    &  193.44  &  213.45 &  9.37\%  \\  \hline % 253.65 - 60.21 | 273.66 - 60.21
     1GB    &  download  &  189.74  &  194.04 &  2.21\%  \\  \hline % 235.16 - 45.42 | 239.45 - 45.42
   \end{tabular}
-  \caption{Gain for Tahoe-LAFS by switching to BLAKE}
   \label{tbl:tahoe:gain}
 \end{table}
