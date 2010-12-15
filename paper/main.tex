@@ -1192,11 +1192,30 @@ is also relatively small and does not cause a noteworthy performance penalty.
 \subsection{The candidates}
 If we look primarily at the large file up/download we see that the candidates
 that outperforms, or are close to outperforming \ac{SHA}-256 are BLAKE,
-\ac{BMW}, Shabal, Simd and Luffa. 
+\ac{BMW}, Shabal, Simd and Luffa. The same is true if we eliminate the overhead
+cause by our bindings for the small files. That only these five candidates
+manages to outperform is expected from the \ac{SUPERCOP} results, REF, however
+the order and proportion of the measurements does not. This is primarily
+because we have not used the fastest implementation for all candidates, and the
+relative speed of the chosen implementation compared to the fastest
+implementation in \ac{SUPERCOP} differs (Table \ref{tbl:sha3:relativespeed}.
+The performance of each candidate compared to the \ac{SHA}-256 version found in
+Tahoe-\ac{LAFS} is also somewhat slower than you would expect. We blame this
+mainly on our Cython-bindings and our skill. We believe a developer with more
+knowledge of the inner workings of the implementations, the Python C-\ac{API}
+and \ac{GCC} could have produced better results.
 
 \subsection{Final round candidates}
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
-the \ac{SHA}-3 competition. %TODO: some comments on theese
+the \ac{SHA}-3 competition. From a performance perspective only BLAKE actually
+outperform \ac{SHA}-256 in both the \ac{SUPERCOP} results and our measurements
+for Tahoe-\ac{LAFS}. The other candidates are perhaps given an unfair treatment
+in this paper, with the implementations measures being relatively slow compared
+to the best implementations. However the reason for this is mentioned in our
+criteria for selecting implementations. Another obvious reason is that none of
+the other four finalists outperform \ac{SHA}-256 and therefore it would be more
+valuable for Tahoe-\ac{LAFS} to see the possible performance increase by
+switching to a faster hash function implementation.
 
 \subsection{Optimizing results}
 We have not used the fastest possible implementations possible for various
