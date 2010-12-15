@@ -799,7 +799,7 @@ function library is made on only one line. This is displayed in Listing
 \lstinputlisting[label=lst:hashutil, caption=Extract from hashutil.py of Tahoe-LAFS source.]
 {listings/hashutil.py}
 
-As stated in Section \ref{sec:lengthextension}, none of the \ac{SHA}-3
+As stated in \autoref{sec:lengthextension}, none of the \ac{SHA}-3
 candidates are vulnerable to the length-extension attack. Since we are
 interested in finding out how Tahoe-\ac{LAFS} performs when utilizing the
 \ac{SHA}-3 functions, we can remove the lines that fixes the length-extension
@@ -821,7 +821,7 @@ changing this line, because they contain test fixtures made with the included
 SHA-256.  An implication of this is that uploading of mutable files renders
 impossible, since the internal verification fails. For this reason, \emph{only
 immutable files} are tested and measured in this paper. Implications of this are
-further discussed in Chapter \ref{ch:discussion}.
+further discussed in \autoref{ch:discussion}.
 
 \section{Automatic testing and distribution}
 We fully automate the testing procedure. This is achieved by the use of
@@ -921,9 +921,9 @@ data in relation to other measurements, such as total operation time.
 
 \section{Test scope}
 
-As stated in Section \ref{sec:modtahoe}, only immutable files are tested. The
-mutable files are not tested because of our way of integrating the SHA-3
-candidates within the Tahoe-LAFS code.
+As stated in \autoref{sec:modtahoe}, only the Tahoe-\ac{LAFS} file type
+\emph{immutable files} are tested. The mutable files are not tested because of
+our way of integrating the SHA-3 candidates within the Tahoe-LAFS code.
 
 To measure the performance impact of the different implementations, we time the
 hash function calls from Tahoe, in addition to timing the total operation time,
@@ -935,7 +935,7 @@ Listing \ref{lst:hashutil_time} demonstrates the use of the {\verb time } module
 in Python. On every call to {\verb update() } or {\verb digest() }, a variable
 is increased with the time it took to run the underlying hash library
 functionality. Similarly, Listing \ref{lst:testrunner} shows the use of the
-{\verb date } command to calculate the number of seconds it takes it takes for
+{\verb date } command in Bash to calculate the number of seconds it takes for
 Tahoe to put a file to the grid.
 
 \lstinputlisting[label=lst:hashutil_time, caption=Timing in Python (extraction from hashutil.py)]
@@ -945,19 +945,10 @@ Tahoe to put a file to the grid.
 {listings/test_runner.sh}
 
 \section{SUPERCOP benchmarks}
-\label{sec:results:supercop}
 The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
-\ac{SUPERCOP} can be seen in tables \ref{tbl:supercop:long},
-\ref{tbl:supercop:4096}, \ref{tbl:supercop:1536}, \ref{tbl:supercop:576},
-\ref{tbl:supercop:64} and \ref{tbl:supercop:8}. The lower the numbers, the
-faster and better the algorithms performed in the test.
+\ac{SUPERCOP} can be found in \autoref{app:supercop:bench}.
 
-\input{tables/supercop_long_msgs}
-\input{tables/supercop_4096}
-\input{tables/supercop_1536}
-\input{tables/supercop_576}
-\input{tables/supercop_64}
-\input{tables/supercop_8}
+
 
 \subsection{Double SHA-256 Estimates}
 \ac{SUPERCOP} does not measure the speed of double \ac{SHA}-256, so we have no exact
@@ -1232,7 +1223,7 @@ We have not use the fastest available implementations for all of the
 candidates, we also know that our bindings creates an overhead for all calls.
 Therefore we have tried to calculate the results that could have been achieved
 in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
-implementations in \{SUPERCOP}. The results can be seen in appendix
+implementations in \ac{SUPERCOP}. The results can be seen in appendix
 \ref{appendix:optimzed_sha3}.
 
 % Describe inconsistencies in the numbers, and try to explain them.
@@ -1331,19 +1322,33 @@ and test the \ac{SHA}-3 candidates in real world applications.
 Tables \ref{tbl:tahoe:optimized_g} and \ref{tbl:tahoe:optimized_p} exhibit
 results calculated which theoretically could have been achieved using the best
 \ac{SUPERCOP} implementation for each candidate in Tahoe-\ac{LAFS}. The
-calculations uses medians from Section \ref{sec:results:supercop} for the speed
+calculations uses medians from \autoref{app:supercop:bench} for the speed
 of each candidate, the exact sizes for each call to the hash function from
-Section \ref{sec:results:tahoedata}, and interpolation to estimate the time to
+\autoref{sec:results:tahoedata}, and interpolation to estimate the time to
 hash a length not recorded by \ac{SUPERCOP}. For lengths above 4096B, the
 numbers for long data lengths are used. The results also assume only one core
 of the reference processor (2,833 GHz) is used. We can see that some of the calculations,
 e.g. for Shavite3 are worse than the result we achieved in our measurements,
-this is probably due to interpollation being an inaccurate method to use for
-the shorter lengths of data. 
+this is probably due to interpolation being an inaccurate method to use for
+the shorter lengths of data.
 
 \input{tables/tahoe_optimized_p}
 \input{tables/tahoe_optimized_g}
 
-% Use ordinary \chapters from here on..
+\chapter{Results from SUPERCOP benchmark}
+\label{app:supercop:bench}
+
+Tables \ref{tbl:supercop:long}, \ref{tbl:supercop:4096},
+\ref{tbl:supercop:1536}, \ref{tbl:supercop:576}, \ref{tbl:supercop:64} and
+\ref{tbl:supercop:8} exhibits the results of the \ac{SHA}-3 256-bit functions
+and \ac{SHA}-256 benchmarking in \ac{SUPERCOP}. The lower the numbers, the
+faster and better the algorithms performed in the test.
+
+\input{tables/supercop_long_msgs}
+\input{tables/supercop_4096}
+\input{tables/supercop_1536}
+\input{tables/supercop_576}
+\input{tables/supercop_64}
+\input{tables/supercop_8}
 
 \end{document}
