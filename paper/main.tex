@@ -384,8 +384,6 @@ int crypto_hash(unsigned char *out, const unsigned char *in,
 \end{verbatim}
 
 \section{Tahoe-LAFS}
-%What is it, how/where are hash functions used, Python, pycryptopp
-%comparison with RAID-6, mutable/immutable?
 
 The Tahoe \ac{LAFS} is a system for secure,
 distributed data storage. Files are encrypted client side, then
@@ -511,7 +509,6 @@ text. This is illustrated in Figure \ref{fig:tahoeueb}.
 
 A hash of the encryption key is used to form the "storage index", which is
 used for both server selection and to index shares within each storage node.
-% More here?
 
 \section{Python and Cython}
 
@@ -551,13 +548,6 @@ functions directly in Python.
 %**************************************%
 \chapter{Technical Procedure}
 %**************************************%
-
-%A bit more technical description of how we tested the candidates in Tahoe-LAFS
-% - Limitations/assumptions
-% - Optimized candidates.
-% - Error sources.
-% The points above should be taken into consideration on each section in this
-% chapter.
 
 In this chapter we will outline the procedure followed to complete our work.
 Although not carried out sequentially, the problem was split up to the
@@ -1213,34 +1203,39 @@ not cause a noteworthy performance penalty.
 
 \subsection{The candidates}
 
-If we look primarily at the large file up/download we see that the candidates
-that outperforms, or are close to outperforming double \ac{SHA}-256 are BLAKE,
+If we look primarily at up- and download of the large files, we see that the candidates
+that outperforms or are close to outperforming double \ac{SHA}-256, are BLAKE,
 \ac{BMW}, Shabal, Simd and Luffa. The same is true if we eliminate the overhead
-cause by our bindings for the small files. That only these five candidates
-manages to outperform double \ac{SHA}-256 is expected from the \ac{SUPERCOP}
-results (\autoref{app:supercop:bench}) however the order and proportion of the
-measurements is not. This reason for another order and relative speed is
+introduced by our bindings for the small files.
+
+The fact that only these five candidates manages to outperform double
+\ac{SHA}-256, is expected from the \ac{SUPERCOP} results, ref.
+\autoref{app:supercop:bench}. However, the order and proportion of the
+measurements are not. The reason for another order and relative speed is
 primarily because we have not used the fastest implementation for all
-candidates, and the relative speed of the chosen implementation compared to the
-fastest implementation in \ac{SUPERCOP} differs (Table
-\ref{tbl:sha3:speedrelative}.  The performance of each candidate compared to
-the \ac{SHA}-256 version found in Tahoe-\ac{LAFS} is also somewhat slower than
-you would expect. We blame this mainly on our Cython-bindings and our skill. We
-believe a developer with more knowledge of the inner workings of the
-implementations, the Python C-\ac{API} and \ac{GCC} could have produced better
-results. 
+candidates, and the relative speed of the chosen implementations compared to the
+fastest implementation in \ac{SUPERCOP} differs, see Table
+\ref{tbl:sha3:speedrelative}.
+
+The performance of each candidate compared to the \ac{SHA}-256 version found in
+Tahoe-\ac{LAFS} is also somewhat slower than you would expect. We blame this
+mainly on our Cython-bindings and our skill. We believe a developer with more
+knowledge of the inner workings of the implementations, the Python C-\ac{API}
+and \ac{GCC} could have produced better results.
 
 \subsection{Final round candidates}
+
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
-the \ac{SHA}-3 competition. From a performance perspective only BLAKE actually
-outperform \ac{SHA}-256 in both the \ac{SUPERCOP} results and our measurements
+the \ac{SHA}-3 competition. From a performance perspective, only BLAKE actually
+outperforms \ac{SHA}-256 in both the \ac{SUPERCOP} results and our measurements
 for Tahoe-\ac{LAFS}. The other candidates are perhaps given an unfair treatment
-in this paper, with the implementations measures being relatively slow compared
-to the best implementations. However the reason for this is mentioned in our
-criteria for selecting implementations. Another obvious reason is that none of
-the other four finalists outperform \ac{SHA}-256 and therefore it would be more
-valuable for Tahoe-\ac{LAFS} to see the possible performance increase by
-switching to a faster hash function implementation.
+in this paper, with the used implementations being relatively slow compared to
+the best existing implementations. However, the reason for this is mentioned in
+our criteria for selecting implementations.
+
+None of the other four finalists outperform \ac{SHA}-256, and therefore it would be
+more valuable for Tahoe-\ac{LAFS} to see the possible performance increase by
+switching to a faster hash function implementation, i.e. BLAKE.
 
 \subsection{Time spent not hashing} A strange part of our result is that the
 time Tahoe-\ac{LAFS} spends not callign the hash function is not static for all
@@ -1290,91 +1285,95 @@ faster versions of the \ac{SHA}-3 candidates, while it is more probable that
 
 \subsection{Theoretical optimized results}
 
-We have not use the fastest available implementations for all of the
+We have not used the fastest available implementations for all of the
 candidates, we also know that our bindings creates an overhead for all calls.
 Therefore we have tried to calculate the results that could have been achieved
 in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
-implementations in \ac{SUPERCOP}. The results can be seen in
+implementations in \ac{SUPERCOP}. The results can be found in
 \autoref{appendix:optimized_sha3}.
-
-% How much gain can Tahoe-LAFS get by switching to SHA-3?
 
 \section{Improvement of methods}
 
 \subsection{The use of Cython}
-The Python-bindings generated for Cython in C are not necessarily the most
-optimized versions possible to write and they are ugly to read and change (from
-a C perspective). However they are equal for all the \ac{SHA}-3 candidates
-which means they should give the same performance penalty. The \ac{SHA}-256
-version will of course not suffer from the same penalty. From
-\autoref{tbl:cython:overhead} we can see the performance penalty of our
-bindings, and we do believe better bindings can be made, also with the use of
-Cython, but by someone with more skill and knowledge than us.
 
-The alternative would be creating manual Python-bindings for all the candidates
-which would require a lot more work on our side, especially given the lack of a
-good enough and common \ac{API} for the implementations in \ac{SUPERCOP}.
-Another fact important for this decision was that we did not know exactly which
-implementation of each candidate we would end up using, and we ended up trying
-several for most candidates.
+The generated C files from Cython used as Python bindings are not necessarily
+the most optimized versions possible to write and they are difficult to read and
+change from a C perspective. However, they are equal for all the \ac{SHA}-3
+candidates, which means they should give the same performance penalty. The
+\ac{SHA}-256 version will of course not suffer from this, as it is not written
+using Cython. From \autoref{tbl:cython:overhead} we can see the performance
+penalty of our bindings, and we do believe better bindings can be made, also
+with the use of Cython, but by someone with more skill and knowledge than us.
+
+The alternative would be to create manual Python bindings for all the
+candidates, which would require a lot more work on our side, especially given
+the lack of a good enough and common \ac{API} for the implementations in
+\ac{SUPERCOP}
+
+Another fact important for the decision on using Cython, was that we did not
+know exactly which implementation of each candidate we would end up using.
+Several implementations were tried out during testing, and this could only be
+accomplished since we only had to do a minimal amount of work for each new
+implementation test.
 
 \subsection{Faster implementations}
-We do not claim to have tested the fastest possible nor existing version
+
+We do not claim to have tested the fastest possible existing version
 of most of the candidates. We are certain that someone of more skill and
 knowledge about the inner workings of the \ac{SHA}-3 candidates, \ac{GCC} and
-Python could make significantly faster implementation.
+Python could make significantly faster implementations.
 
 \subsection{Test with different Erasure Coding schemes}
-By default Tahoe-\ac{LAFS} comes with a coding scheme of 3-7-10 (shares needed,
+
+By default, Tahoe-\ac{LAFS} comes with a coding scheme of 3-7-10 (shares needed,
 shares happy, shares total) while we test with a configuration of 2-3-3. It
 would have been interesting to see how this (and other schemes) would affect
 both the overall performance and the percentage of time spent hashing.
 
 \subsection{Measure with real use cases}
-Our test use random generated data of a certain length. In a real use case for
-Tahoe-\ac{LAFS} the data would probably be both of varying length, and of
-lengths not tested by us. In a real use case both a feasible erasure coding
-scheme would have to be decided, and the files would represent what you
-actually would want to use Tahoe-\ac{LAFS} for.
+
+Our test use randomly generated data of a certain length. In a real use case for
+Tahoe-\ac{LAFS}, the data would probably be both of varying length, and of
+lengths not tested by us. Additionally, both a feasible erasure coding
+scheme would have to be decided, and the files would represent what you actually
+would want to use Tahoe-\ac{LAFS} for.
 
 \subsection{Truncate output from 512-bit implementations}
-In our measurements and Python library we only consider 256-bit version of each
-candidate. Some candidates does however have a faster implementation with
-512-bit output. We could have used these implementations and truncated the
-output to 256-bit, and possible achieved better results.
+
+In our measurements and in the created Python library, we only consider 256-bit
+version of each candidate. Some candidates does however have a faster
+implementation with 512-bit output. We could have used these implementations and
+truncated the output to 256-bit, and possible achieved better results.
 
 \subsection{Testing on difference architectures}
+
 Our measurements are only done on a single computer with an 32-bit (x86)
 system. It would have been possible to extend the survey to other
-architectures, to see how this would affect the results. 
+architectures, to see how this would affect the results.
 
 %**************************************%
 \chapter{Conclusion and Future Work}
 %**************************************%
 
-% This chapter should contain:
-% -----------------------------------------------------------
-% A somewhat short conclusion summing up what has been done, and results and
-% discussion
-
-We had hoped to contribute more to the Open Source project Tahoe-LAFS, when
+We had hoped to contribute more to the Open Source project Tahoe-\ac{LAFS}, when
 starting on our assignment. It was early evident that implementing a new
 capability was out of scope, since creating Python bindings and trying out
-new implementations was prioritized. Future work should implement the support
-for choosing hashing algorithm in a proper manner which ensures backwards
+new implementations were prioritized. Future work should implement the support
+for choosing hashing algorithm in a proper manner, which ensures backwards
 compatibility.
 
-Four of the candidates has been shown to perform better than the currently used
+Four of the candidates have been shown to perform better than the currently used
 SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd. The time it takes for
-Tahoe-LAFS to upload a one gigabyte file, could improve by $5\%$ if the best
-performing SHA-3 candidate, BLAKE, were to be used. One has to bear in mind that
-SHA-256 has been optimized and tweaked for a number of years, and that these
-performance differences undoubtedly will continue to increase as new and better
-implementations will be developed for the final chosen \ac{SHA}-3 algorithm.
+Tahoe-\ac{LAFS} to upload a one gigabyte file, could improve by $5\%$ if the
+best performing \ac{SHA}-3 candidate, BLAKE, were to be used. One has to bear in
+mind that \ac{SHA}-256 has been optimized and tweaked for a number of years, and
+that these performance differences undoubtedly will continue to increase as new
+and better implementations will be developed for the final chosen \ac{SHA}-3
+algorithm.
 
-Perhaps the most important finding in this project, is that the SUPERCOP
+Perhaps the most important finding in this project, is that the \ac{SUPERCOP}
 benchmarking indeed drives the development of new and better implementations
-forward, but since the SUPERCOP \ac{API} does not conform to the \ac{NIST}
+forward, but since the \ac{SUPERCOP} \ac{API} does not conform to the \ac{NIST}
 \ac{API}, the developers leave important functionality out (i.e.
 {\verb update() }), and hence make it difficult for people who wish to try out
 and test the \ac{SHA}-3 candidates in real world applications.
@@ -1383,7 +1382,6 @@ and test the \ac{SHA}-3 candidates in real world applications.
 \bibliographystyle{plainnat}
 \bibliography{ref_sha3,ref_tahoe}
 
-% Uncomment to enable appendices.
 \appendix
 \appendixpage
 \addappheadtotoc
@@ -1392,17 +1390,17 @@ and test the \ac{SHA}-3 candidates in real world applications.
 \label{appendix:optimized_sha3}
 
 Tables \ref{tbl:tahoe:optimized_g} and \ref{tbl:tahoe:optimized_p} exhibit
-results calculated which theoretically could have been achieved using the best
+results calculated, which theoretically could have been achieved using the best
 \ac{SUPERCOP} implementation for each candidate in Tahoe-\ac{LAFS}. The
-calculations uses medians from \autoref{app:supercop:bench} for the speed
-of each candidate, the exact sizes for each call to the hash function from
-\autoref{sec:results:tahoedata}, and interpolation to estimate the time to
-hash a length not recorded by \ac{SUPERCOP}. For lengths above 4096B, the
-numbers for long data lengths are used. The results also assume only one core
-of the reference processor (2,833 GHz) is used. We can see that some of the calculations,
-e.g. for Shavite3 are worse than the result we achieved in our measurements,
-this is probably due to interpolation being an inaccurate method to use for
-the shorter lengths of data.
+calculations uses medians from \autoref{app:supercop:bench} for the speed of
+each candidate, the exact sizes for each call to the hash function from
+\autoref{sec:results:tahoedata}, and interpolation to estimate the time to hash
+a length not recorded by \ac{SUPERCOP}. For lengths above 4096B, the numbers for
+long data lengths are used. The results also assume only one core of the
+reference processor (2,833 GHz) is used. We can see that some of the
+calculations, e.g. for Shavite3, are worse than the result we achieved in our
+measurements, this is probably due to interpolation being an inaccurate method
+to use for the shorter lengths of data.
 
 \input{tables/tahoe_optimized_p}
 \input{tables/tahoe_optimized_g}
