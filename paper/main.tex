@@ -584,8 +584,16 @@ compiler arguments giving the best performance. On the downside, the
 \ac{SUPERCOP} \ac{API} only specifies the {\verb crypto_hash() } function and
 not an {\verb update() } function which Tahoe-\ac{LAFS} is dependent on using.
 
+The implementation we chose must also work after being compiled with the {\verb
+-fPIC} flag in \ac{GCC}. This flag basically tells the compiler that the
+machine code must be able to execute anywhere in memory, also known as position
+independant. In runtime one extra \{CPU} register will be used for this. This
+is needed because a Python C-module we will need to be compiled as a shred
+library.
+
 Since Tahoe-\ac{LAFS} is using \ac{SHA}-256 internally, we only test \ac{SHA}-3
 functions with 256-bit output in our implementation.
+
 
 \subsection{Criteria for implementation selection}
 
@@ -594,7 +602,7 @@ following criteria:
 \paragraph{Criterion 1} The implementation must have an \ac{API} defined in C.
 \paragraph{Criterion 2} The implementation must include a working {\verb update() } function.
 \paragraph{Criterion 3} The implementation must not use assembly that can not be made
-    position independent by \ac{GCC}.%FIXME: State the reason for this somewhere?
+    position independent by \ac{GCC}.
 \paragraph{Criterion 4} The implementation should conform to the \acp{KAT} specified in the
     \ac{NIST} submission package, or later updates by the author.
 
