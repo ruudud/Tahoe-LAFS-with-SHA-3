@@ -103,7 +103,7 @@ integrity of its files.
 In light of the ongoing NIST competition for selecting the new, standard
 cryptographic hash function named SHA-3, 14 of the second round candidates were
 tried out in the Tahoe-LAFS file system using automated tests to measure the
-performance differences. Only the immutable file support was tested.
+differences in performance. Only immutable file support was tested.
 
 Since the Tahoe-LAFS is programmed in Python, bindings to the SHA-3
 implementations written in C had to be made , before making the necessary
@@ -112,9 +112,9 @@ avoid doing manual work of distributing changes to the test grid.
 
 In general, four of the candidates perform better than the currently used
 SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.  By utilizing the
-performance improvements given by SHA-3, Tahoe-LAFS could currently save $5\%$
-on upload operations by changing hashing function to the best performing
-candidate.
+performance improvements given by SHA-3, we show that Tahoe-LAFS could
+currently save up to $12,36\%$ on upload operations by changing the best 
+performing candidate.
 
 The benchmarking tool SUPERCOP measures performance and drives the development
 forwards for the SHA-3 candidates, but we argue that since the SUPERCOP API does
@@ -187,15 +187,15 @@ December 16, 2010
 \acro{KAT}{Known Answer Test}
 \acro{LAFS}{Least-Authority Filesystem}
 \acro{NIST}{National Institute of Standards and Technology}
-\acro{RAM}{Random Access Memory}
 \acro{RAID}{Redundant Array of Independent Disks}
+\acro{RAM}{Random Access Memory}
 \acro{SHA}{Secure Hash Algorithm}
 \acro{SSE2}{Streaming SIMD Extensions 2}
 \acro{SSSE3}{Supplemental Streaming SIMD Extensions 3}
 \acro{SUPERCOP}{System for Unified Performance Evaluation Related to
 Cryptographic Operations and Primitives}
 \acro{SVN}{Subversion}
-\acro{UEB}{URI Extension Block}
+\acro{UEB}{\ac{URI} Extension Block}
 \acro{URI}{Uniform Resource Identifier}
 \end{acronym}
 
@@ -206,7 +206,7 @@ Cryptographic Operations and Primitives}
 \setcounter{page}{1}
 
 The process of selecting what is to become the new standard for a secure hashing
-algorithm is carried out by the {NIST}, and is at its final stages at the time
+algorithm is carried out by the {NIST}, and is in its final stages at the time
 of writing. Fourteen candidates came through to the second round
 \cite{s_nistround2}.
 
@@ -215,10 +215,11 @@ build file sharing services over the Internet. Currently it uses the
 \ac{SHA}-256 algorithm to verify the integrity of files and shares, in addition
 to creating keys, \acp{URI} and more \cite{t_tahoe}.
 
-In this project assignment, we integrate the 14 \ac{SHA}-3 candidates in
-the Tahoe-\ac{LAFS} and measure the performance impact. To be able to do this,
-we create Python bindings for the best suited C implementations of the SHA-3
-candidates, and alter the hash function calls in the source code of Tahoe.
+In this project assignment, we integrate the 14 second round \ac{SHA}-3
+candidates in the Tahoe-\ac{LAFS} and measure the performance impact. To be
+able to do this, we create Python bindings for the best suited C
+implementations of the SHA-3 candidates, and alter the hash function calls in
+the source code of Tahoe.
 
 \section{Method}
 
@@ -274,14 +275,16 @@ function. In other words it should be infeasible to find the reverse of a
 cryptographic hash function \cite[p. 335]{stallings}. It should also be infeasible to
 find two blocks of data which produce the same hash value (a \emph{collision}).
 
-\subsection{NIST SHA-3 Competition}
+\subsection{NIST SHA-3 Competition} 
+
 The \ac{SHA} version 3 is a coming standard set to supersede the current
 standards that the \ac{SHA}-1 and the \ac{SHA}-2 family has become. The hash
 function that will be known as \ac{SHA}-3 will be decided by the \ac{NIST} and
-chosen between the submitted contestants to the \ac{NIST} hash competition.
-At the time of writing, the current status of the competition is officially
-called Round 2, with 14 of 64 candidates having ``survived'' Round 1
-\cite{s_fedreg}.
+chosen between the submitted contestants to the \ac{NIST} hash competition.  At
+the of writing, the current status of the competition is in it's final round
+(or round 3), with only five remaining candidates. This result was not revealed
+until a week before the submission of this paper, so we are focusing on all
+round 2 candidates, which there are 14 of.  \cite{s_fedreg}.
 
 \subsubsection{NIST evaluation criteria for SHA-3}
 
