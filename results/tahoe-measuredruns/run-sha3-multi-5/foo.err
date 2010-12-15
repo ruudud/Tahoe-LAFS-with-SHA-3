@@ -1,0 +1,1217 @@
+mkdir: cannot create directory `logs': File exists
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/web.port =/web.port = 1337/'
+++ sed 's/nickname =/nickname = intro/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	19m27.646s
+user	2m36.050s
+sys	0m25.250s
+mkdir: cannot create directory `sha256': File exists
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	18m46.843s
+user	2m37.026s
+sys	0m25.886s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	19m20.109s
+user	2m37.002s
+sys	0m25.894s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	23m48.108s
+user	2m36.950s
+sys	0m25.766s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	22m46.852s
+user	2m37.006s
+sys	0m25.774s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	21m36.229s
+user	2m37.062s
+sys	0m25.890s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/web.port =/web.port = 1337/'
+++ sed 's/nickname =/nickname = intro/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	25m25.683s
+user	2m36.634s
+sys	0m25.942s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	20m34.175s
+user	2m37.206s
+sys	0m25.758s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	27m34.058s
+user	2m37.122s
+sys	0m25.218s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	19m46.350s
+user	2m37.278s
+sys	0m25.762s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	19m28.919s
+user	2m37.170s
+sys	0m25.918s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	19m5.922s
+user	2m37.446s
+sys	0m25.586s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	20m19.588s
+user	2m37.126s
+sys	0m25.794s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	19m22.507s
+user	2m36.750s
+sys	0m26.110s
+Connection to tahoe01.local closed.
+Connection to tahoe01.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe03.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe04.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe05.local closed.
+Connection to tahoe06.local closed.
+Connection to tahoe06.local closed.
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe04
++++++ ssh tahoe04.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe05
++++++ ssh tahoe05.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
++++++ for i in '`seq 4 6`'
++++++ echo creating storage node on tahoe06
++++++ ssh tahoe06.local '~/tahoe-svn/scripts/local_make_storagenode.sh'
+++ stop_introducer
+++ cd /home/eiriha/tahoe-clients/introducer/
+++ tahoe stop -C .
+++ rm -rf /home/eiriha/tahoe-clients/introducer
+++ create_new_introducer
+++ cd /home/eiriha/tahoe-clients/
+++ tahoe create-introducer introducer
+++ cd introducer
+++ cat tahoe.cfg
+++ sed 's/nickname =/nickname = intro/'
+++ sed 's/web.port =/web.port = 1337/'
+++ mv tahoe02.cfg tahoe.cfg
+++ tahoe start -C .
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe04.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe05.local:~/tahoe-clients/storagenode/'
++++++ for i in '`seq 4 6`'
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' 'tahoe06.local:~/tahoe-clients/storagenode/'
+++++++ seq 4 6
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe04.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe04.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe05.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe05.local closed.
++++++ for i in '`seq 4 6`'
++++++ ssh -t tahoe06.local /home/eiriha/tahoe-svn/scripts/start_local_node.sh
+Connection to tahoe06.local closed.
++++++ create_new_client
++++++ tahoe stop
++++++ rm -rf /home/eiriha/.tahoe/
++++++ tahoe create-client
++++++ scp 'tahoe01.local:~/tahoe-clients/introducer/introducer.furl' /home/eiriha/.tahoe
++++++ cd /home/eiriha/.tahoe/
++++++ cat tahoe.cfg
+++++++ hostname
++++++ sed 's/nickname =/nickname = tahoe03/'
++++++ mv tahoe2.cfg tahoe.cfg
++++++ cat tahoe.cfg
++++++ sed 's/#shares.happy = 7/shares.happy = 3/'
++++++ sed 's/#shares.total = 10/shares.total = 3/'
++++++ sed 's/#shares.needed = 3/shares.needed = 2/'
++++++ mv tahoe02.cfg tahoe.cfg
++++++ tahoe start
++++++ create_alias
++++++ mkdir /home/eiriha/tahoe-store/
+mkdir: cannot create directory `/home/eiriha/tahoe-store/': File exists
++++++ cd /home/eiriha/tahoe-store/
++++++ tahoe create-alias tahoe
+mkdir: cannot create directory `./logs': File exists
+mkdir: cannot create directory `/tmp/1b': File exists
+mkdir: cannot create directory `/tmp/1kb': File exists
+mkdir: cannot create directory `/tmp/1mb': File exists
+mkdir: cannot create directory `/tmp/100mb': File exists
+mkdir: cannot create directory `/tmp/1gb': File exists
+
+real	21m55.248s
+user	2m37.350s
+sys	0m25.662s

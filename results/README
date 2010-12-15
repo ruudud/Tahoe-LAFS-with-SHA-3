@@ -1,0 +1,6 @@
+This folders contain the data found in our result section.
+
+cython-overhead-run : Measurement of overhead done by cython/our bindings
+tahoe-datalengths   : Count of which datalengths Tahoe hashes for our testvectors
+tahoe-measuredruns  : The data counts for our fully measured runs
+tahoe-unmodified    : Measure the total time to run for an unmodified Tahoe 
