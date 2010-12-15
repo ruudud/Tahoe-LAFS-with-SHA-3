@@ -1,5 +1,7 @@
 \begin{table}
   \centering
+  \caption{Overhead caused by our measurements, based on double \ac{SHA}-256
+    results}
   \begin{tabular}{ | l | l | r | r | r |}
     \hline
     \textbf{Test vector} & \textbf{Operation} & \textbf{Modified} & \textbf{Unmodified} & \textbf{Overhead} \\ \hline
@@ -13,9 +15,6 @@
     100MB  &  download  &  120.79s  &  99.75s   &  21.04s  \\  \hline
     1GB    &  upload    &  273.66s  &  213.45s  &  60.21s  \\  \hline
     1GB    &  download  &  239.45s  &  194.03s  &  45.42s  \\  \hline
-
   \end{tabular}
-  \caption{Overhead caused by our measurements, based on double \ac{SHA}-256}
-  results
   \label{tbl:measure:overhead}
 \end{table}

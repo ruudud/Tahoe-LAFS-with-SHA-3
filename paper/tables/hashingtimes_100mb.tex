@@ -1,5 +1,6 @@
 \begin{table}[h]
   \centering
+  \caption{Timing Tahoe operations: Upload of five 100MB files.}
   \begin{tabular}{ | l | c | c | c | c | }
     \hline
     Candidate & Total time & Time spent hashing & Difference & Fraction \\ \hline
@@ -19,12 +20,12 @@
     Simd      &  136.44s  &  14.76s  &  121.67s  &  10.81\%  \\  \hline
     Skein     &  169.75s  &  49.70s  &  120.04s  &  29.28\%  \\  \hline
   \end{tabular}
-  \caption{Timing Tahoe operations: Upload of five 100MB files.}
   \label{tbl:hashingtimes:put100mb}
 \end{table}
 
 \begin{table}[h]
   \centering
+  \caption{Timing Tahoe operations: Download of five 100MB files.}
   \begin{tabular}{ | l | c | c | c | c | }
     \hline
     Candidate & Total time & Time spent hashing & Difference & Fraction \\ \hline
@@ -44,6 +45,5 @@
     Simd      &  119.00s  &  6.968s  &  112.03s  &  5.85\%   \\  \hline
     Skein     &  131.50s  &  23.86s  &  107.63s  &  18.14\%  \\  \hline
   \end{tabular}
-  \caption{Timing Tahoe operations: Download of five 100MB files.}
   \label{tbl:hashingtimes:get100mb}
 \end{table}
