@@ -565,7 +565,7 @@ following parts:
 \begin{enumerate}
   \item Choose the best suiting implementations of the SHA-3 candidates.
   \item Write Python bindings, with unit tests for verification, to be able to
-    use the functions from Python.
+    use the cryptographic hash functions from Python.
   \item Modify the Tahoe-LAFS code to utilize the SHA-3 functions.
   \item Create a method of distributing new code fast and easy to the test grid.
   \item Set up the test environment and choose test vectors.
@@ -574,12 +574,12 @@ following parts:
 \section{Choosing implementations of the SHA-3 Candidates}
 
 While the official \ac{NIST} \ac{SHA}-3 second round submissions contain both
-a reference version and optimized versions of the candidates, it does not
+a reference version and optimized versions, they do not
 appear to be updated since the submission deadline on September 15, 2009. They
-also do not contain any benchmarking utility which could be used to decide on
+do also not contain any benchmarking utility which could be used to decide on
 the best implementation for a particular platform or architecture. \ac{SUPERCOP}
 on the other hand, provides both, in combination with results stating which
-compiler arguments that gives the best performance. On the downside, the
+compiler arguments giving the best performance. On the downside, the
 \ac{SUPERCOP} \ac{API} only specifies the {\verb crypto_hash() } function and
 not an {\verb update() } function which Tahoe-\ac{LAFS} is dependent on using.
 
@@ -610,26 +610,26 @@ candidates are available at source.
 The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
 Their compiler flags used, which are extracted from the \ac{SUPERCOP} results,
 can be seen in Table \ref{tbl:sha3:compilerflags}. Compiler flags are described
-in the GCC manual\footnote{GCC Manual \url{http://gcc.gnu.org/onlinedocs/}}.
-Compiler flags used for every implementation which might affect performance are:
+in the GCC manual\footnote{GCC Manual \url{http://gcc.gnu.org/onlinedocs/}},
+and the one used for every implementation which might affect performance, are:
 
 \begin{itemize}
-    \item -fomit-frame-pointer
-    \item -mssse3
-    \item -pthread
-    \item -fPIC
+    \item[] -fomit-frame-pointer
+    \item[] -mssse3
+    \item[] -pthread
+    \item[] -fPIC
 \end{itemize}
 
 It should be noted that \emph{32} in blake32 means the function works on 32-bit
-words, and output a 32-byte digest (256 bit). Similarly, \emph{512} in keccakc512 
-does not mean 512-bit output, but 512 bits in the internal capacity.
+words, and output a 32-byte digest (256 bit). Similarly, \emph{512} in
+keccakc512 does not mean 512-bit output, but 512 bits in the internal capacity.
 
 The relative speeds of the implementations chosen compared to
 the best version in \ac{SUPERCOP}, and relative speed of the benchmark compared
 to other candidates, can bee seen in Table \ref{tbl:sha3:speedrelative}.
 Worth mentioning is that the fastest SHA-256 implementation in \ac{SUPERCOP} is
-cryptopp\footnote{\url{http://www.cryptopp.com/}}, which is the one used by
-Tahoe-\ac{LAFS}. For the most part we have found working versions of all
+from cryptopp\footnote{\url{http://www.cryptopp.com/}}, which is the one used by
+Tahoe-\ac{LAFS}. For the most part, we have found working versions of all
 candidates in \ac{SUPERCOP}, however there are some exceptions.
 
 \input{tables/sha3_flags}
@@ -637,22 +637,21 @@ candidates in \ac{SUPERCOP}, however there are some exceptions.
 \input{tables/sha3_relativespeed}
 
 \paragraph{JH} seems to be broken in every implementation with regard to
-Criterion 2. For both the optimized versions found in \ac{SUPERCOP} and the
+Criterion 2. For both the optimized versions found in \ac{SUPERCOP}, and the
 reference implementations in the \ac{NIST} submission package,
 {\verb Hash("foofoo") } will not yield the same result as two consecutive calls
-to {\verb Update("foo") }.  However the implementation in sphlib does fulfill
+to {\verb Update("foo") }. However, the implementation in sphlib does fulfill
 this requirement. We have contacted the author, Thomas Pornin, which confirms
-this problem with the official JH candidate and that the author has been made
-aware of the problem but has not released any updated version yet
+this problem with the official JH candidate, and that the author has been made
+aware of the problem, but has not released any updated version yet
 \cite{s_pornin}.
 
 \paragraph{Cubehash} sadly does not have a version in \ac{SUPERCOP} with a 256-bit
 output, which is why we have only included a version from sphlib.
 
-\paragraph{Simd vect128 implementation} does not by default conform to Criterion
+\paragraph{Simd vect128} implementation does not by default conform to Criterion
 4, because of a bug in the implementation. This has been confirmed by the author
-who also supplied us with a patch to correct the bug (Gaëtan Leurent, personal
-communication, November 10, 2010).
+who also supplied us with a patch to correct the bug \cite{s_simd}.
 
 \paragraph{Blake32 \ac{SSSE3}} implementation also fail to completely fulfill
 Criterion 4, however it does validate all test vectors that have a length
@@ -670,12 +669,13 @@ has not done so, we chose to use an older version of the algorithm.
 \section{Python bindings}
 
 Since Tahoe-\ac{LAFS} is written in Python, we needed some way of interacting
-with the C implementations of the NIST candidates. We did this by the use of
+with the C implementations of the \ac{NIST} candidates. We did this by the use of
 Cython, and built a Python object-oriented library which we named SHA3lib.
 SHA3lib supports all of the 14 second round \ac{SHA}-3 candidates, but only in
 their 256-bit form.
 
 \subsection{SHA3lib}
+
 SHA3lib is built to mimic the functionality of
 hashlib\footnote{\url{http://docs.python.org/library/hashlib.html}}, the
 default Python library for MD5, \ac{SHA}-1 and the \ac{SHA}-2 family. This
@@ -686,28 +686,29 @@ functions:
 \begin{itemize}
     \item Constructor with an optional data element that does the same as
     {\verb update() }
-    \item {\verb update() } takes data that should be considered in hashing
-    \item {\verb digest() } that produce a raw byte-digest from submitted data
+    \item {\verb update() } receives data that should be hashed
+    \item {\verb digest() } that produce a raw byte digest from submitted data
     \item {\verb hexdigest() } that produce a hex representation of the digest
     \item {\verb copy() } that copies the internal state of the function and
         produces a copy of the object.
 \end{itemize}
 
 \subsubsection{Design}
+
 Our original goal was to make SHA3lib include functionality to support all
-output lengths, and not only 256-bit. This was based on our observation that
-the official \ac{NIST} submission packages include ``all-in-one''
-implementations that support this. Later we observed that this is not the case
-for all implementations in \ac{SUPERCOP}. Together with the fact that
-Tahoe-\ac{LAFS} uses 256-bit output we in the end only included support for
-256-bit output in SHA3lib. The design we have used is shown in Figure
+output lengths, and not only 256-bit. This was based on our observation that the
+official \ac{NIST} submission packages include ``all-in-one'' implementations
+that support this. Later we observed that this is not the case for all
+implementations in \ac{SUPERCOP}. Together with the fact that Tahoe-\ac{LAFS}
+uses 256-bit output, in the end only included support for 256-bit output in
+SHA3lib was implemented. The design we have used is shown in Figure
 \ref{fig:python:inheritance}, and does follow the initial idea that SHA3lib
 should support multiple output lengths.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\columnwidth]{python-inheritance.pdf}
-    \caption{Design of SHA3lib using echo as an example}
+    \caption{Design of SHA3lib using Echo as an example}
     \label{fig:python:inheritance}
 \end{figure}
 
@@ -715,41 +716,42 @@ Basically the class \textbf{echo} resides in Cython and in C, and is responsible
 for bringing the C functionality of the C implementation to Python. By compiling
 \textbf{echo} it will be made available for use in Python.  The class
 \textbf{echo256} is a simple Python class which inherits from \textbf{echo}. The
-only action this class actually takes is to set the output size to 256-bit. If
-the underlying C-functions would have supported multiple output sizes the same
+only action this class actually performs, is to set the output size to 256 bit. If
+the underlying C-functions would have supported multiple output sizes, the same
 could have been done to incorporate those.
 
 \subsubsection{Cython}
-We employ Cython to generate bindings for the C implementation and the
+We employ Cython to generate bindings for the C implementation of the
 different candidates, as well as to create the base Python classes. To access
 functions in C we need to generate a Cython header file, which pretty much does
-the same as a C header file; it tells which functions and data types are
+the same as a C header file -- it describes which functions and data types are
 available. How we accomplish this for an implementation that satisfies the
-\ac{NIST} \ac{API} is shown in Listing \ref{lst:cython_header}.
+\ac{NIST} \ac{API}, is shown in Listing \ref{lst:cython_header}.
 
 \lstinputlisting[label=lst:cython_header, caption=Cython header\, echo\_hash\_h.pxd]
 {listings/echo_hash_h.pxd}
 
 We then create a wrapper-class that mimics hashlib, this is shown in Listing
-\ref{lst:cython_impl}. Functions declared with def er Python functions,
-{\verb cdef } are Cython only while {\verb cpdef } are functions that can be
-accessed from both. While this is just the implementation for the echo
-candidate, the almost exact same pattern is used for all of the other
-candidates.
+\ref{lst:cython_impl}. Functions declared with {\verb def } are Python
+functions, {\verb cdef } are Cython-only functions, while {\verb cpdef } are
+functions that can be accessed from both languages. While this is just the
+implementation for the Echo candidate, the almost exact same pattern is used for
+all of the other candidates.
 
 \lstinputlisting[label=lst:cython_impl, caption=Cython class\, echo\_hash.pyx]
 {listings/echo_hash.pyx}
 
 \subsubsection{Distutils}
+
 We use \ac{Distutils}\footnote{\url{http://docs.python.org/distutils/}} to
-build and install our code. The alternative to doing this would be to manually
-transform Cython files to C-files, build the shared library from this and other
-relevant C-files and then install by copying into the correct system directory
+build and install our code. The alternative of doing this would be to manually
+transform Cython files to C files, build the shared library from this and other
+relevant C files, and then install by copying into the correct system directory
 where Python libraries should be stored. \ac{Distutils} also support expansion
 through self defined commands, something we have utilised to do Unit Testing.
-Options and configuration for \ac{Distutils} is done through a file
-{\verb setup.py}. Relevant configuration for compiling the echo extension, and
-installing SHA3lib can bee seen in Listing \ref{lst:setup_py}.
+Options and configuration for \ac{Distutils} is done through a file named
+{\verb setup.py }. Relevant configuration for compiling the Echo extension, and
+installing SHA3lib, can bee seen in Listing \ref{lst:setup_py}.
 
 \lstinputlisting[label=lst:setup_py, caption=Compiling echo from \ac{Distutils}]
 {listings/setup.py}
@@ -757,39 +759,37 @@ installing SHA3lib can bee seen in Listing \ref{lst:setup_py}.
 \subsection{Unit tests}
 We Unit Test each new candidate implementation that is included SHA3lib, both
 to verify our own work and to verify that the implementation from \ac{SUPERCOP}
-actually are correct. 
+actually are correct.
 
 \paragraph{Known-Answer Tests} are used to check that the implementation conform
-to the specifications of the algorithm author. The \ac{KAT}s include
-bytestrings, their length and their expected message digest. The length of the
+to the specifications of the algorithm author. The \acp{KAT} include
+byte strings, their length and their expected message digest. The length of the
 inputs range from 0 bits to 34304 bits, and also include a message that should
 be repeated for about 17 million times, to verify that the implementation can handle
 large inputs.
 
-\paragraph{Basic Hash Tests} is what we have named the set of tests which test
+\paragraph{Basic Hash Tests} are what we have named the set of tests which test
 the core basics of what a hash function implementation will have to be able to
-do to be usable. This include that Init(), Update() and Final() works as
-expected, and that the output is of correct size. This include that every
-function should produce the same digest for the inputs Update("foofoo") and two
-consecutive calls to Update("foo").
+do to be usable. This include that {\verb init() }, {\verb update() } and
+{\verb final() } works as expected, and that the output is of correct size. This
+include that every function should produce the same digest for the inputs
+{\verb update("foofoo") } and two consecutive calls to {\verb update("foo") }.
 
-\paragraph{Copy Hash Tests} does not test any of the functionality used by
-Tahoe-\ac{LAFS}, but the copy()-function is a part of Hashlib, and we have
-included it in SHA3lib to conform to this. The idea is that if we have two
-bytestring that share a common prefix, we can input this prefix to Update(),
-then copy the state. The tests check if this is possible, and that altering the
-copied state does not affect the original.
-
+\paragraph{Copy Hash Tests} do not test any of the functionality used by
+Tahoe-\ac{LAFS}, but the {\verb copy() } function is a part of hashlib, and we
+have included it in SHA3lib to conform to this. The idea is that if we have two
+byte strings that share a common prefix, we can input this prefix to
+{\verb update() }, then copy the state. The tests check if this is possible, and
+that altering the copied state does not affect the original.
 
 \section{Modifications to the Tahoe-LAFS Code}
 \label{sec:modtahoe}
 
-The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
-This, along with the code being highly modular and consistent to its
-architecture, emphasizes code readability.
-With some experience using Python, it is not difficult to learn the Tahoe code
-enough to understand what is happening when a file is uploaded or downloaded
-with the system.
+The code of Tahoe-\ac{LAFS} conforms to the style guide of Python, known as PEP
+8.  This, along with the code being highly modular and consistent to its
+architecture, emphasizes code readability.  With some experience using Python,
+it is not difficult to learn the Tahoe code enough to understand what is
+happening when a file is uploaded or downloaded with the system.
 
 All hashing operations requested by the Tahoe system is routed through a
 couple of classes and functions, and the connection to the underlying hash
@@ -799,13 +799,13 @@ function library is made on only one line. This is displayed in Listing
 \lstinputlisting[label=lst:hashutil, caption=Extract from hashutil.py of Tahoe-LAFS source.]
 {listings/hashutil.py}
 
-As stated in Section \ref{sec:lengthextension}, none of the SHA-3 candidates is
-vulnerable to the length-extension attack. Since we are interested in finding
-out how Tahoe-\ac{LAFS} performs when utilizing the SHA-3 functions, we can
-remove the lines that fixes the length-extension problems manually. In addition,
-to try out one of the new implementations, we change line one in Listing
-\ref{lst:hashutil}, and an example of this can be seen in Listing
-\ref{lst:hashutilmod}.
+As stated in Section \ref{sec:lengthextension}, none of the \ac{SHA}-3
+candidates are vulnerable to the length-extension attack. Since we are
+interested in finding out how Tahoe-\ac{LAFS} performs when utilizing the
+\ac{SHA}-3 functions, we can remove the lines that fixes the length-extension
+problems manually. In addition, to try out one of the new implementations, we
+change line one in Listing \ref{lst:hashutil}, and an example of this can be
+seen in Listing \ref{lst:hashutilmod}.
 
 \lstinputlisting[label=lst:hashutilmod, caption=Parts of hashutil.py of Tahoe-LAFS source after modification.]
 {listings/hashutil_mod.py}
@@ -821,12 +821,12 @@ changing this line, because they contain test fixtures made with the included
 SHA-256.  An implication of this is that uploading of mutable files renders
 impossible, since the internal verification fails. For this reason, \emph{only
 immutable files} are tested and measured in this paper. Implications of this are
-discussed further in Chapter \ref{ch:discussion}.
+further discussed in Chapter \ref{ch:discussion}.
 
 \section{Automatic testing and distribution}
 We fully automate the testing procedure. This is achieved by the use of
 software revision control systems, which distributes both the source code of
-Tahoe-LAFS, SHA3lib and shell-scripts for installation and configuration of
+Tahoe-\ac{LAFS}, SHA3lib and shell-scripts for installation and configuration of
 both. Configuration is mainly done by the use of regular expressions.
 
 The outline of this procedure is:
@@ -835,18 +835,18 @@ The outline of this procedure is:
 \noindent For every \ac{SHA}-3 candidate:
         \begin{enumerate}
             \item Install SHA3lib on all nodes
-            \item Replace used hash algorithm in Tahoe-LAFS with current
-            candidate
-            \item Install Tahoe-LAFS
-            \item Create and start one Tahoe-LAFS introducer
-            \item Create and start Tahoe-LAFS storage nodes on 3 nodes
-            \item Create a Tahoe-LAFS client on a previously unnused node
+            \item Replace used hash algorithm in Tahoe-\ac{LAFS} with current
+              candidate
+            \item Install Tahoe-\ac{LAFS}
+            \item Create and start one Tahoe-\ac{LAFS} introducer
+            \item Create and start Tahoe-\ac{LAFS} storage nodes on 3 nodes
+            \item Create a Tahoe-\ac{LAFS} client on a previously unused node
             \item Do testing
             \item Clean up
         \end{enumerate}
 
-\paragraph{Distribution of source code for Tahoe-LAFS and SHA3lib} is done by
-\ac{SVN} and GIT respectivly. The change of hash algorithm in Tahoe-LAFS is
+\paragraph{Distribution of source code for Tahoe-LAFS and SHA3lib} are done by
+\ac{SVN} and GIT respectively. The change of hash algorithm in Tahoe-LAFS is
 however done with the use of a regular expression, because of both the
 simplicity of the change, and to not clutter the revision control system. Both
 Tahoe-LAFS and SHA3lib uses \ac{Distutils}, which includes options to install
@@ -891,7 +891,8 @@ The tests was carried out as follows, for each of the test vectors:
 
 During these operations, we counted the number of hashing operations performed,
 and timed total time spent hashing, i.e. the total time it took for the function
-calls to the underlying hashing operations to complete.
+calls to the underlying hashing operations to complete. We also timed how long
+the Tahoe operation took in total for one test vector.
 
 \subsection{Test Vectors}
 
@@ -1233,7 +1234,6 @@ Therefore we have tried to calculate the results that could have been achieved
 in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
 implementations in \{SUPERCOP}. The results can be seen in appendix
 \ref{appendix:optimzed_sha3}.
-
 
 % Describe inconsistencies in the numbers, and try to explain them.
 % Time spent not hashing varies because: Variable use of CPU regs?
