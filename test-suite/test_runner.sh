@@ -5,11 +5,13 @@
 
 mkdir ./logs
 file_types=(1b 1kb 1mb 100mb 1gb)
+#file_types=(1gb)
 
 for ftype in ${file_types[*]}; do
     mkdir /tmp/$ftype
     echo '0' > /tmp/time_spent_hashing
     echo '0' > /tmp/number_of_hashops
+    rm /tmp/data
 
     files=`ls $ftype*`
     total=`ls $ftype* | wc -l`
@@ -28,6 +30,7 @@ for ftype in ${file_types[*]}; do
     cp /tmp/number_of_hashops ./logs/$ftype\_nohashopsp.txt
     echo '0' > /tmp/time_spent_hashing
     echo '0' > /tmp/number_of_hashops
+    rm /tmp/data
 
     time1=`date +%s.%N`
     counter=1
