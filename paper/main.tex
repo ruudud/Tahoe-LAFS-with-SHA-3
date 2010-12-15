@@ -1286,6 +1286,17 @@ lengths not tested by us. In a real use case both a feasible erasure coding
 scheme would have to be decided, and the files would represent what you
 actually would want to use Tahoe-\ac{LAFS} for.
 
+\subsection{Truncate output from 512-bit implementations}
+In our measurements and Python library we only consider 256-bit version of each
+candidate. Some candidates does however have a faster implementation with
+512-bit output. We could have used these implementations and truncated the
+output to 256-bit, and possible achieved better results.
+
+\subsection{Testing on difference architectures}
+Our measurements are only done on a single computer with an 32-bit (x86)
+system. It would have been possible to extend the survey to other
+architectures, to see how this would affect the results. 
+
 %**************************************%
 \chapter{Conclusion and Future Work}
 %**************************************%
