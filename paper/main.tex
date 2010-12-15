@@ -100,20 +100,20 @@ exception, and uses hashing algorithms extensively for verification of the
 integrity of its files.
 
 In light of the ongoing NIST competition for selecting the new, standard
-cryptographic hash function named SHA-3, we tried out the 14 second
-round candidates in the Tahoe-LAFS file system using automated tests to measure
-the performance differences. Only the immutable file support was tested.
+cryptographic hash function named SHA-3, 14 of the second round candidates were
+tried out in the Tahoe-LAFS file system using automated tests to measure the
+performance differences. Only the immutable file support was tested.
 
-Since the Tahoe-LAFS is programmed in Python, we had to make bindings to the
-SHA-3 implementations written in C, before making the necessary changes to the
-Tahoe-LAFS code. Several tasks where automated using scripts, to avoid doing
-manual work of distributing changes to the test grid.
+Since the Tahoe-LAFS is programmed in Python, bindings to the SHA-3
+implementations written in C had to be made , before making the necessary
+changes to the Tahoe-LAFS code. Several tasks where automated using scripts, to
+avoid doing manual work of distributing changes to the test grid.
 
 In general, four of the candidates perform better than the currently used
-SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.
-By utilizing the performance improvements given by SHA-3, Tahoe-LAFS could
-save $5\%$ on upload operations by changing hashing function to the best
-performing candidate.
+SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd.  By utilizing the
+performance improvements given by SHA-3, Tahoe-LAFS could currently save $5\%$
+on upload operations by changing hashing function to the best performing
+candidate.
 
 The benchmarking tool SUPERCOP measures performance and drives the development
 forwards for the SHA-3 candidates, but we argue that since the SUPERCOP API does
@@ -214,7 +214,7 @@ build file sharing services over the Internet. Currently it uses the
 \ac{SHA}-256 algorithm to verify the integrity of files and shares, in addition
 to creating keys, \ac{URI}s and more \cite{t_tahoe}.
 
-In this project assignment, we integrate the fourteen \ac{SHA}-3 candidates in
+In this project assignment, we integrate the 14 \ac{SHA}-3 candidates in
 the Tahoe-\ac{LAFS} and measure the performance impact. To be able to do this,
 we create Python bindings for the best suited C implementations of the SHA-3
 candidates, and alter the hash function calls in the source code of Tahoe.
@@ -257,6 +257,11 @@ future work.
 \chapter{Background technologies}
 %**************************************%
 
+This chapter provides background knowledge for the most important software and
+technologies used in this project assignment, comprising of cryptographic hash
+functions (in light of the \ac{NIST} competition), the \ac{SUPERCOP} toolkit,
+Tahoe-\ac{LAFS}, and lastly Python and Cython.
+
 \section{Cryptographic Hash Functions}
 
 A cryptographic hash function is a deterministic mathematical procedure which
@@ -277,7 +282,7 @@ At the time of writing, the current status of the competition is officially
 called Round 2, with 14 of 64 candidates having ``survived'' Round 1
 \cite{s_fedreg}.
 
-\subsubsection{\ac{NIST} evaluation criteria for \ac{SHA}-3}
+\subsubsection{NIST evaluation criteria for SHA-3}
 
 \label{sec:lengthextension}
 \paragraph{Security.} The most important criterion for the SHA-3
@@ -304,7 +309,9 @@ and to use parallelism and instruction set extensions. Another key point of a
 flexible hash function is that it should have a simple and elegant design to
 encourage understanding, analysis and design confidence.
 
-\subsubsection{\ac{NIST} \ac{SHA}-3 \ac{API}} \ac{NIST} required that every
+\subsubsection{NIST SHA-3 API}
+
+\ac{NIST} required that every
 submission should conform to a specified \ac{API}\cite{s_fedreg}. The \ac{API}
 specification \cite{s_nistapi} states in shortness that it requires every
 candidate to implement four functions:
@@ -336,7 +343,7 @@ competition along with their principal submitters are listed in Table
 
 \input{tables/sha3_authors}
 
-\subsection{\ac{SUPERCOP}}
+\subsection{SUPERCOP}
 \ac{SUPERCOP} is a toolkit developed by VAMPIRE lab for measuring performance
 of cryptographic software \cite{s_supercop}. In relation to hash functions,
 \ac{SUPERCOP} measures the following:
@@ -360,7 +367,7 @@ candidates and \ac{SHA}-2 functions on a number of different plattforms and
 architectures are available at the webpage of eBACS
 \footnote{\url{http://bench.cr.yp.to/results-sha3.html}}.
 
-\subsubsection{\ac{SUPERCOP} \ac{API}}
+\subsubsection{SUPERCOP API}
 \ac{SUPERCOP} specifies an \ac{API} which all submitted implementations must
 conform to \cite{s_supercopapi}. This \ac{API} specifies the naming and
 organization of files, and that a submission must include a function
@@ -733,7 +740,7 @@ candidates.
 \lstinputlisting[label=lst:cython_impl, caption=Cython class\, echo\_hash.pyx]
 {listings/echo_hash.pyx}
 
-\subsubsection{\ac{Distutils}}
+\subsubsection{Distutils}
 We use \ac{Distutils}\footnote{\url{http://docs.python.org/distutils/}} to
 build and install our code. The alternative to doing this would be to manually
 transform Cython files to C-files, build the shared library from this and other
@@ -774,7 +781,7 @@ then copy the state. The tests check if this is possible, and that altering the
 copied state does not affect the original.
 
 
-\section{Modifications to the Tahoe-\ac{LAFS} Code}
+\section{Modifications to the Tahoe-LAFS Code}
 \label{sec:modtahoe}
 
 The code of Tahoe-LAFS conforms to the style guide of Python, known as PEP 8.
@@ -975,7 +982,7 @@ Interpolation gives a somewhat pessimistic result of the cycles/byte needed for
 hashing 32 byte, so the probable speed is somewhere in between the
 interpolation point and the best case time.
 
-\section{Measurements of Tahoe data}
+\section{Measurements of internal Tahoe hashing sizes}
 \label{sec:results:tahoedata}
 
 Tables \ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datadownloaded} and
@@ -989,7 +996,7 @@ file size twice. This does not happen when downloading the file.
 
 \input{tables/tahoe_byteshashed}
 
-\section{Measurements of Tahoe operations}
+\section{Measurements of Tahoe operations Using Test Vectors}
 The sum of the amount of time it took for the underlying hash library to
 calculate the hash operations are exhibited in Figures \ref{fig:graph:1001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
@@ -1074,24 +1081,38 @@ algorithm is 229.92s when uploading the 1GB file.
     \label{fig:graph:11gb}
 \end{figure}
 
-\subsection{Theoretical optimized results}
-These results are calculated using the best \ac{SUPERCOP} results for each
-candidate from section \ref{sec:results:supercop}, the exact sizes for each
-call to the hash function from section \ref{sec:results:tahoedata}, and
-interpolation to estimate the time to hash a length not recorded by
-\ac{SUPERCOP}. For lengths above 4096 the results for long data lanegths are
-used. The results also assume only one core of the reference processor is used.
+\section{Eliminating overhead in measurements}
+The following measurements were done to eliminate the overhead introducer by
+our work.
 
-\input{tables/tahoe_optimized_p}
-\input{tables/tahoe_optimized_g}
+\paragraph{Cython bindings}
+To eliminate as much as possible of overhead introduced by our bindings, we
+timed the calls from our bindings to the underlying C-function. The overhead
+should be the same for all bindings, since the Cython code is the same. The
+measured overhead, calculated from BLAKE can be seen in Table
+\ref{tbl:cython:overhead}.
+
+\input{tables/cython_overhead}
+
+
+\paragraph{Modification to Tahoe-\ac{LAFS}}
+Because we write to two files after each hash calculation, this will create an
+overhead in the measurements that would not normaly exist in Tahoe-\ac{LAFS}.
+This overhead should be about the same for all candidates, since the number of
+writes are equal. The results and calculations for this overhead, based on runs
+with double \ac{SHA}-256 can be seen in Table \ref{tbl:measure:overhead}.
+
+\input{tables/measure_overhead}
 
 %**************************************%
 \chapter{Discussion}
 %**************************************%
 \label{ch:discussion}
 
-% TODO: Intro
-
+This chapter will provide comments on the results made, what the numbers
+mean and why there are some inconsistencies. In addition, general
+thoughts on the testing procedure and the \ac{SUPERCOP} toolkit will be
+presented.
 
 \section{Reliability of \ac{SUPERCOP} results}
 
@@ -1117,17 +1138,16 @@ might be obtained from looking at the results from all computers measured by
 \ac{SUPERCOP}.
 
 \paragraph{Extra compiler flags}
-%TODO: Vi har andre compiler argumenter - dette må diskuteres
+
 We do not compile the candidate implementation with the exact same arguments
 that is used in \ac{SUPERCOP}, most notably we append the -fPIC flag. This flag
-creates position-independant-code, in other words machine instruction code that
-can execute properly regardless of where in memory it resides. This will make
-one less register available on the x86 architecture. While we cannot directly
-prove that this will affect performance of the implementations. We do however
-suspect it. A person writing an optimization for \ac{SUPERCOP} will have to
-balance his use of resources, among them registers, to achieve maximum speed.
-The loss of one register will then give a performance penalty.  
-
+creates \emph{position independent code}, in other words machine instruction
+code that can execute properly regardless of where in memory it resides. This
+will make one less register available on the x86 architecture. While we cannot
+directly prove that this will affect performance of the implementations. We do
+however suspect it. A person writing an optimization for \ac{SUPERCOP} will have
+to balance his use of resources, among them registers, to achieve maximum speed.
+The loss of one register will then give a performance penalty.
 
 \section{Exclusion of mutable file testing}
 
@@ -1150,19 +1170,19 @@ assignment.
 \section{Thoughts on the measurements}
 
 \subsection{Small files}
-For small files, 1B and 1KB, we can clearly see that both double \ac{SHA}-256 
-greatly outperforms the \ac{SHA}-3 candidate implementations. The data being 
-hashed for these files are dominated by lengths of 63 and 106 bytes. By 
-comparing with \ac{SUPERCOP} results, and especially the fact that we are 
-using double \ac{SHA}-256, which should result in large overhead this is
-unexpected. However, we believe that the results for small files may also
-reflect our use of Cython and our skill. Given large amounts of call to our
-bindings, while the data processed by the actual hash functions is small and
-therefore does not use a lot of time, the speed of the bindings will come in to
-play.
+
+For small files, 1B and 1KB, we can clearly see that both double \ac{SHA}-256
+greatly outperforms the \ac{SHA}-3 candidate implementations. The data being
+hashed for these files are dominated by lengths of 63 and 106 bytes. By
+comparing with \ac{SUPERCOP} results, and especially the fact that we are using
+double \ac{SHA}-256, which should result in large overhead this is unexpected.
+However, we believe that the results for small files may also reflect our use of
+Cython and our skill. Given large amounts of call to our bindings, while the
+data processed by the actual hash functions is small and therefore does not use
+a lot of time, the speed of the bindings will come in to play.
 
 \subsection{Large files}
-For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are 
+For large files, 1MB, 100MB and 1GB, some of the \ac{SHA}-3 candidates are
 actually outperforming double \ac{SHA}-256, which is expected from the
 \ac{SUPERCOP} results. However if we compare this result with the result for
 small files, and expect that a hash algorithm should do better on a cycles/byte
@@ -1178,11 +1198,8 @@ small files, this makes sense. Larger amounts of data will take longer to
 process for the hash function, which again results in the fraction of time used
 by our bindings is decreased.
 
-
-%FIXME: Nevn noe en plass om at vi kanskje burde timet kallene til HASH
-%funksjonen også.
-\subsection{Impact of double \ac{SHA}-256}
-The impact of using double \ac{SHA}-256 compared to single is suprisingly
+\subsection{Impact of double SHA-256}
+The impact of using double \ac{SHA}-256 compared to single is surprisingly
 small, even if you use the best-case estimate from Table
 \ref{tbl:supercop:sha256}. For 1B, 1KB and 1MB files the data hashed is almost
 exclusively 106B or less. If we assume data is hashed at the performance of 576
@@ -1198,7 +1215,7 @@ as opposed to single unimportant.
 If we look primarily at the large file up/download we see that the candidates
 that outperforms, or are close to outperforming \ac{SHA}-256 are BLAKE,
 \ac{BMW}, Shabal, Simd and Luffa. This is expected and corresponds with the
-results from \ac{SUPERCOP}.  
+results from \ac{SUPERCOP}.
 
 \subsection{Final round candidates}
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
@@ -1208,6 +1225,26 @@ the \ac{SHA}-3 competition. %TODO: some comments on theese
 We have not used the fastest possible implementations possible for various
 reasons mentioned previously. However, if we had actually used the fastest
 implementations in \ac{SUPERCOP}, achieved median speed for every hash
+
+\subsection{Theoretical optimized results}
+We have not use the fastest available implementations for all of the
+candidates, we also know that our bindings creates an overhead for all calls.
+Therefore we have tried to calculate the results that could have been achieved
+in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
+implementations in \{SUPERCOP}. The results can be seen in appendix XX.
+%TODO: Fik appendix og referanse
+
+%Tables \ref{tbl:tahoe:optimized_g} and \ref{tbl:tahoe:optimized_p} exhibit
+%the results calculated using the best \ac{SUPERCOP} implementation for each
+%candidate from Section \ref{sec:results:supercop}, the exact sizes for each
+%call to the hash function from Section \ref{sec:results:tahoedata}, and
+%interpolation to estimate the time to hash a length not recorded by
+%\ac{SUPERCOP}. For lengths above 4096B, the numbers for long data lengths are
+%used. The results also assume only one core of the reference processor is used.
+
+%\input{tables/tahoe_optimized_p}
+%\input{tables/tahoe_optimized_g}
+
 
 %TODO: Optimaliserte resultater tabell
 
@@ -1221,13 +1258,10 @@ implementations in \ac{SUPERCOP}, achieved median speed for every hash
 % Drag in the five selected remaining candidates.
 
 \section{Improvement of methods}
-% More general stuff. What could have been done differently? Criticize
-% ourselves.
-%
-% Optimized candidates - which gain could be expected from more optimized
-%   candidates?
 
 \subsection{The use of Cython}
+
+% TODO: Discuss the BLAKE run in Results when timing was done within Cython.
 
 The Python-bindings generated for Cython in C are not necessarily the most
 optimized versions possible to write and they are ugly to read or change (from
