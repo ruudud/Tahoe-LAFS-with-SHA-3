@@ -1008,7 +1008,7 @@ produce the digests are exhibited in Figures \ref{fig:graph:1001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
 \ref{fig:graph:11gb}. We call this \emph{Time spent hashing}.
 
-The numbers for uploading and downloading the different file vectors are
+The numbers for uploading and downloading the different test vectors are
 summarized in Tables \ref{tbl:hashingtimes:put1gb},
 \ref{tbl:hashingtimes:get1gb}, \ref{tbl:hashingtimes:put100mb},
 \ref{tbl:hashingtimes:get100mb}, \ref{tbl:hashingtimes:put1mb},
@@ -1103,8 +1103,8 @@ measured overhead, calculated from BLAKE can be seen in Table
 
 \paragraph{Modification to Tahoe-\ac{LAFS}.}
 Because we write to two files after each call to {\verb digest }, an overhead in
-the measurements that would not normally exist in Tahoe-\ac{LAFS}, will be
-created. This overhead should be about the same for all candidates, since the
+the measurements, that would not normally exist in Tahoe-\ac{LAFS}, will be
+introduced. This overhead should be about the same for all candidates, since the
 number of writes are equal. The results and calculations for this overhead,
 based on runs with double \ac{SHA}-256, can be seen in Table
 \ref{tbl:measure:overhead}.
@@ -1138,7 +1138,7 @@ wants to use the implementations found in \ac{SUPERCOP}.
 \paragraph{Incorrect implementations} are present in \ac{SUPERCOP}. By this we
 mean implementations that does not conform to the \acp{KAT} supplied or
 implementations which fail completely as hash functions, see
-\autoref{sec:chosen_implementations} for details on the JH implementation.
+\autoref{sec:chosen_implementations} for details on the JH implementations.
 
 \paragraph{Extra compiler flags.}
 
@@ -1150,7 +1150,7 @@ resides. This will make one less register available on the x86 architecture.
 While we cannot directly prove that this will affect performance of the
 implementations, we do however suspect it. A person writing an optimization for
 \ac{SUPERCOP} will have to balance his use of resources, among them registers,
-to achieve maximum speed.  The loss of one register will therefore give a
+to achieve maximum speed.  The loss of one register should therefore give a
 performance penalty.
 
 \section{Exclusion of mutable files}
@@ -1203,16 +1203,16 @@ For large files, 1MB, 100MB and 1GB, we can see that the \ac{SHA}-3
 implementations are outperforming double \ac{SHA}-256. Also for the large files
 we can see that there is a performance penalty introduced by our bindings (Table
 \ref{tbl:cython:overhead}), however the relative overhead are small
-compared to the time spent in the underlying libraries. The reason for
+compared to the time spent in the underlying C implementation. The reason for
 this is that we are hashing larger sizes of data, especially for the 100MB and
 1GB files (Tables \ref{tbl:tahoe:datauploaded} and
-\ref{tbl:tahoe:datauploaded}). For these larger sizes the overhead caused by
+\ref{tbl:tahoe:datadownloaded}). For these larger sizes the overhead caused by
 using double \ac{SHA}-256 opposed to single is also relatively small and does
 not cause a noteworthy performance penalty.
 
 \subsection{The candidates}
 
-If we look primarily at up- and download of the large files, we see that the candidates
+If we look primarily at up- and download of large files, we see that the candidates
 that outperforms or are close to outperforming double \ac{SHA}-256, are BLAKE,
 \ac{BMW}, Shabal, Simd and Luffa. The same is true if we eliminate the overhead
 introduced by our bindings for the small files.
@@ -1246,8 +1246,10 @@ None of the other four finalists outperform \ac{SHA}-256, and therefore it would
 more valuable for Tahoe-\ac{LAFS} to see the possible performance increase by
 switching to a faster hash function implementation, i.e. BLAKE.
 
-\subsection{Time spent not hashing} A strange part of our result is that the
-time Tahoe-\ac{LAFS} spends not callign the hash function is not static for all
+\subsection{Time spent not hashing} 
+
+A strange part of our result is that the
+time Tahoe-\ac{LAFS} spends not calling the hash function is not static for all
 candidates, which we expected.  The results of how much this deviance is
 varies, although it looks to be bounded by some limits that are not the same
 for all candidates. This leads us to believe that the hash function is to
@@ -1264,9 +1266,9 @@ probable causes.
 Even though few of the \ac{SHA}-3 implementations used by us managed to
 outperform the implementation of double \ac{SHA}-256 in Tahoe-\ac{LAFS}, some
 did for large files, which tells us there is a performance gain by switching
-cryptographic hash function in Tahoe-\ac{LAFS}. \autoref{tbl:tahoe:gain}
+the cryptographic hash function in Tahoe-\ac{LAFS}. \autoref{tbl:tahoe:gain}
 compares the performance gains for BLAKE, which performed the best in our
-measurements, versus \ac{SHA}-256, with the removal of overhead caused by our
+measurements, versus double \ac{SHA}-256, with the removal of overhead caused by our
 measurements. We achieved as much as a 12.35\% gain when uploading the 100MB
 files. The gain is smaller on downloads than uploads, this is
 mostly caused by our Tahoe-\ac{LAFS} configuration, where we need to upload
@@ -1372,7 +1374,7 @@ compatibility.
 
 Four of the candidates have been shown to perform better than the currently used
 SHA-256 -- BLAKE, BlueMidnightWish, Shabal and Simd. The time it takes for
-Tahoe-\ac{LAFS} to upload a one gigabyte file, could improve by $5\%$ if the
+Tahoe-\ac{LAFS} to upload a one gigabyte file, could improve by $12,36\%$ if the
 best performing \ac{SHA}-3 candidate, BLAKE, were to be used. One has to bear in
 mind that \ac{SHA}-256 has been optimized and tweaked for a number of years, and
 that these performance differences undoubtedly will continue to increase as new
