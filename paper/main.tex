@@ -1235,6 +1235,19 @@ the other four finalists outperform \ac{SHA}-256 and therefore it would be more
 valuable for Tahoe-\ac{LAFS} to see the possible performance increase by
 switching to a faster hash function implementation.
 
+\subsection{Time spent not hashing} A strange part of our result is that the
+time Tahoe-\ac{LAFS} spends not callign the hash function is not static for all
+candidates, which we expected.  The results of how much this deviance is
+varies, although it looks to be bounded by some limits that are not the same
+for all candidates. This leads us to believe that the hash function is to
+blame, with noise from the system probably being the cause of the variation.
+The time is recorded right before and right after the calls to our bindings,
+which means that if the implementations are to be blamed they have to do
+something to the system which delays later Tahoe-{LAFS} operations. We only
+speculate in what they are changing and doing differently, but we suspect the
+amount of registers and how much memory and cache the implementation uses as
+probable causes.
+
 \subsection{Theoretical optimized results}
 
 We have not use the fastest available implementations for all of the
@@ -1242,7 +1255,7 @@ candidates, we also know that our bindings creates an overhead for all calls.
 Therefore we have tried to calculate the results that could have been achieved
 in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
 implementations in \ac{SUPERCOP}. The results can be seen in
-\autoref{appendix:optimzed_sha3}.
+\autoref{appendix:optimized_sha3}.
 
 % Describe inconsistencies in the numbers, and try to explain them.
 % Time spent not hashing varies because: Variable use of CPU regs?
@@ -1250,8 +1263,6 @@ implementations in \ac{SUPERCOP}. The results can be seen in
 % Compare our results with general (SUPERCOP) results.
 %
 % How much gain can Tahoe-LAFS get by switching to SHA-3?
-%
-% Drag in the five selected remaining candidates.
 
 \section{Improvement of methods}
 
@@ -1260,13 +1271,13 @@ implementations in \ac{SUPERCOP}. The results can be seen in
 % TODO: Discuss the BLAKE run in Results when timing was done within Cython.
 
 The Python-bindings generated for Cython in C are not necessarily the most
-optimized versions possible to write and they are ugly to read or change (from
-a C perspective). However we consider them to be good enough, and they are
-equal for all the \ac{SHA}-3 candidates which means they should give the same
-performance penalty. The \ac{SHA}-256 version will of course not suffer from
-the same penalty, however we believe the possible performance gain is small.
-This is due to the fact that no intensive operations take place in our
-Cython-code. However we do believe that our bindings are affected by the 
+optimized versions possible to write and they are ugly to read and change (from
+a C perspective). However they are equal for all the \ac{SHA}-3 candidates
+which means they should give the same performance penalty. The \ac{SHA}-256
+version will of course not suffer from the same penalty. From
+\autoref{tbl:cython:overhead} we can see the performance penalty of our
+bindings, and we do believe better bindings can be made, also with the use of
+Cython, but by someone with more skill and knowledge than us.
 
 The alternative would be creating manual Python-bindings for all the candidates
 which would require a lot more work on our side, especially given the lack of a
