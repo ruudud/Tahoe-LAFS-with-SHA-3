@@ -579,15 +579,16 @@ compiler arguments giving the best performance. On the downside, the
 \ac{SUPERCOP} \ac{API} only specifies the {\verb crypto_hash() } function and
 not an {\verb update() } function which Tahoe-\ac{LAFS} is dependent on using.
 
-The implementation we chose must also work after being compiled with the {\verb
--fPIC} flag in \ac{GCC}. This flag basically tells the compiler that the
+The implementation we chose must also work after being compiled with the {\verb -fPIC }
+flag in \ac{GCC}. This flag basically tells the compiler that the
 machine code must be able to execute anywhere in memory, also known as position
-independant. In runtime one extra \{CPU} register will be used for this. This
-is needed because a Python C-module we will need to be compiled as a shred
+independent. In runtime one extra \ac{CPU} register will be used for this. This
+is needed because a Python C module we will need to be compiled as a shared
 library.
 
 Since Tahoe-\ac{LAFS} is using \ac{SHA}-256 internally, we only test \ac{SHA}-3
-functions with 256-bit output in our implementation.
+functions with 256-bit output to avoid problems that could be caused by longer 
+hash values in Tahoe-\ac{LAFS}.
 
 
 \subsection{Criteria for implementation selection}
@@ -596,7 +597,7 @@ We chose the fastest implementation of each candidate that conforms to the
 following criteria:
 \paragraph{Criterion 1} The implementation must have an \ac{API} defined in C.
 \paragraph{Criterion 2} The implementation must include a working {\verb update() } function.
-\paragraph{Criterion 3} The implementation must not use assembly that can not be made
+\paragraph{Criterion 3} The implementation must not use code that can not be made
     position independent by \ac{GCC}.
 \paragraph{Criterion 4} The implementation should conform to the \acp{KAT} specified in the
     \ac{NIST} submission package, or later updates by the author.
@@ -605,7 +606,7 @@ following criteria:
 Based on these criteria, we choose the fastest possible implementation based on
 our benchmark in \ac{SUPERCOP} \cite{s_tahoe_supercop}. The relative speed of
 each implementation, in relation to other implementation for the same and other
-candidates are available at source.
+candidates can be found at eBASH\cite{s_tahoe_supercop}.
 
 \subsection{Chosen implementations}
 \label{sec:chosen_implementations}
@@ -616,7 +617,7 @@ The chosen implementations are shown in Table \ref{tbl:sha3:implementations}.
 Their compiler flags used, which are extracted from the \ac{SUPERCOP} results,
 can be seen in Table \ref{tbl:sha3:compilerflags}. Compiler flags are described
 in the GCC manual\footnote{GCC Manual \url{http://gcc.gnu.org/onlinedocs/}},
-and the one used for every implementation which might affect performance, are:
+and the flags used for every implementation which might affect performance, are:
 
 \begin{itemize}
     \item[] -fomit-frame-pointer
@@ -652,7 +653,7 @@ Criterion 2. For both the optimized versions found in \ac{SUPERCOP}, and the
 reference implementations in the \ac{NIST} submission package,
 {\verb Hash("foofoo") } will not yield the same result as two consecutive calls
 to {\verb Update("foo") }. However, the implementation in sphlib does fulfill
-this requirement. We have contacted the author, Thomas Pornin, which confirms
+this requirement. We have contacted the author of sphlib, Thomas Pornin, which confirms
 this problem with the official JH candidate, and that the author has been made
 aware of the problem, but has not released any updated version yet
 \cite{s_pornin}.
@@ -711,7 +712,7 @@ output lengths, and not only 256-bit. This was based on our observation that the
 official \ac{NIST} submission packages include ``all-in-one'' implementations
 that support this. Later we observed that this is not the case for all
 implementations in \ac{SUPERCOP}. Together with the fact that Tahoe-\ac{LAFS}
-uses 256-bit output, in the end only included support for 256-bit output in
+uses 256-bit output, in the end only support for 256-bit output in
 SHA3lib was implemented. The design we have used is shown in Figure
 \ref{fig:python:inheritance}, and does follow the initial idea that SHA3lib
 should support multiple output lengths.
@@ -724,7 +725,7 @@ should support multiple output lengths.
 \end{figure}
 
 Basically the class \textbf{echo} resides in Cython and in C, and is responsible
-for bringing the C functionality of the C implementation to Python. By compiling
+for bringing the functionality of the \ac{SHA}-3 candidate implementation to Python. By compiling
 \textbf{echo} it will be made available for use in Python.  The class
 \textbf{echo256} is a simple Python class which inherits from \textbf{echo}. The
 only action this class actually performs, is to set the output size to 256 bit. If
@@ -746,7 +747,7 @@ We then create a wrapper-class that mimics hashlib, this is shown in Listing
 \ref{lst:cython_impl}. Functions declared with {\verb def } are Python
 functions, {\verb cdef } are Cython-only functions, while {\verb cpdef } are
 functions that can be accessed from both languages. While this is just the
-implementation for the Echo candidate, the almost exact same pattern is used for
+implementation for the Echo implementation, the almost exact same pattern is used for
 all of the other candidates.
 
 \lstinputlisting[label=lst:cython_impl, caption=Cython class\, echo\_hash.pyx]
@@ -768,8 +769,8 @@ installing SHA3lib, can bee seen in Listing \ref{lst:setup_py}.
 {listings/setup.py}
 
 \subsection{Unit tests}
-We Unit Test each new candidate implementation that is included SHA3lib, both
-to verify our own work and to verify that the implementation from \ac{SUPERCOP}
+We Unit Test each new candidate implementation that is included in SHA3lib, both
+to verify our own work and to verify that the implementations from \ac{SUPERCOP}
 actually are correct.
 
 \paragraph{Known-Answer Tests} are used to check that the implementation conform
@@ -804,7 +805,7 @@ happening when a file is uploaded or downloaded with the system.
 
 All hashing operations requested by the Tahoe system is routed through a
 couple of classes and functions, and the connection to the underlying hash
-function library is made on only one line. This is displayed in Listing
+function library is made in only one line. This is displayed in Listing
 \ref{lst:hashutil}.
 
 \lstinputlisting[label=lst:hashutil, caption=Extract from hashutil.py of Tahoe-LAFS source.]
@@ -834,13 +835,11 @@ impossible, since the internal verification fails. For this reason, \emph{only
 immutable files} are tested and measured in this paper. Implications of this are
 further discussed in \autoref{ch:discussion}.
 
-\section{Automatic testing and distribution}
-We fully automate the testing procedure. This is achieved by the use of
-software revision control systems, which distributes both the source code of
-Tahoe-\ac{LAFS}, SHA3lib and shell-scripts for installation and configuration of
-both. Configuration is mainly done by the use of regular expressions.
-
-The outline of this procedure is:
+\section{Automatic testing and distribution} We fully automate the testing
+procedure. This is achieved by the use of software revision control systems,
+which distributes both the source code of Tahoe-\ac{LAFS}, SHA3lib and
+shell-scripts for installation and configuration of both. Configuration is
+mainly done by the use of regular expressions.The outline of this procedure is:
 
 \vspace{12pt}
 \noindent For every \ac{SHA}-3 candidate:
@@ -961,7 +960,7 @@ The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
 \ac{SUPERCOP} can be found in \autoref{app:supercop:bench}.
 
 BLAKE, \ac{BMW}, and Luffa outperform \ac{SHA}-256 on cycles per
-byte for all tests. For larger input sizes, Simd and Luffa also do the
+byte for all tests. For larger input sizes, Simd and Shabal also do the
 calculations quicker than \ac{SHA}-256.
 
 \subsection{Double SHA-256 Estimates}
