@@ -9,6 +9,7 @@
 \graphicspath{{images/}} % and it is clean to put them in a separate dir
 \usepackage{hyperref} % Internal and external links is nice
 \hypersetup{pdfborder=0 0 0} % ..especially without red borders
+\usepackage{amstext} % To support \text in math mode
 
 % Packages and settings for code listings
 \usepackage{listings}
@@ -945,12 +946,16 @@ Tahoe to put a file to the grid.
 {listings/test_runner.sh}
 
 \section{SUPERCOP benchmarks}
+
 The results of the \ac{SHA}-3 256-bit functions and \ac{SHA}-256 benchmarking in
 \ac{SUPERCOP} can be found in \autoref{app:supercop:bench}.
 
-
+BLAKE, \ac{BMW}, and Luffa outperform \ac{SHA}-256 on cycles per
+byte for all tests. For larger input sizes, Simd and Luffa also do the
+calculations quicker than \ac{SHA}-256.
 
 \subsection{Double SHA-256 Estimates}
+
 \ac{SUPERCOP} does not measure the speed of double \ac{SHA}-256, so we have no exact
 value of how many cycles this should take, we can however estimate it. For every hash
 calculation double \ac{SHA}-256 will have to hash an extra 32-byte.
@@ -960,19 +965,19 @@ byte is the same as 8 byte), best-case (cycles/byte for 32 byte is the same as
 for 64 byte) and interpolation (assuming linear decrease) are shown in Table
 \ref{tbl:supercop:sha256d}. The calculation for this table are as follows:
 
-$$\frac{median * size + 179.62*32}{size} = SHA256d\ estimate (worst-case)$$
+$$\frac{median * size + 179.62*32}{size} = \text{SHA256d estimate (worst case)}$$
 
-$$\frac{median * size + 38.12*32}{size} = SHA256d\ estimate (best-case)$$
+$$\frac{median * size + 38.12*32}{size} = \text{SHA256d estimate (best case)}$$
 
-$$179.62 + \frac{38.12-179.62}{64-8}*(32-8) = 118.97 (cycles/byte for 32 byte)$$
+$$179.62 + \frac{38.12-179.62}{64-8}*(32-8) = 118.97 \text{(cycles/byte for 32 byte)}$$
 
-$$\frac{median * size + 118.97*32}{size} = SHA256d\ estimate (interpolation)$$
+$$\frac{median * size + 118.97*32}{size} = \text{SHA256d estimate (interpolation)}$$
 
 \input{tables/supercop_sha256d}
 
 Interpolation gives a somewhat pessimistic result of the cycles/byte needed for
-hashing 32 byte, so the probable speed is somewhere in between the
-interpolation point and the best case time.
+producing the digest of 32 bytes, so the probable speed is somewhere in between the
+interpolation point and the best-case time.
 
 \section{Measurements of internal Tahoe hashing sizes}
 \label{sec:results:tahoedata}
@@ -989,8 +994,9 @@ file size twice. This does not happen when downloading the file.
 \input{tables/tahoe_byteshashed}
 
 \section{Measurements of Tahoe operations Using Test Vectors}
-The sum of the amount of time it took for the underlying hash library to
-calculate the hash operations are exhibited in Figures \ref{fig:graph:1001b},
+
+The sum of the amount of time it took for the underlying hash libraries to
+produce the digests are exhibited in Figures \ref{fig:graph:1001b},
 \ref{fig:graph:1001kb}, \ref{fig:graph:501mb}, \ref{fig:graph:5100mb} and
 \ref{fig:graph:11gb}. We call this \emph{Time spent hashing}.
 
@@ -1074,10 +1080,11 @@ algorithm is 229.92s when uploading the 1GB file.
 \end{figure}
 
 \section{Eliminating overhead in measurements}
-The following measurements were done to eliminate the overhead introducer by
+
+The following measurements were done to eliminate the overhead introduced by
 our work.
 
-\paragraph{Cython bindings}
+\paragraph{Cython bindings.}
 To eliminate as much as possible of overhead introduced by our bindings, we
 timed the calls from our bindings to the underlying C-function. The overhead
 should be the same for all bindings, since the Cython code is the same. The
@@ -1086,13 +1093,13 @@ measured overhead, calculated from BLAKE can be seen in Table
 
 \input{tables/cython_overhead}
 
-
-\paragraph{Modification to Tahoe-\ac{LAFS}}
-Because we write to two files after each hash calculation, this will create an
-overhead in the measurements that would not normaly exist in Tahoe-\ac{LAFS}.
-This overhead should be about the same for all candidates, since the number of
-writes are equal. The results and calculations for this overhead, based on runs
-with double \ac{SHA}-256 can be seen in Table \ref{tbl:measure:overhead}.
+\paragraph{Modification to Tahoe-\ac{LAFS}.}
+Because we write to two files after each call to {\verb digest }, an overhead in
+the measurements that would not normally exist in Tahoe-\ac{LAFS}, will be
+created. This overhead should be about the same for all candidates, since the
+number of writes are equal. The results and calculations for this overhead,
+based on runs with double \ac{SHA}-256, can be seen in Table
+\ref{tbl:measure:overhead}.
 
 \input{tables/measure_overhead}
 
