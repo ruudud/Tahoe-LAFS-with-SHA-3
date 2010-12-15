@@ -985,10 +985,9 @@ Tables \ref{tbl:tahoe:datauploaded} and \ref{tbl:tahoe:datadownloaded} and
 describes the distribution of the different input sizes of data that
 Tahoe-\ac{LAFS} sends to the hash function when uploading and downloading the
 test vectors. E.g. to upload the 100 1-byte files, 15700 hashes had to be
-calculated, and about 64\% of these were of size 106 byte.
-
-For every upload Tahoe-\ac{LAFS} does, it hashes a size close to the original
-file size twice. This does not happen when downloading the file.
+calculated, and about 64\% of these were of size 106 byte. For every upload
+Tahoe-\ac{LAFS} also hashes a size close to the original file size twice. This
+does not happen when downloading the file.
 
 \input{tables/tahoe_byteshashed}
 
