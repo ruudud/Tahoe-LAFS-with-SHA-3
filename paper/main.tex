@@ -1190,20 +1190,23 @@ larger sizes the overhead caused by using double \ac{SHA}-256 opposed to single
 is also relatively small and does not cause a noteworthy performance penalty.
 
 \subsection{The candidates}
+
 If we look primarily at the large file up/download we see that the candidates
-that outperforms, or are close to outperforming \ac{SHA}-256 are BLAKE,
+that outperforms, or are close to outperforming double \ac{SHA}-256 are BLAKE,
 \ac{BMW}, Shabal, Simd and Luffa. The same is true if we eliminate the overhead
 cause by our bindings for the small files. That only these five candidates
-manages to outperform is expected from the \ac{SUPERCOP} results, REF, however
-the order and proportion of the measurements does not. This is primarily
-because we have not used the fastest implementation for all candidates, and the
-relative speed of the chosen implementation compared to the fastest
-implementation in \ac{SUPERCOP} differs (Table \ref{tbl:sha3:relativespeed}.
-The performance of each candidate compared to the \ac{SHA}-256 version found in
-Tahoe-\ac{LAFS} is also somewhat slower than you would expect. We blame this
-mainly on our Cython-bindings and our skill. We believe a developer with more
-knowledge of the inner workings of the implementations, the Python C-\ac{API}
-and \ac{GCC} could have produced better results.
+manages to outperform double \ac{SHA}-256 is expected from the \ac{SUPERCOP}
+results (\autoref{app:supercop:bench}) however the order and proportion of the
+measurements is not. This reason for another order and relative speed is
+primarily because we have not used the fastest implementation for all
+candidates, and the relative speed of the chosen implementation compared to the
+fastest implementation in \ac{SUPERCOP} differs (Table
+\ref{tbl:sha3:speedrelative}.  The performance of each candidate compared to
+the \ac{SHA}-256 version found in Tahoe-\ac{LAFS} is also somewhat slower than
+you would expect. We blame this mainly on our Cython-bindings and our skill. We
+believe a developer with more knowledge of the inner workings of the
+implementations, the Python C-\ac{API} and \ac{GCC} could have produced better
+results.
 
 \subsection{Final round candidates}
 BLAKE, Keccak, Skein, Grøstl and JH have made it through to the final round of
@@ -1218,12 +1221,13 @@ valuable for Tahoe-\ac{LAFS} to see the possible performance increase by
 switching to a faster hash function implementation.
 
 \subsection{Theoretical optimized results}
+
 We have not use the fastest available implementations for all of the
 candidates, we also know that our bindings creates an overhead for all calls.
 Therefore we have tried to calculate the results that could have been achieved
 in Tahoe-\ac{LAFS} if we had managed to obtain the speeds of the fastest
-implementations in \ac{SUPERCOP}. The results can be seen in appendix
-\ref{appendix:optimzed_sha3}.
+implementations in \ac{SUPERCOP}. The results can be seen in
+\autoref{appendix:optimzed_sha3}.
 
 % Describe inconsistencies in the numbers, and try to explain them.
 % Time spent not hashing varies because: Variable use of CPU regs?
