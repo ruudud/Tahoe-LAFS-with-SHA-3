@@ -624,6 +624,12 @@ It should be noted that \emph{32} in blake32 means the function works on 32-bit
 words, and output a 32-byte digest (256 bit). Similarly, \emph{512} in
 keccakc512 does not mean 512-bit output, but 512 bits in the internal capacity.
 
+\paragraph{Sphlib} is a C and Java library made by Thomas Pornin
+\footnote{\url{http://www.saphir2.com/sphlib/}}, which contains all the second
+round \ac{SHA}-3 candidates. Some of the same implementations are also found in
+\ac{SUPERCOP}, while others, like the Cubehash implementation we have used is
+not.
+
 The relative speeds of the implementations chosen compared to
 the best version in \ac{SUPERCOP}, and relative speed of the benchmark compared
 to other candidates, can bee seen in Table \ref{tbl:sha3:speedrelative}.
